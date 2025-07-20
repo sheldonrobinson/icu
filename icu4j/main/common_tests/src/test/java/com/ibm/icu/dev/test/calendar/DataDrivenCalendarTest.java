@@ -135,9 +135,9 @@ public class DataDrivenCalendarTest extends CoreTestFmwk {
 //        DateFormat fmt = new SimpleDateFormat("EEE MMM dd yyyy / YYYY'-W'ww-ee");
         // Start the processing
         int n = 0;
-        for (Iterator iter = testData.getDataIterator(); iter.hasNext();) {
+        for (Iterator<DataMap> iter = testData.getDataIterator(); iter.hasNext();) {
             ++n;
-            DataMap currentCase = (DataMap) iter.next();
+            DataMap currentCase = iter.next();
 
             String caseString = "["+testData.getName()+"#"+n+" "+"]";
             String locale = testSetting = currentCase.getString("locale");
@@ -180,7 +180,7 @@ public class DataDrivenCalendarTest extends CoreTestFmwk {
 
         boolean useDate = false;
 
-        for (Iterator iter = testData.getDataIterator(); iter.hasNext();) {
+        for (Iterator<DataMap> iter = testData.getDataIterator(); iter.hasNext();) {
             ++n;
             DataMap currentCase = (DataMap) iter.next();
 
@@ -258,7 +258,7 @@ public class DataDrivenCalendarTest extends CoreTestFmwk {
             }
 
             // to calendar - copy of from calendar
-            Calendar toCalendar = (Calendar)fromCalendar.clone();
+            Calendar toCalendar = fromCalendar.clone();
 
             /// perform op on 'to calendar'
             for (int q=0; q<paramsSet.fieldCount(); q++) {

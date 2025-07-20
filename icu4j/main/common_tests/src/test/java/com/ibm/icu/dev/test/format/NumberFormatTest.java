@@ -51,6 +51,9 @@ import com.ibm.icu.impl.data.TokenIterator;
 import com.ibm.icu.impl.number.PatternStringUtils;
 import com.ibm.icu.math.BigDecimal;
 import com.ibm.icu.math.MathContext;
+import com.ibm.icu.number.LocalizedNumberFormatter;
+import com.ibm.icu.number.NumberFormatter;
+import com.ibm.icu.number.NumberFormatter.UnitWidth;
 import com.ibm.icu.text.CompactDecimalFormat;
 import com.ibm.icu.text.CurrencyPluralInfo;
 import com.ibm.icu.text.DecimalFormat;
@@ -66,6 +69,7 @@ import com.ibm.icu.text.UnicodeSet;
 import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.Currency.CurrencyUsage;
 import com.ibm.icu.util.CurrencyAmount;
+import com.ibm.icu.util.MeasureUnit;
 import com.ibm.icu.util.ULocale;
 
 @RunWith(JUnit4.class)
@@ -3181,11 +3185,11 @@ public class NumberFormatTest extends CoreTestFmwk {
         double expected = 12345;
         DecimalFormatSymbols sym = new DecimalFormatSymbols(Locale.US);
         DecimalFormat fmt = new DecimalFormat("#.#", sym);
-        ArrayList errors = new ArrayList();
+        ArrayList<String> errors = new ArrayList<>();
 
         ParseThreadJB5358[] threads = new ParseThreadJB5358[numThreads];
         for (int i = 0; i < numThreads; i++) {
-            threads[i] = new ParseThreadJB5358((DecimalFormat)fmt.clone(), numstr, expected, errors);
+            threads[i] = new ParseThreadJB5358(fmt.clone(), numstr, expected, errors);
             threads[i].start();
         }
         for (int i = 0; i < numThreads; i++) {
@@ -3198,7 +3202,7 @@ public class NumberFormatTest extends CoreTestFmwk {
         if (errors.size() != 0) {
             StringBuffer errBuf = new StringBuffer();
             for (int i = 0; i < errors.size(); i++) {
-                errBuf.append((String)errors.get(i));
+                errBuf.append(errors.get(i));
                 errBuf.append("\n");
             }
             errln("FAIL: " + errBuf);
@@ -3209,9 +3213,9 @@ public class NumberFormatTest extends CoreTestFmwk {
         private final DecimalFormat decfmt;
         private final String numstr;
         private final double expect;
-        private final ArrayList errors;
+        private final ArrayList<String> errors;
 
-        public ParseThreadJB5358(DecimalFormat decfmt, String numstr, double expect, ArrayList errors) {
+        public ParseThreadJB5358(DecimalFormat decfmt, String numstr, double expect, ArrayList<String> errors) {
             this.decfmt = decfmt;
             this.numstr = numstr;
             this.expect = expect;
@@ -3803,7 +3807,7 @@ public class NumberFormatTest extends CoreTestFmwk {
         final int COUNT = 10;
 
         DecimalFormat fmt1 = new DecimalFormat("#0");
-        DecimalFormat fmt2 = (DecimalFormat)fmt1.clone();
+        DecimalFormat fmt2 = fmt1.clone();
 
         int[] res1 = new int[COUNT];
         int[] res2 = new int[COUNT];
@@ -4793,7 +4797,7 @@ public class NumberFormatTest extends CoreTestFmwk {
         while (iterator.getIndex() != iterator.getEndIndex()) {
             int start = iterator.getRunStart();
             int end = iterator.getRunLimit();
-            Iterator it = iterator.getAttributes().keySet().iterator();
+            Iterator<AttributedCharacterIterator.Attribute> it = iterator.getAttributes().keySet().iterator();
             AttributedCharacterIterator.Attribute attribute = (AttributedCharacterIterator.Attribute) it.next();
             // For positions with both INTEGER and GROUPING attributes, we want the GROUPING attribute.
             if (it.hasNext() && attribute.equals(NumberFormat.Field.INTEGER)) {
@@ -5365,7 +5369,7 @@ public class NumberFormatTest extends CoreTestFmwk {
         DecimalFormat fmtCopy;
 
         final int newMultiplier = 37;
-        fmtCopy = (DecimalFormat) fmt.clone();
+        fmtCopy = fmt.clone();
         assertNotEquals("Value before setter", fmtCopy.getMultiplier(), newMultiplier);
         fmtCopy.setMultiplier(newMultiplier);
         assertEquals("Value after setter", fmtCopy.getMultiplier(), newMultiplier);
@@ -5374,7 +5378,7 @@ public class NumberFormatTest extends CoreTestFmwk {
         assertFalse("multiplier", fmt.equals(fmtCopy));
 
         final int newRoundingMode = RoundingMode.CEILING.ordinal();
-        fmtCopy = (DecimalFormat) fmt.clone();
+        fmtCopy = fmt.clone();
         assertNotEquals("Value before setter", fmtCopy.getRoundingMode(), newRoundingMode);
         fmtCopy.setRoundingMode(newRoundingMode);
         assertEquals("Value after setter", fmtCopy.getRoundingMode(), newRoundingMode);
@@ -5383,7 +5387,7 @@ public class NumberFormatTest extends CoreTestFmwk {
         assertFalse("roundingMode", fmt.equals(fmtCopy));
 
         final Currency newCurrency = Currency.getInstance("EAT");
-        fmtCopy = (DecimalFormat) fmt.clone();
+        fmtCopy = fmt.clone();
         assertNotEquals("Value before setter", fmtCopy.getCurrency(), newCurrency);
         fmtCopy.setCurrency(newCurrency);
         assertEquals("Value after setter", fmtCopy.getCurrency(), newCurrency);
@@ -5392,7 +5396,7 @@ public class NumberFormatTest extends CoreTestFmwk {
         assertFalse("currency", fmt.equals(fmtCopy));
 
         final CurrencyUsage newCurrencyUsage = CurrencyUsage.CASH;
-        fmtCopy = (DecimalFormat) fmt.clone();
+        fmtCopy = fmt.clone();
         assertNotEquals("Value before setter", fmtCopy.getCurrencyUsage(), newCurrencyUsage);
         fmtCopy.setCurrencyUsage(CurrencyUsage.CASH);
         assertEquals("Value after setter", fmtCopy.getCurrencyUsage(), newCurrencyUsage);
@@ -5410,25 +5414,25 @@ public class NumberFormatTest extends CoreTestFmwk {
         // Test equality with affixes. set affix methods can't capture special
         // characters which is why equality should fail.
         {
-          DecimalFormat fmtCopy = (DecimalFormat) fmt.clone();
+          DecimalFormat fmtCopy = fmt.clone();
           assertEquals("", fmt, fmtCopy);
           fmtCopy.setPositivePrefix(fmtCopy.getPositivePrefix());
           assertNotEquals("", fmt, fmtCopy);
         }
         {
-          DecimalFormat fmtCopy = (DecimalFormat) fmt.clone();
+          DecimalFormat fmtCopy = fmt.clone();
           assertEquals("", fmt, fmtCopy);
           fmtCopy.setPositiveSuffix(fmtCopy.getPositiveSuffix());
           assertNotEquals("", fmt, fmtCopy);
         }
         {
-          DecimalFormat fmtCopy = (DecimalFormat) fmt.clone();
+          DecimalFormat fmtCopy = fmt.clone();
           assertEquals("", fmt, fmtCopy);
           fmtCopy.setNegativePrefix(fmtCopy.getNegativePrefix());
           assertNotEquals("", fmt, fmtCopy);
         }
         {
-          DecimalFormat fmtCopy = (DecimalFormat) fmt.clone();
+          DecimalFormat fmtCopy = fmt.clone();
           assertEquals("", fmt, fmtCopy);
           fmtCopy.setNegativeSuffix(fmtCopy.getNegativeSuffix());
           assertNotEquals("", fmt, fmtCopy);
@@ -5505,6 +5509,22 @@ public class NumberFormatTest extends CoreTestFmwk {
         } catch (ParseException e) {
             // Parse failed (expected)
         }
+    }
+
+    @Test
+    public void Test22303() throws ParseException {
+        ULocale locale = new ULocale("en-US");
+        DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(locale);
+        symbols.setInfinity("infinity");
+        symbols.setNaN("notanumber");
+        DecimalFormat df = new DecimalFormat("0.00", symbols);
+        df.setDecimalPatternMatchRequired(true);
+        Number result = df.parse("infinity");
+        assertEquals("Should parse to +INF even though decimal is required", Double.POSITIVE_INFINITY, result);
+        result = df.parse("notanumber");
+        assertEquals("Should parse to NaN even though decimal is required", Double.NaN, result);
+        result = df.parse("-infinity");
+        assertEquals("Should parse to -INF even though decimal is required", Double.NEGATIVE_INFINITY, result);
     }
 
     @Test
@@ -7054,6 +7074,114 @@ public class NumberFormatTest extends CoreTestFmwk {
                                 + ppos.getIndex() + ", " + num.doubleValue());
             }
 
+        }
+    }
+
+    @Test
+    public void TestArbitraryConstantFormatting() {
+
+        class TestData {
+            String unitIdentifier;
+            Integer inputValue;
+            String expectedOutput;
+            UnitWidth width;
+            ULocale locale;
+
+            public TestData(String unitIdentifier, Integer inputValue, UnitWidth width, ULocale locale,
+                    String expectedOutput) {
+                this.unitIdentifier = unitIdentifier;
+                this.inputValue = inputValue;
+                this.expectedOutput = expectedOutput;
+                this.width = width;
+                this.locale = locale;
+            }
+        }
+
+        TestData[] testData = {
+                new TestData("meter-per-kelvin-second", 2, UnitWidth.FULL_NAME, ULocale.ENGLISH,
+                        "2 meters per second-kelvin"),
+                new TestData("meter-per-100-kelvin-second", 3, UnitWidth.FULL_NAME, ULocale.ENGLISH,
+                        "3 meters per 100-second-kelvin"),
+                new TestData("meter-per-kelvin-second", 1, UnitWidth.FULL_NAME, ULocale.ENGLISH,
+                        "1 meter per second-kelvin"),
+                new TestData("meter-per-1000", 1, UnitWidth.FULL_NAME, ULocale.ENGLISH, "1 meter per 1000"),
+                new TestData("meter-per-1000-second", 1, UnitWidth.FULL_NAME, ULocale.ENGLISH,
+                        "1 meter per 1000-second"),
+                new TestData("meter-per-1000-second-kelvin", 1, UnitWidth.FULL_NAME, ULocale.ENGLISH,
+                        "1 meter per 1000-second-kelvin"),
+                new TestData("meter-per-1-second-kelvin-per-kilogram", 1, UnitWidth.FULL_NAME, ULocale.ENGLISH,
+                        "1 meter per 1-kilogram-second-kelvin"),
+                new TestData("meter-second-per-kilogram-kelvin", 1, UnitWidth.FULL_NAME, ULocale.ENGLISH,
+                        "1 meter-second per kilogram-kelvin"),
+                new TestData("meter-second-per-1000-kilogram-kelvin", 1, UnitWidth.FULL_NAME, ULocale.ENGLISH,
+                        "1 meter-second per 1000-kilogram-kelvin"),
+                new TestData("meter-second-per-1000-kilogram-kelvin", 1, UnitWidth.SHORT, ULocale.ENGLISH,
+                        "1 m⋅sec/1000⋅kg⋅K"),
+                new TestData("meter-second-per-1000-kilogram-kelvin", 1, UnitWidth.FULL_NAME, ULocale.GERMAN,
+                        "1 Meter⋅Sekunde pro 1000⋅Kilogramm⋅Kelvin"),
+                new TestData("meter-second-per-1000-kilogram-kelvin", 1, UnitWidth.SHORT, ULocale.GERMAN,
+                        "1 m⋅Sek./1000⋅kg⋅K"),
+        };
+
+        for (TestData testCase : testData) {
+            MeasureUnit unit = MeasureUnit.forIdentifier(testCase.unitIdentifier);
+            LocalizedNumberFormatter formatter = NumberFormatter.withLocale(testCase.locale).unit(unit)
+                    .unitWidth(testCase.width);
+
+            String formatted = formatter.format(testCase.inputValue).toString();
+            assertEquals(
+                    "Unit: " + testCase.unitIdentifier + ", Width: " + testCase.width + ", Input: "
+                            + testCase.inputValue,
+                    testCase.expectedOutput, formatted);
+        }
+
+    }
+
+    @Test
+    public void TestPortionFormat() {
+        class TestCase {
+            String unitIdentifier;
+            String locale;
+            double inputValue;
+            String expectedOutput;
+
+            TestCase(String unitIdentifier, String locale, double inputValue, String expectedOutput) {
+                this.unitIdentifier = unitIdentifier;
+                this.locale = locale;
+                this.inputValue = inputValue;
+                this.expectedOutput = expectedOutput;
+            }
+        }
+
+        TestCase[] testCases = {
+                new TestCase("part-per-1e9", "en-US", 1, "1 part per billion"),
+                new TestCase("part-per-1e9", "en-US", 2, "2 parts per billion"),
+                new TestCase("part-per-1e9", "en-US", 1000000, "1,000,000 parts per billion"),
+                new TestCase("part-per-1e9", "de-DE", 1000000, "1.000.000 Milliardstel"),
+                new TestCase("part-per-1e1", "en-US", 1, "1 part per 10"),
+                new TestCase("part-per-1e2", "en-US", 1, "1 part per 100"),
+                new TestCase("part-per-1e3", "en-US", 1, "1 part per 1000"),
+                new TestCase("part-per-1e4", "en-US", 1, "1 part per 10000"),
+                new TestCase("part-per-1e5", "en-US", 1, "1 part per 100000"),
+                new TestCase("part-per-1e6", "en-US", 1, "1 part per million"),
+                new TestCase("part-per-1e7", "en-US", 1, "1 part per 10000000"),
+                new TestCase("part-per-1e8", "en-US", 1, "1 part per 100000000"),
+        };
+
+        for (TestCase testCase : testCases) {
+            //if (testCase.unitIdentifier.compareTo("portion-per-1e9") != 0) {
+            //    logKnownIssue("CLDR-18274", "The data for portion-per-XYZ is not determined yet.");
+            //    continue;
+            //}
+            MeasureUnit unit = MeasureUnit.forIdentifier(testCase.unitIdentifier);
+            LocalizedNumberFormatter formatter = NumberFormatter.withLocale(ULocale.forLanguageTag(testCase.locale))
+                    .unit(unit)
+                    .unitWidth(UnitWidth.FULL_NAME);
+            String formatted = formatter.format(testCase.inputValue).toString();
+            assertEquals(
+                    "Unit: " + testCase.unitIdentifier + ", Locale: " + testCase.locale + ", Input: "
+                            + testCase.inputValue,
+                    testCase.expectedOutput, formatted);
         }
     }
 }

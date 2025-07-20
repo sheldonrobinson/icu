@@ -268,10 +268,6 @@ final class LikelySubtagsBuilder {
             }
         });
 
-        // Add the special case for "und-Latn" => "en-Latn-US" (which is a bit of a
-        // hack for language matching).
-        // TODO: Find out the history of this line and document it better.
-        set(lsrTable, "und", "Latn", "", lsr("en", "Latn", "US"));
         logger.fine(lsrTable::toString);
 
         // Ensure that if "und-RR" => "ll-Ssss-RR", then we also add "Ssss" => "RR".
@@ -291,10 +287,11 @@ final class LikelySubtagsBuilder {
 
         // Check that every level has "*" (mapped from "und" or "").
         lsrTable.forEach((lang, scripts) -> {
-            checkArgument(scripts.containsKey("*"), "missing likely subtag mapping for: %s", asLocale(lang));
+            checkArgument(asLocale(lang).equals("und_Latn") || scripts.containsKey("*"), "missing likely subtag mapping for: %s", asLocale(lang));
             scripts.forEach(
-                    (script, regions) -> checkArgument(regions.containsKey("*"),
-                            "missing likely subtag mapping for: %s", asLocale(lang, script)));
+                    (script, regions) -> checkArgument(
+                        (asLocale(lang, script).equals("und_Latn")) || regions.containsKey("*"),
+                        "missing likely subtag mapping for: %s", asLocale(lang, script)));
         });
         return lsrTable;
     }

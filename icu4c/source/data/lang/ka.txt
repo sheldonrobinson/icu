@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ka{
     Keys{
         calendar{"კალენდარი"}
@@ -739,9 +739,7 @@ ka{
             standard{"ვალუტის სტანდარტული ფორმატი"}
         }
         collation{
-            big5han{"ტრადიციული ჩინური"}
             ducet{"უნიკოდის ნაგულისხმევი დახარისხების თანმიმდევრობა"}
-            gb2312han{"გამარტივებული ჩინური"}
             search{"ზოგადი დანიშნულების ძიება"}
             standard{"სტანდარტული დახარისხების თანმიმდევრობა"}
             traditional{"ტრადიციული"}

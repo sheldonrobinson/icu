@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 cs{
     units{
         acceleration{
@@ -942,6 +942,86 @@ cs{
                 one{"{0} mol"}
                 other{"{0} molů"}
             }
+            part-per-1e6{
+                case{
+                    accusative{
+                        few{"{0} díly z milionu"}
+                        many{"{0} dílu z milionu"}
+                        one{"{0} díl z milionu"}
+                        other{"{0} dílů z milionu"}
+                    }
+                    dative{
+                        few{"{0} dílům z milionu"}
+                        many{"{0} dílu z milionu"}
+                        one{"{0} dílu z milionu"}
+                        other{"{0} dílům z milionu"}
+                    }
+                    genitive{
+                        few{"{0} dílů z milionu"}
+                        many{"{0} dílu z milionu"}
+                        one{"{0} dílu z milionu"}
+                        other{"{0} dílů z milionu"}
+                    }
+                    instrumental{
+                        few{"{0} díly z milionu"}
+                        many{"{0} dílu z milionu"}
+                        one{"{0} dílem z milionu"}
+                        other{"{0} díly z milionu"}
+                    }
+                    locative{
+                        few{"{0} dílech z milionu"}
+                        many{"{0} dílu z milionu"}
+                        one{"{0} dílu z milionu"}
+                        other{"{0} dílech z milionu"}
+                    }
+                }
+                dnam{"díly z milionu"}
+                few{"{0} díly z milionu"}
+                gender{"inanimate"}
+                many{"{0} dílu z milionu"}
+                one{"{0} díl z milionu"}
+                other{"{0} dílů z milionu"}
+            }
+            part-per-1e9{
+                case{
+                    accusative{
+                        few{"{0} částice na miliardu"}
+                        many{"{0} částice na miliardu"}
+                        one{"{0} částici na miliardu"}
+                        other{"{0} částic na miliardu"}
+                    }
+                    dative{
+                        few{"{0} částicím na miliardu"}
+                        many{"{0} částice na miliardu"}
+                        one{"{0} částici na miliardu"}
+                        other{"{0} částicím na miliardu"}
+                    }
+                    genitive{
+                        few{"{0} částic na miliardu"}
+                        many{"{0} částice na miliardu"}
+                        one{"{0} částice na miliardu"}
+                        other{"{0} částic na miliardu"}
+                    }
+                    instrumental{
+                        few{"{0} částicemi na miliardu"}
+                        many{"{0} částice na miliardu"}
+                        one{"{0} částicí na miliardu"}
+                        other{"{0} částicemi na miliardu"}
+                    }
+                    locative{
+                        few{"{0} částicích na miliardu"}
+                        many{"{0} částice na miliardu"}
+                        one{"{0} částici na miliardu"}
+                        other{"{0} částicích na miliardu"}
+                    }
+                }
+                dnam{"částice na miliardu"}
+                few{"{0} částice na miliardu"}
+                gender{"feminine"}
+                many{"{0} částice na miliardu"}
+                one{"{0} částice na miliardu"}
+                other{"{0} částic na miliardu"}
+            }
             percent{
                 case{
                     accusative{
@@ -1021,46 +1101,6 @@ cs{
                 many{"{0} promile"}
                 one{"{0} promile"}
                 other{"{0} promile"}
-            }
-            permillion{
-                case{
-                    accusative{
-                        few{"{0} díly z milionu"}
-                        many{"{0} dílu z milionu"}
-                        one{"{0} díl z milionu"}
-                        other{"{0} dílů z milionu"}
-                    }
-                    dative{
-                        few{"{0} dílům z milionu"}
-                        many{"{0} dílu z milionu"}
-                        one{"{0} dílu z milionu"}
-                        other{"{0} dílům z milionu"}
-                    }
-                    genitive{
-                        few{"{0} dílů z milionu"}
-                        many{"{0} dílu z milionu"}
-                        one{"{0} dílu z milionu"}
-                        other{"{0} dílů z milionu"}
-                    }
-                    instrumental{
-                        few{"{0} díly z milionu"}
-                        many{"{0} dílu z milionu"}
-                        one{"{0} dílem z milionu"}
-                        other{"{0} díly z milionu"}
-                    }
-                    locative{
-                        few{"{0} dílech z milionu"}
-                        many{"{0} dílu z milionu"}
-                        one{"{0} dílu z milionu"}
-                        other{"{0} dílech z milionu"}
-                    }
-                }
-                dnam{"díly z milionu"}
-                few{"{0} díly z milionu"}
-                gender{"inanimate"}
-                many{"{0} dílu z milionu"}
-                one{"{0} díl z milionu"}
-                other{"{0} dílů z milionu"}
             }
             permyriad{
                 case{
@@ -5710,6 +5750,13 @@ cs{
                 many{"{0} mmol/l"}
                 one{"{0} mmol/l"}
                 other{"{0} mmol/l"}
+            }
+            part-per-1e9{
+                dnam{"částic/mld."}
+                few{"{0} částice na mld"}
+                many{"{0} částic na mld"}
+                one{"{0} částice na mld"}
+                other{"{0} částic na mld"}
             }
             percent{
                 few{"{0} %"}

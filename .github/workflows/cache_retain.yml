@@ -36,19 +36,19 @@ jobs:
   retain-maven-cache:
     name: Run all tests with Maven
     runs-on: ubuntu-22.04  # Updated in BRS
+    # Only run this on the upstream repo. Otherwise, running in a personal fork will cause
+    # Github to disable the personal fork copy of the workflow
+    # (Github complains about running a scheduled workflow on a repo with > 60 days of inactivity)
+    if: github.ref == 'refs/heads/main' && github.repository == 'unicode-org/unicodetools'
     steps:
       - name: Checkout and setup
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        with:
-          lfs: true
-      - name: Checkout lfs objects
-        run: git lfs pull
       - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9 # v4.2.1
         with:
           distribution: 'temurin'
           java-version: '11'
       - name: Restore read-only cache of local Maven repository
-        uses: actions/cache/restore@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+        uses: actions/cache/restore@v4.2.0
         id: cache
         with:
           path: ~/.m2/repository

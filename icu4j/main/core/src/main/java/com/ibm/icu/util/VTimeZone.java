@@ -35,7 +35,7 @@ import com.ibm.icu.impl.Grego;
  *
  * @stable ICU 3.8
  */
-public class VTimeZone extends BasicTimeZone {
+public class VTimeZone extends BasicTimeZone implements Cloneable {
 
     private static final long serialVersionUID = -6851467294127795902L;
 
@@ -383,7 +383,7 @@ public class VTimeZone extends BasicTimeZone {
      * @stable ICU 3.8
      */
     @Override
-    public Object clone() {
+    public VTimeZone clone() {
         if (isFrozen()) {
             return this;
         }
@@ -823,14 +823,13 @@ public class VTimeZone extends BasicTimeZone {
                             DateTimeRule.UTC_TIME);
                 } else {
                     // Update the end year
-                    int fields[] = Grego.timeToFields(start.getTime(), null);
                     newRule = new AnnualTimeZoneRule(
                             finalRule.getName(),
                             finalRule.getRawOffset(),
                             finalRule.getDSTSavings(),
                             finalRule.getRule(),
                             finalRule.getStartYear(),
-                            fields[0]);
+                            Grego.timeToYear(start.getTime()));
                 }
                 rules.set(finalRuleIdx, newRule);
             }
@@ -2125,7 +2124,7 @@ public class VTimeZone extends BasicTimeZone {
      * @stable ICU 49
      */
     @Override
-    public TimeZone cloneAsThawed() {
+    public VTimeZone cloneAsThawed() {
         VTimeZone vtz = (VTimeZone)super.cloneAsThawed();
         vtz.tz = (BasicTimeZone)tz.cloneAsThawed();
         vtz.isFrozen = false;

@@ -128,7 +128,7 @@ public class ChineseCalendar extends Calendar {
      * 1813 and 2033, the leap month is after the Winter Solstice of that year. So
      * this value could be false for a date prior to the Winter Solstice of that
      * year but that year still has a leap month and therefor is a leap year.
-     * @see #computeChineseFields
+     * @see #computeMonthInfo
      */
     private transient boolean hasLeapMonthBetweenWinterSolstices;
 
@@ -456,7 +456,12 @@ public class ChineseCalendar extends Calendar {
      * @stable ICU 2.8
      */
     protected int handleGetMonthLength(int extendedYear, int month) {
-        int thisStart = handleComputeMonthStart(extendedYear, month, true) -
+        int isLeapMonth = internalGet(IS_LEAP_MONTH);
+        return handleGetMonthLengthWithLeap(extendedYear, month, isLeapMonth);
+    }
+
+    private int handleGetMonthLengthWithLeap(int extendedYear, int month, int isLeap) {
+        int thisStart = handleComputeMonthStartWithLeap(extendedYear, month, isLeap) -
             EPOCH_JULIAN_DAY + 1; // Julian day -> local days
         int nextStart = newMoonNear(thisStart + SYNODIC_GAP, true);
         return nextStart - thisStart;
@@ -818,31 +823,62 @@ public class ChineseCalendar extends Calendar {
      * @stable ICU 2.8
      */
     protected void handleComputeFields(int julianDay) {
+        int days = julianDay - EPOCH_JULIAN_DAY; // local days
+        int gyear = getGregorianYear();
+        int gmonth = getGregorianMonth();
+        MonthInfo info = computeMonthInfo(days, gyear);
 
-        computeChineseFields(julianDay - EPOCH_JULIAN_DAY, // local days
-                             getGregorianYear(), getGregorianMonth(),
-                             true); // set all fields
+        // Extended year and cycle year is based on the epoch year
+        int extended_year = gyear - epochYear;
+        int cycle_year = gyear - CHINESE_EPOCH_YEAR;
+        if (info.month < 10 ||
+            gmonth >= JULY) {
+            extended_year++;
+            cycle_year++;
+        }
+        int dayOfMonth = days - info.thisMoon + 1;
+
+        // 0->0,60  1->1,1  60->1,60  61->2,1  etc.
+        int[] yearOfCycle = new int[1];
+        int cycle = floorDivide(cycle_year-1, 60, yearOfCycle);
+
+        // Days will be before the first new year we compute if this
+        // date is in month 11, leap 11, 12.  There is never a leap 12.
+        // New year computations are cached so this should be cheap in
+        // the long run.
+        int newYear = newYear(gyear);
+        if (days < newYear) {
+            newYear = newYear(gyear-1);
+        }
+
+        hasLeapMonthBetweenWinterSolstices = info.hasLeapMonthBetweenWinterSolstices;
+        internalSet(EXTENDED_YEAR, extended_year);
+        internalSet(ERA, cycle+1);
+        internalSet(YEAR, yearOfCycle[0]+1);
+        internalSet(MONTH, info.month); // Convert from 1-based to 0-based
+        internalSet(ORDINAL_MONTH, info.ordinalMonth);
+        internalSet(DAY_OF_MONTH, dayOfMonth);
+        internalSet(IS_LEAP_MONTH, info.isLeapMonth?1:0);
+        internalSet(DAY_OF_YEAR, days - newYear + 1);
     }
 
-    /**
-     * Compute fields for the Chinese calendar system.  This method can
-     * either set all relevant fields, as required by
-     * <code>handleComputeFields()</code>, or it can just set the MONTH and
-     * IS_LEAP_MONTH fields, as required by
-     * <code>handleComputeMonthStart()</code>.
-     *
-     * <p>As a side effect, this method sets {@link #hasLeapMonthBetweenWinterSolstices}.
-     * @param days days after January 1, 1970 0:00 astronomical base zone of the
-     * date to compute fields for
-     * @param gyear the Gregorian year of the given date
-     * @param gmonth the Gregorian month of the given date
-     * @param setAllFields if true, set the EXTENDED_YEAR, ERA, YEAR,
-     * DAY_OF_MONTH, and DAY_OF_YEAR fields.  In either case set the MONTH
-     * and IS_LEAP_MONTH fields.
-     */
-    private void computeChineseFields(int days, int gyear, int gmonth,
-                                      boolean setAllFields) {
+    class MonthInfo {
+        int month;
+        int ordinalMonth;
+        int thisMoon;
+        boolean isLeapMonth;
+        boolean hasLeapMonthBetweenWinterSolstices;
+        MonthInfo(int month, int ordinalMonth, int thisMoon, boolean isLeapMonth,
+                boolean hasLeapMonthBetweenWinterSolstices) {
+            this.month = month;
+            this.ordinalMonth = ordinalMonth;
+            this.thisMoon = thisMoon;
+            this.isLeapMonth = isLeapMonth;
+            this.hasLeapMonthBetweenWinterSolstices = hasLeapMonthBetweenWinterSolstices;
+        }
+    };
 
+    private MonthInfo computeMonthInfo(int days, int gyear) {
         // Find the winter solstices before and after the target date.
         // These define the boundaries of this Chinese year, specifically,
         // the position of month 11, which always contains the solstice.
@@ -862,8 +898,8 @@ public class ChineseCalendar extends Calendar {
         int firstMoon = newMoonNear(solsticeBefore + 1, true);
         int lastMoon = newMoonNear(solsticeAfter + 1, false);
         int thisMoon = newMoonNear(days + 1, false); // Start of this month
-        // Note: hasLeapMonthBetweenWinterSolstices is a member variable
-        hasLeapMonthBetweenWinterSolstices = synodicMonthsBetween(firstMoon, lastMoon) == 12;
+
+        boolean hasLeapMonthBetweenWinterSolstices = synodicMonthsBetween(firstMoon, lastMoon) == 12;
 
         int month = synodicMonthsBetween(firstMoon, thisMoon);
         int theNewYear = newYear(gyear);
@@ -885,42 +921,7 @@ public class ChineseCalendar extends Calendar {
             hasNoMajorSolarTerm(thisMoon) &&
             !isLeapMonthBetween(firstMoon, newMoonNear(thisMoon - SYNODIC_GAP, false));
 
-        internalSet(MONTH, month-1); // Convert from 1-based to 0-based
-        internalSet(ORDINAL_MONTH, ordinalMonth);
-        internalSet(IS_LEAP_MONTH, isLeapMonth?1:0);
-
-        if (setAllFields) {
-
-            // Extended year and cycle year is based on the epoch year
-            int extended_year = gyear - epochYear;
-            int cycle_year = gyear - CHINESE_EPOCH_YEAR;
-            if (month < 11 ||
-                gmonth >= JULY) {
-                extended_year++;
-                cycle_year++;
-            }
-            int dayOfMonth = days - thisMoon + 1;
-
-            internalSet(EXTENDED_YEAR, extended_year);
-
-            // 0->0,60  1->1,1  60->1,60  61->2,1  etc.
-            int[] yearOfCycle = new int[1];
-            int cycle = floorDivide(cycle_year-1, 60, yearOfCycle);
-            internalSet(ERA, cycle+1);
-            internalSet(YEAR, yearOfCycle[0]+1);
-
-            internalSet(DAY_OF_MONTH, dayOfMonth);
-
-            // Days will be before the first new year we compute if this
-            // date is in month 11, leap 11, 12.  There is never a leap 12.
-            // New year computations are cached so this should be cheap in
-            // the long run.
-            int newYear = newYear(gyear);
-            if (days < newYear) {
-                newYear = newYear(gyear-1);
-            }
-            internalSet(DAY_OF_YEAR, days - newYear + 1);
-        }
+        return new MonthInfo(month-1, ordinalMonth, thisMoon, isLeapMonth, hasLeapMonthBetweenWinterSolstices);
     }
 
     //------------------------------------------------------------------
@@ -971,6 +972,14 @@ public class ChineseCalendar extends Calendar {
      * @stable ICU 2.8
      */
     protected int handleComputeMonthStart(int eyear, int month, boolean useMonth) {
+        int isLeapMonth = 0;
+        if (useMonth) {
+            isLeapMonth = internalGet(IS_LEAP_MONTH);
+        }
+        return handleComputeMonthStartWithLeap(eyear, month, isLeapMonth);
+    }
+
+    private int handleComputeMonthStartWithLeap(int eyear, int month, int isLeapMonth) {
 
         // If the month is out of range, adjust it into range, and
         // modify the extended year value accordingly.
@@ -986,29 +995,16 @@ public class ChineseCalendar extends Calendar {
         
         int julianDay = newMoon + EPOCH_JULIAN_DAY;
 
-        // Save fields for later restoration
-        int saveMonth = internalGet(MONTH);
-        int saveOrdinalMonth = internalGet(ORDINAL_MONTH);
-        int saveIsLeapMonth = internalGet(IS_LEAP_MONTH);
-
-        // Ignore IS_LEAP_MONTH field if useMonth is false
-        int isLeapMonth = useMonth ? saveIsLeapMonth : 0;
-
         computeGregorianFields(julianDay);
         
         // This will modify the MONTH and IS_LEAP_MONTH fields (only)
-        computeChineseFields(newMoon, getGregorianYear(),
-                             getGregorianMonth(), false);        
+        MonthInfo info = computeMonthInfo(newMoon, getGregorianYear());
 
-        if (month != internalGet(MONTH) ||
-            isLeapMonth != internalGet(IS_LEAP_MONTH)) {
+        if (month != info.month ||
+            info.isLeapMonth != (isLeapMonth != 0) ) {
             newMoon = newMoonNear(newMoon + SYNODIC_GAP, true);
             julianDay = newMoon + EPOCH_JULIAN_DAY;
         }
-
-        internalSet(MONTH, saveMonth);
-        internalSet(ORDINAL_MONTH, saveOrdinalMonth);
-        internalSet(IS_LEAP_MONTH, saveIsLeapMonth);
 
         return julianDay - 1;
     }
@@ -1135,7 +1131,7 @@ public class ChineseCalendar extends Calendar {
         if (resolveFields(MONTH_PRECEDENCE) == MONTH) {
             return internalGet(MONTH);
         }
-        Calendar temp = (Calendar) clone();
+        Calendar temp = clone();
         temp.set(Calendar.MONTH, 0);
         temp.set(Calendar.IS_LEAP_MONTH, 0);
         temp.set(Calendar.DATE, 1);
@@ -1159,6 +1155,30 @@ public class ChineseCalendar extends Calendar {
             return internalGet(MONTH, defaultValue);
         }
         return internalGetMonth();
+    }
+
+    public int getActualMaximum(int field) {
+        if (field == DAY_OF_MONTH) {
+            Calendar cal = clone();
+            cal.setLenient(true);
+            cal.prepareGetActual(field, false);
+            int eyear = cal.get(EXTENDED_YEAR);
+            int month = cal.get(MONTH);
+            int isLeap = cal.get(IS_LEAP_MONTH);
+
+            return handleGetMonthLengthWithLeap(eyear, month, isLeap);
+        }
+        return super.getActualMaximum(field);
+
+    }
+
+    /**
+     * @internal
+     * @deprecated This API is ICU internal only.
+     */
+    @Deprecated
+    protected final int getRelatedYearDifference() {
+        return epochYear - 1;
     }
 
     /*

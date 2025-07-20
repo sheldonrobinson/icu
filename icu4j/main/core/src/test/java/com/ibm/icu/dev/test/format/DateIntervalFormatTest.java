@@ -794,7 +794,7 @@ public class DateIntervalFormatTest extends CoreTestFmwk {
             "en", "CE 2010 09 27 10:00:00", "CE 2010 09 27 12:00:00", "hbbbbb", "10\\u202Fa\\u2009\\u2013\\u200912\\u202Fn",
             "en", "CE 2010 09 27 13:00:00", "CE 2010 09 27 14:00:00", "hb", "1\\u2009\\u2013\\u20092\\u202FPM",
             "en", "CE 2010 09 27 10:00:00", "CE 2010 09 27 13:00:00", "hB", "10 in the morning\\u2009\\u2013\\u20091 in the afternoon",
-            "en", "CE 2010 09 27 00:00:00", "CE 2010 09 27 01:00:00", "hB", "12\\u2009\\u2013\\u20091 at night",
+            "en", "CE 2010 09 27 00:00:00", "CE 2010 09 27 01:00:00", "hB", "12\\u2009\\u2013\\u20091 in the morning",
 
             // J
             "en", "CE 2010 09 27 10:00:00", "CE 2010 09 27 13:00:00", "J", "10\\u2009\\u2013\\u20091",
@@ -1116,8 +1116,8 @@ public class DateIntervalFormatTest extends CoreTestFmwk {
             FieldPosition pos = new FieldPosition(0);
             StringBuffer str = new StringBuffer("");
             DateFormat dtfmt = dtitvfmt.getDateFormat();
-            Calendar fromCalendar = (Calendar) dtfmt.getCalendar().clone();
-            Calendar toCalendar = (Calendar) dtfmt.getCalendar().clone();
+            Calendar fromCalendar = dtfmt.getCalendar().clone();
+            Calendar toCalendar = dtfmt.getCalendar().clone();
             fromCalendar.setTimeInMillis(dtitv.getFromDate());
             toCalendar.setTimeInMillis(dtitv.getToDate());
             dtitvfmt.format(fromCalendar, toCalendar, str, pos);
@@ -1289,8 +1289,8 @@ public class DateIntervalFormatTest extends CoreTestFmwk {
                 SimpleDateFormat dtfmt = (SimpleDateFormat) DateFormat.getDateInstance(style, loc);
                 FieldPosition pos = new FieldPosition(0);
                 StringBuffer str = new StringBuffer("");
-                Calendar fromCalendar = (Calendar) dtfmt.getCalendar().clone();
-                Calendar toCalendar = (Calendar) dtfmt.getCalendar().clone();
+                Calendar fromCalendar = dtfmt.getCalendar().clone();
+                Calendar toCalendar = dtfmt.getCalendar().clone();
                 fromCalendar.setTimeInMillis(dtitv.getFromDate());
                 toCalendar.setTimeInMillis(dtitv.getToDate());
                 dtfmt.intervalFormatByAlgorithm(fromCalendar, toCalendar, str, pos);
@@ -1310,7 +1310,7 @@ public class DateIntervalFormatTest extends CoreTestFmwk {
             logln("new DateIntervalInfo(new ULocale(\"th_TH\")).toString() - " + diiStr);
 
             // equals also had the similar problem
-            DateIntervalInfo dii1 = (DateIntervalInfo)dii.clone();
+            DateIntervalInfo dii1 = dii.clone();
             if (!dii.equals(dii1)) {
                 errln("FAIL: Cloned DateIntervalInfo is not equal to the source");
             }
@@ -1388,7 +1388,7 @@ public class DateIntervalFormatTest extends CoreTestFmwk {
     @Test
     public void TestClone(){
         DateIntervalInfo dii = new DateIntervalInfo(new ULocale("en_US"));
-        DateIntervalInfo dii_clone = (DateIntervalInfo) dii.clone();
+        DateIntervalInfo dii_clone = dii.clone();
         dii_clone.freeze();
 
         // Tests when "if ( frozen )" is true
@@ -1632,7 +1632,7 @@ public class DateIntervalFormatTest extends CoreTestFmwk {
         checkDefaultPrivateConstructor(DateIntervalFormat.class);
 
         // Check clone
-        DateIntervalFormat dtitvfmtClone = (DateIntervalFormat) dtitvfmt.clone();
+        DateIntervalFormat dtitvfmtClone = dtitvfmt.clone();
         assertEquals("DateIntervalFormat.clone() failed", dtitvfmt.format(dtitv), dtitvfmtClone.format(dtitv));
 
         // Coverage for getInstance

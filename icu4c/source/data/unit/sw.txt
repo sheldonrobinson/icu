@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 sw{
     units{
         acceleration{
@@ -92,13 +92,18 @@ sw{
                 one{"milimoli {0} kwa kila lita"}
                 other{"milimoli {0} kwa kila lita"}
             }
+            part-per-1e6{
+                one{"sehemu {0} kwa kila milioni"}
+                other{"sehemu {0} kwa kila milioni"}
+            }
+            part-per-1e9{
+                dnam{"sehemu kwa kila bilioni"}
+                one{"sehemu {0} kwa kila bilioni"}
+                other{"sehemu {0} kwa kila bilioni"}
+            }
             permille{
                 one{"{0} kwa kila elfu"}
                 other{"{0} kwa kila elfu"}
-            }
-            permillion{
-                one{"sehemu {0} kwa kila milioni"}
-                other{"sehemu {0} kwa kila milioni"}
             }
             permyriad{
                 one{"permyriadi {0}"}
@@ -543,8 +548,11 @@ sw{
                 one{"mmol {0}/L"}
                 other{"mmol {0}/L"}
             }
-            permillion{
+            part-per-1e6{
                 dnam{"ppm"}
+            }
+            part-per-1e9{
+                dnam{"sehemu kwa kila bilioni"}
             }
         }
         consumption{
@@ -811,6 +819,14 @@ sw{
                 one{"moli {0}"}
                 other{"moli {0}"}
             }
+            part-per-1e6{
+                dnam{"sehemu kwa kila milioni"}
+                one{"ppm {0}"}
+                other{"ppm {0}"}
+            }
+            part-per-1e9{
+                dnam{"sehemu kwa bilioni"}
+            }
             percent{
                 dnam{"asilimia"}
                 one{"asilimia {0}"}
@@ -820,11 +836,6 @@ sw{
                 dnam{"kwa elfu"}
                 one{"{0} kwa elfu"}
                 other{"{0} kwa elfu"}
-            }
-            permillion{
-                dnam{"sehemu kwa kila milioni"}
-                one{"ppm {0}"}
-                other{"ppm {0}"}
             }
             permyriad{
                 dnam{"permyriadi"}

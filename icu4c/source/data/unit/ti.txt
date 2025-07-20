@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ti{
     units{
         acceleration{
@@ -180,6 +180,16 @@ ti{
                 one{"{0} ሞል"}
                 other{"{0} ሞል"}
             }
+            part-per-1e6{
+                dnam{"ክፍልታት ኣብ ሚልዮን"}
+                one{"{0} ክፍልታት ኣብ ሚልዮን"}
+                other{"{0} ክፍልታት ኣብ ሚልዮን"}
+            }
+            part-per-1e9{
+                dnam{"ክፍልታት ኣብ ሓደ ቢልዮን"}
+                one{"{0} ክፍልታት ኣብ ሓደ ቢልዮን"}
+                other{"{0} ክፍልታት ኣብ ሓደ ቢልዮን"}
+            }
             percent{
                 dnam{"ሚእታዊ"}
                 one{"{0} ሚእታዊ"}
@@ -189,11 +199,6 @@ ti{
                 dnam{"አብ ሚሌ"}
                 one{"{0} አብ ሚሌ"}
                 other{"{0} አብ ሚሌ"}
-            }
-            permillion{
-                dnam{"ክፍልታት ኣብ ሚልዮን"}
-                one{"{0} ክፍልታት ኣብ ሚልዮን"}
-                other{"{0} ክፍልታት ኣብ ሚልዮን"}
             }
             permyriad{
                 dnam{"አብ ሚርያድ"}
@@ -1151,10 +1156,15 @@ ti{
                 one{"{0}ሞል"}
                 other{"{0}ሞል"}
             }
-            permillion{
+            part-per-1e6{
                 dnam{"ክፍልታት ኣብ ሚልዮን"}
                 one{"{0}ክፍልታት ኣብ ሚልዮን"}
                 other{"{0}ክፍልታት ኣብ ሚልዮን"}
+            }
+            part-per-1e9{
+                dnam{"ክፍልታት ኣብ ሓደ ቢልዮን"}
+                one{"{0}ክፍልታት ኣብ ሓደ ቢልዮን"}
+                other{"{0}ክፍልታት ኣብ ሓደ ቢልዮን"}
             }
         }
         consumption{
@@ -2073,16 +2083,21 @@ ti{
                 one{"{0} ሞል"}
                 other{"{0} ሞል"}
             }
+            part-per-1e6{
+                dnam{"ክፍልታት/ሚልዮን"}
+                one{"{0} ክፍልታት ኣብ ሚልዮን"}
+                other{"{0} ክፍልታት ኣብ ሚልዮን"}
+            }
+            part-per-1e9{
+                dnam{"ክፍልታት/ሓደ ቢልዮን"}
+                one{"{0} ክፍልታት ኣብ ሓደ ቢልዮን"}
+                other{"{0} ክፍልታት ኣብ ሓደ ቢልዮን"}
+            }
             percent{
                 dnam{"ሚእታዊ"}
             }
             permille{
                 dnam{"አብ ሚሌ"}
-            }
-            permillion{
-                dnam{"ክፍልታት/ሚልዮን"}
-                one{"{0} ክፍልታት ኣብ ሚልዮን"}
-                other{"{0} ክፍልታት ኣብ ሚልዮን"}
             }
             permyriad{
                 dnam{"አብ ሚርያድ"}

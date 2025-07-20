@@ -86,10 +86,10 @@ public class DataDrivenFormatTest extends CoreTestFmwk {
         DateFormat basicFmt = new SimpleDateFormat("EEE MMM dd yyyy / YYYY'-W'ww-ee");
 
         int n = 0;
-        for (Iterator iter = testData.getDataIterator(); iter.hasNext();) {
+        for (Iterator<DataMap> iter = testData.getDataIterator(); iter.hasNext();) {
             ++n;
             long now = System.currentTimeMillis();
-            DataMap currentCase = (DataMap) iter.next();
+            DataMap currentCase = iter.next();
             String caseString = "["+testData.getName()+"#"+n+(fmt?"format":"parse")+"]";
             
             String locale = currentCase.getString("locale");
@@ -158,9 +158,10 @@ public class DataDrivenFormatTest extends CoreTestFmwk {
                 fromSet = new CalendarFieldsSet();
                 fromSet.parseFrom(date);
             }
-            
+
             // run the test
             if(fmt) {
+                @SuppressWarnings("JdkObsolete") // Because of DateFormat.format(...,StringBuffer,...)
                 StringBuffer output = new StringBuffer();
                 cal.clear();
                 FieldPosition pos = new FieldPosition(0);

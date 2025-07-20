@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 fr_CA{
     AuxExemplarCharacters{"[áåäãā ē íìī ñ óòöø úǔ]"}
     NumberElements{
@@ -697,9 +697,11 @@ fr_CA{
             eras{
                 narrow{
                     "AH",
+                    "BH",
                 }
                 wide{
                     "Anno Hegirae",
+                    "BH",
                 }
             }
             intervalFormats{

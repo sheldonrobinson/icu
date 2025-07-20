@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 bg{
     units{
         acceleration{
@@ -169,6 +169,16 @@ bg{
                 one{"{0} мол"}
                 other{"{0} мола"}
             }
+            part-per-1e6{
+                dnam{"части на милион"}
+                one{"{0} част на милион"}
+                other{"{0} части на милион"}
+            }
+            part-per-1e9{
+                dnam{"части на милиард"}
+                one{"{0} част на милиард"}
+                other{"{0} части на милиард"}
+            }
             percent{
                 one{"{0} процент"}
                 other{"{0} процента"}
@@ -177,11 +187,6 @@ bg{
                 dnam{"промил"}
                 one{"{0} промил"}
                 other{"{0} промила"}
-            }
-            permillion{
-                dnam{"части на милион"}
-                one{"{0} част на милион"}
-                other{"{0} части на милион"}
             }
             permyriad{
                 one{"{0} базисен пункт"}
@@ -1179,6 +1184,9 @@ bg{
                 dnam{"мол"}
                 one{"{0} мол"}
                 other{"{0} мол"}
+            }
+            part-per-1e9{
+                dnam{"части/милиард"}
             }
             percent{
                 dnam{"процент"}

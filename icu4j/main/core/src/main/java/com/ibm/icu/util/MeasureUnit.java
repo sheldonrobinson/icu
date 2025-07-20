@@ -44,14 +44,15 @@ public class MeasureUnit implements Serializable {
     private static final long serialVersionUID = -1839973855554750484L;
 
     // Cache of MeasureUnits.
-    // All access to the cache or cacheIsPopulated flag must be synchronized on class MeasureUnit,
+    // All access to the cache or cacheIsPopulated flag must be synchronized on
+    // class MeasureUnit,
     // i.e. from synchronized static methods. Beware of non-static methods.
-    private static final Map<String, Map<String,MeasureUnit>> cache
-        = new HashMap<>();
+    private static final Map<String, Map<String, MeasureUnit>> cache = new HashMap<>();
     private static boolean cacheIsPopulated = false;
 
     /**
      * If type set to null, measureUnitImpl is in use instead of type and subType.
+     * 
      * @internal
      * @deprecated This API is ICU internal only.
      */
@@ -59,7 +60,9 @@ public class MeasureUnit implements Serializable {
     protected final String type;
 
     /**
-     * If subType set to null, measureUnitImpl is in use instead of type and subType.
+     * If subType set to null, measureUnitImpl is in use instead of type and
+     * subType.
+     * 
      * @internal
      * @deprecated This API is ICU internal only.
      */
@@ -76,14 +79,18 @@ public class MeasureUnit implements Serializable {
     /**
      * Enumeration for unit complexity. There are three levels:
      * <ul>
-     * <li>SINGLE: A single unit, optionally with a power and/or SI or binary prefix.
+     * <li>SINGLE: A single unit, optionally with a power and/or SI or binary
+     * prefix.
      * Examples: hectare, square-kilometer, kilojoule, per-second, mebibyte.</li>
-     * <li>COMPOUND: A unit composed of the product of multiple single units. Examples:
+     * <li>COMPOUND: A unit composed of the product of multiple single units.
+     * Examples:
      * meter-per-second, kilowatt-hour, kilogram-meter-per-square-second.</li>
-     * <li>MIXED: A unit composed of the sum of multiple single units. Examples: foot-and-inch,
+     * <li>MIXED: A unit composed of the sum of multiple single units. Examples:
+     * foot-and-inch,
      * hour-and-minute-and-second, degree-and-arcminute-and-arcsecond.</li>
      * </ul>
-     * The complexity determines which operations are available. For example, you cannot set the power
+     * The complexity determines which operations are available. For example, you
+     * cannot set the power
      * or prefix of a compound unit.
      *
      * @stable ICU 68
@@ -121,14 +128,14 @@ public class MeasureUnit implements Serializable {
         /**
          * SI prefix: quetta, 10^30.
          *
-         * @draft ICU 75
+         * @stable ICU 75
          */
         QUETTA(30, "quetta", 10),
 
         /**
          * SI prefix: ronna, 10^27.
          *
-         * @draft ICU 75
+         * @stable ICU 75
          */
         RONNA(27, "ronna", 10),
 
@@ -282,14 +289,14 @@ public class MeasureUnit implements Serializable {
         /**
          * SI prefix: ronto, 10^-27.
          *
-         * @draft ICU 75
+         * @stable ICU 75
          */
         RONTO(-27, "ronto", 10),
 
         /**
          * SI prefix: quecto, 10^-30.
          *
-         * @draft ICU 75
+         * @stable ICU 75
          */
         QUECTO(-30, "quecto", 10),
 
@@ -404,18 +411,23 @@ public class MeasureUnit implements Serializable {
     }
 
     /**
-     * Construct a MeasureUnit from a CLDR Core Unit Identifier, defined in UTS
-     * 35. (Core unit identifiers and mixed unit identifiers are supported, long
-     * unit identifiers are not.) Validates and canonicalizes the identifier.
+     * Constructs a MeasureUnit from a CLDR Core Unit Identifier, as defined in UTS
+     * 35.
+     * This method supports core unit identifiers and mixed unit identifiers.
+     * It validates and canonicalizes the given identifier.
      *
-     * Note: dimensionless <code>MeasureUnit</code> is <code>null</code>
+     * Note: A dimensionless <code>MeasureUnit</code> is represented as
+     * <code>null</code>.
      *
+     * Example usage:
+     * 
      * <pre>
-     * MeasureUnit example = MeasureUnit::forIdentifier("furlong-per-nanosecond")
+     * MeasureUnit example = MeasureUnit.forIdentifier("meter-per-second);
      * </pre>
      *
-     * @param identifier CLDR Unit Identifier
-     * @throws IllegalArgumentException if the identifier is invalid.
+     * @param identifier the CLDR Unit Identifier
+     * @return the corresponding MeasureUnit
+     * @throws IllegalArgumentException if the identifier is invalid
      * @stable ICU 68
      */
     public static MeasureUnit forIdentifier(String identifier) {
@@ -448,8 +460,6 @@ public class MeasureUnit implements Serializable {
         this.measureUnitImpl = measureUnitImpl.copy();
     }
 
-
-
     /**
      * Get the type, such as "length". May return null.
      *
@@ -458,7 +468,6 @@ public class MeasureUnit implements Serializable {
     public String getType() {
         return type;
     }
-
 
     /**
      * Get the subType, such as “foot”. May return null.
@@ -495,18 +504,21 @@ public class MeasureUnit implements Serializable {
     }
 
     /**
-     * Creates a MeasureUnit which is this SINGLE unit augmented with the specified prefix.
+     * Creates a MeasureUnit which is this SINGLE unit augmented with the specified
+     * prefix.
      * For example, MeasurePrefix.KILO for "kilo", or MeasurePrefix.KIBI for "kibi".
      * May return {@code this} if this unit already has that prefix.
      * <p>
      * There is sufficient locale data to format all standard prefixes.
      * <p>
-     * NOTE: Only works on SINGLE units. If this is a COMPOUND or MIXED unit, an error will
+     * NOTE: Only works on SINGLE units. If this is a COMPOUND or MIXED unit, an
+     * error will
      * occur. For more information, {@link Complexity}.
      *
      * @param prefix The prefix, from MeasurePrefix.
      * @return A new SINGLE unit.
-     * @throws UnsupportedOperationException if this unit is a COMPOUND or MIXED unit.
+     * @throws UnsupportedOperationException if this unit is a COMPOUND or MIXED
+     *                                       unit.
      * @stable ICU 69
      */
     public MeasureUnit withPrefix(MeasurePrefix prefix) {
@@ -531,10 +543,84 @@ public class MeasureUnit implements Serializable {
     }
 
     /**
-     * Returns the dimensionality (power) of this MeasureUnit. For example, if the unit is square,
+     * Creates a new MeasureUnit with a specified constant denominator.
+     * <p>
+     * This method is applicable only to COMPOUND &amp; SINGLE units. If invoked on a
+     * MIXED unit, an exception will be thrown.
+     * For further details, refer to {@link Complexity}.
+     * <p>
+     * 
+     * NOTE: If the constant denominator is set to 0, it means that you are removing
+     * the constant denominator.
+     *
+     *
+     * @param denominator The constant denominator to set.
+     * @return A new MeasureUnit with the specified constant denominator.
+     * @throws UnsupportedOperationException if the unit is not a COMPOUND unit.
+     * @draft ICU 77
+     */
+    public MeasureUnit withConstantDenominator(long denominator) {
+        if (denominator < 0) {
+            throw new IllegalArgumentException("Denominator cannot be negative");
+        }
+
+        if (this.getComplexity() != Complexity.COMPOUND && this.getComplexity() != Complexity.SINGLE) {
+            throw new UnsupportedOperationException(
+                    "Constant denominator can only be applied to COMPOUND & SINGLE units");
+        }
+
+        MeasureUnitImpl measureUnitImpl = getCopyOfMeasureUnitImpl();
+        measureUnitImpl.setConstantDenominator(denominator);
+
+        measureUnitImpl.setComplexity(denominator == 0 && measureUnitImpl.getSingleUnits().size() < 2
+                ? Complexity.SINGLE
+                : Complexity.COMPOUND);
+
+        return measureUnitImpl.build();
+    }
+
+    /**
+     * Retrieves the constant denominator for this COMPOUND unit.
+     * <p>
+     * Examples:
+     * <ul>
+     * <li>For the unit "liter-per-1000-kiloliter", the constant denominator is
+     * 1000.</li>
+     * <li>For the unit "liter-per-kilometer", the constant denominator is
+     * zero.</li>
+     * </ul>
+     * <p>
+     * This method is applicable only to COMPOUND &amp; SINGLE units. If invoked on a
+     * MIXED unit, an exception will be thrown.
+     * For further details, refer to {@link Complexity}.
+     * <p>
+     * 
+     * NOTE: If no constant denominator exists, the method returns 0.
+     *
+     * @return The value of the constant denominator.
+     * @throws UnsupportedOperationException if the unit is not a COMPOUND unit.
+     * @draft ICU 77
+     */
+    public long getConstantDenominator() {
+        if (this.getComplexity() != Complexity.COMPOUND && this.getComplexity() != Complexity.SINGLE) {
+            throw new UnsupportedOperationException(
+                    "Constant denominator is only supported for COMPOUND & SINGLE units");
+        }
+
+        if (this.measureUnitImpl == null) {
+            return 0;
+        }
+
+        return this.measureUnitImpl.getConstantDenominator();
+    }
+
+    /**
+     * Returns the dimensionality (power) of this MeasureUnit. For example, if the
+     * unit is square,
      * then 2 is returned.
      * <p>
-     * NOTE: Only works on SINGLE units. If this is a COMPOUND or MIXED unit, an exception will be thrown.
+     * NOTE: Only works on SINGLE units. If this is a COMPOUND or MIXED unit, an
+     * exception will be thrown.
      * For more information, {@link Complexity}.
      *
      * @return The dimensionality (power) of this simple unit.
@@ -546,10 +632,12 @@ public class MeasureUnit implements Serializable {
     }
 
     /**
-     * Creates a MeasureUnit which is this SINGLE unit augmented with the specified dimensionality
+     * Creates a MeasureUnit which is this SINGLE unit augmented with the specified
+     * dimensionality
      * (power). For example, if dimensionality is 2, the unit will be squared.
      * <p>
-     * NOTE: Only works on SINGLE units. If this is a COMPOUND or MIXED unit, an exception is thrown.
+     * NOTE: Only works on SINGLE units. If this is a COMPOUND or MIXED unit, an
+     * exception is thrown.
      * For more information, {@link Complexity}.
      *
      * @param dimensionality The dimensionality (power).
@@ -564,33 +652,47 @@ public class MeasureUnit implements Serializable {
     }
 
     /**
-     * Computes the reciprocal of this MeasureUnit, with the numerator and denominator flipped.
+     * Computes the reciprocal of this MeasureUnit, with the numerator and
+     * denominator flipped.
      * <p>
-     * For example, if the receiver is "meter-per-second", the unit "second-per-meter" is returned.
+     * For example, if the receiver is "meter-per-second", the unit
+     * "second-per-meter" is returned.
      * <p>
-     * NOTE: Only works on SINGLE and COMPOUND units. If this is a MIXED unit, an error will
+     * NOTE: Only works on SINGLE and COMPOUND units. If this is a MIXED unit, an
+     * error will
      * occur. For more information, {@link Complexity}.
      *
+     * <p>
+     * NOTE: An exception will be thrown for units that have a constant denominator.
+     *
      * @return The reciprocal of the target unit.
-     * @throws UnsupportedOperationException if the unit is MIXED.
+     * @throws UnsupportedOperationException if the unit is MIXED or has a constant
+     *                                       denominator.
      * @stable ICU 68
      */
     public MeasureUnit reciprocal() {
+        if (this.getComplexity() == Complexity.COMPOUND && this.getConstantDenominator() != 0) {
+            throw new UnsupportedOperationException("Cannot take reciprocal of a unit with a constant denominator");
+        }
+
         MeasureUnitImpl measureUnit = getCopyOfMeasureUnitImpl();
         measureUnit.takeReciprocal();
         return measureUnit.build();
     }
 
     /**
-     * Computes the product of this unit with another unit. This is a way to build units from
+     * Computes the product of this unit with another unit. This is a way to build
+     * units from
      * constituent parts.
      * <p>
      * The numerator and denominator are preserved through this operation.
      * <p>
-     * For example, if the receiver is "kilowatt" and the argument is "hour-per-day", then the
+     * For example, if the receiver is "kilowatt" and the argument is
+     * "hour-per-day", then the
      * unit "kilowatt-hour-per-day" is returned.
      * <p>
-     * NOTE: Only works on SINGLE and COMPOUND units. If either unit (receivee and argument) is a
+     * NOTE: Only works on SINGLE and COMPOUND units. If either unit (receivee and
+     * argument) is a
      * MIXED unit, an error will occur. For more information, {@link Complexity}.
      *
      * @param other The MeasureUnit to multiply with the target.
@@ -610,16 +712,33 @@ public class MeasureUnit implements Serializable {
             throw new UnsupportedOperationException();
         }
 
-        for (SingleUnitImpl singleUnit :
-                otherImplRef.getSingleUnits()) {
+        for (SingleUnitImpl singleUnit : otherImplRef.getSingleUnits()) {
             implCopy.appendSingleUnit(singleUnit);
         }
+
+        long thisConstantDenominator = this.getConstantDenominator();
+        long otherConstantDenominator = other.getConstantDenominator();
+
+        // TODO: we can also multiply the constant denominators instead of throwing an
+        // exception.
+        if (thisConstantDenominator != 0 && otherConstantDenominator != 0) {
+            // There is only `one` constant denominator in a compound unit.
+            // Therefore, we cannot multiply units that both of them have a constant
+            // denominator.
+            throw new UnsupportedOperationException(
+                    "Cannot multiply units that both of them have a constant denominator");
+        }
+
+        // Because either one of the constant denominators is zero, we can use the
+        // maximum of them.
+        implCopy.setConstantDenominator(Math.max(thisConstantDenominator, otherConstantDenominator));
 
         return implCopy.build();
     }
 
     /**
-     * Returns the list of SINGLE units contained within a sequence of COMPOUND units.
+     * Returns the list of SINGLE units contained within a sequence of COMPOUND
+     * units.
      * <p>
      * Examples:
      * - Given "meter-kilogram-per-second", three units will be returned: "meter",
@@ -628,13 +747,18 @@ public class MeasureUnit implements Serializable {
      * and "second".
      * <p>
      * If this is a SINGLE unit, a list of length 1 will be returned.
-     *
+     * 
+     * <p>
+     * NOTE: For units with a constant denominator, the returned single units will
+     * not include the constant denominator.
+     * To obtain the constant denominator, retrieve it from the original unit.
+     * <p>
+     * 
      * @return An unmodifiable list of single units
      * @stable ICU 68
      */
     public List<MeasureUnit> splitToSingleUnits() {
-        final ArrayList<SingleUnitImpl> singleUnits =
-            getMaybeReferenceOfMeasureUnitImpl().getSingleUnits();
+        final ArrayList<SingleUnitImpl> singleUnits = getMaybeReferenceOfMeasureUnitImpl().getSingleUnits();
         List<MeasureUnit> result = new ArrayList<>(singleUnits.size());
         for (SingleUnitImpl singleUnit : singleUnits) {
             result.add(singleUnit.build());
@@ -693,6 +817,7 @@ public class MeasureUnit implements Serializable {
 
     /**
      * For the given type, return the available units.
+     * 
      * @param type the type
      * @return the available units for type. Returned set is unmodifiable.
      * @stable ICU 53
@@ -725,9 +850,11 @@ public class MeasureUnit implements Serializable {
     }
 
     /**
-     * Creates a MeasureUnit instance (creates a singleton instance) or returns one from the cache.
+     * Creates a MeasureUnit instance (creates a singleton instance) or returns one
+     * from the cache.
      * <p>
-     * Normally this method should not be used, since there will be no formatting data
+     * Normally this method should not be used, since there will be no formatting
+     * data
      * available for it, and it may not be returned by getAvailable().
      * However, for special purposes (such as CLDR tooling), it is available.
      *
@@ -752,6 +879,7 @@ public class MeasureUnit implements Serializable {
         } else {
             factory = UNIT_FACTORY;
         }
+        
         return MeasureUnit.addUnit(type, subType, factory);
     }
 
@@ -804,7 +932,7 @@ public class MeasureUnit implements Serializable {
     static Factory TIMEUNIT_FACTORY = new Factory() {
         @Override
         public MeasureUnit create(String type, String subType) {
-           return new TimeUnit(type, subType);
+            return new TimeUnit(type, subType);
         }
     };
 
@@ -816,7 +944,8 @@ public class MeasureUnit implements Serializable {
         public void put(UResource.Key key, UResource.Value value, boolean noFallback) {
             UResource.Table unitTypesTable = value.getTable();
             for (int i2 = 0; unitTypesTable.getKeyAndValue(i2, key, value); ++i2) {
-                // Skip "compound" and "coordinate" since they are treated differently from the other units
+                // Skip "compound" and "coordinate" since they are treated differently from the
+                // other units
                 if (key.contentEquals("compound") || key.contentEquals("coordinate")) {
                     continue;
                 }
@@ -849,7 +978,8 @@ public class MeasureUnit implements Serializable {
      * Population is done lazily, in response to MeasureUnit.getAvailable()
      * or other API that expects to see all of the MeasureUnits.
      *
-     * <p>At static initialization time the MeasureUnits cache is populated
+     * <p>
+     * At static initialization time the MeasureUnits cache is populated
      * with public static instances (G_FORCE, METER_PER_SECOND_SQUARED, etc.) only.
      * Adding of others is deferred until later to avoid circular static init
      * dependencies with classes Currency and TimeUnit.
@@ -962,10 +1092,28 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit REVOLUTION_ANGLE = MeasureUnit.internalGetInstance("angle", "revolution");
 
     /**
+     * Constant for unit of angle: steradian
+     * @draft ICU 78
+     */
+    public static final MeasureUnit STERADIAN = MeasureUnit.internalGetInstance("angle", "steradian");
+
+    /**
      * Constant for unit of area: acre
      * @stable ICU 53
      */
     public static final MeasureUnit ACRE = MeasureUnit.internalGetInstance("area", "acre");
+
+    /**
+     * Constant for unit of area: bu-jp
+     * @draft ICU 78
+     */
+    public static final MeasureUnit BU_JP = MeasureUnit.internalGetInstance("area", "bu-jp");
+
+    /**
+     * Constant for unit of area: cho
+     * @draft ICU 78
+     */
+    public static final MeasureUnit CHO = MeasureUnit.internalGetInstance("area", "cho");
 
     /**
      * Constant for unit of area: dunam
@@ -978,6 +1126,12 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 53
      */
     public static final MeasureUnit HECTARE = MeasureUnit.internalGetInstance("area", "hectare");
+
+    /**
+     * Constant for unit of area: se-jp
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SE_JP = MeasureUnit.internalGetInstance("area", "se-jp");
 
     /**
      * Constant for unit of area: square-centimeter
@@ -1034,6 +1188,12 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit KARAT = MeasureUnit.internalGetInstance("concentr", "karat");
 
     /**
+     * Constant for unit of concentr: katal
+     * @draft ICU 78
+     */
+    public static final MeasureUnit KATAL = MeasureUnit.internalGetInstance("concentr", "katal");
+
+    /**
      * Constant for unit of concentr: milligram-ofglucose-per-deciliter
      * @stable ICU 69
      */
@@ -1041,9 +1201,11 @@ public class MeasureUnit implements Serializable {
 
     /**
      * Constant for unit of concentr: milligram-per-deciliter
-     * @stable ICU 57
+     * (renamed to milligram-ofglucose-per-deciliter in CLDR 39 / ICU 69).
+     * @deprecated ICU 78 use MILLIGRAM_OFGLUCOSE_PER_DECILITER
      */
-    public static final MeasureUnit MILLIGRAM_PER_DECILITER = MeasureUnit.internalGetInstance("concentr", "milligram-per-deciliter");
+    @Deprecated
+    public static final MeasureUnit MILLIGRAM_PER_DECILITER = MeasureUnit.internalGetInstance("concentr", "milligram-ofglucose-per-deciliter");
 
     /**
      * Constant for unit of concentr: millimole-per-liter
@@ -1058,6 +1220,37 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit MOLE = MeasureUnit.internalGetInstance("concentr", "mole");
 
     /**
+     * Constant for unit of concentr: ofglucose
+     * @draft ICU 78
+     */
+    public static final MeasureUnit OFGLUCOSE = MeasureUnit.internalGetInstance("concentr", "ofglucose");
+
+    /**
+     * Constant for unit of concentr: part
+     * @draft ICU 78
+     */
+    public static final MeasureUnit PART = MeasureUnit.internalGetInstance("concentr", "part");
+
+    /**
+     * Constant for unit of concentr: part-per-1e6
+     * @draft ICU 78
+     */
+    public static final MeasureUnit PART_PER_1E6 = MeasureUnit.internalGetInstance("concentr", "part-per-1e6");
+
+    /**
+     * Constant for unit of concentr: part-per-million
+     * (renamed to part-per-1e6 in CLDR 48 / ICU 78).
+     * @stable ICU 57
+     */
+    public static final MeasureUnit PART_PER_MILLION = MeasureUnit.internalGetInstance("concentr", "part-per-1e6");
+
+    /**
+     * Constant for unit of concentr: part-per-1e9
+     * @draft ICU 78
+     */
+    public static final MeasureUnit PART_PER_1E9 = MeasureUnit.internalGetInstance("concentr", "part-per-1e9");
+
+    /**
      * Constant for unit of concentr: percent
      * @stable ICU 63
      */
@@ -1068,12 +1261,6 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 63
      */
     public static final MeasureUnit PERMILLE = MeasureUnit.internalGetInstance("concentr", "permille");
-
-    /**
-     * Constant for unit of concentr: permillion
-     * @stable ICU 57
-     */
-    public static final MeasureUnit PART_PER_MILLION = MeasureUnit.internalGetInstance("concentr", "permillion");
 
     /**
      * Constant for unit of concentr: permyriad
@@ -1196,6 +1383,12 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit DECADE = MeasureUnit.internalGetInstance("duration", "decade");
 
     /**
+     * Constant for unit of duration: fortnight
+     * @draft ICU 78
+     */
+    public static final MeasureUnit FORTNIGHT = MeasureUnit.internalGetInstance("duration", "fortnight");
+
+    /**
      * Constant for unit of duration: hour
      * @stable ICU 4.0
      */
@@ -1286,6 +1479,24 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit AMPERE = MeasureUnit.internalGetInstance("electric", "ampere");
 
     /**
+     * Constant for unit of electric: coulomb
+     * @draft ICU 78
+     */
+    public static final MeasureUnit COULOMB = MeasureUnit.internalGetInstance("electric", "coulomb");
+
+    /**
+     * Constant for unit of electric: farad
+     * @draft ICU 78
+     */
+    public static final MeasureUnit FARAD = MeasureUnit.internalGetInstance("electric", "farad");
+
+    /**
+     * Constant for unit of electric: henry
+     * @draft ICU 78
+     */
+    public static final MeasureUnit HENRY = MeasureUnit.internalGetInstance("electric", "henry");
+
+    /**
      * Constant for unit of electric: milliampere
      * @stable ICU 54
      */
@@ -1298,10 +1509,22 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit OHM = MeasureUnit.internalGetInstance("electric", "ohm");
 
     /**
+     * Constant for unit of electric: siemens
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SIEMENS = MeasureUnit.internalGetInstance("electric", "siemens");
+
+    /**
      * Constant for unit of electric: volt
      * @stable ICU 54
      */
     public static final MeasureUnit VOLT = MeasureUnit.internalGetInstance("electric", "volt");
+
+    /**
+     * Constant for unit of energy: becquerel
+     * @draft ICU 78
+     */
+    public static final MeasureUnit BECQUEREL = MeasureUnit.internalGetInstance("energy", "becquerel");
 
     /**
      * Constant for unit of energy: british-thermal-unit
@@ -1310,10 +1533,22 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit BRITISH_THERMAL_UNIT = MeasureUnit.internalGetInstance("energy", "british-thermal-unit");
 
     /**
+     * Constant for unit of energy: british-thermal-unit-it
+     * @draft ICU 78
+     */
+    public static final MeasureUnit BRITISH_THERMAL_UNIT_IT = MeasureUnit.internalGetInstance("energy", "british-thermal-unit-it");
+
+    /**
      * Constant for unit of energy: calorie
      * @stable ICU 54
      */
     public static final MeasureUnit CALORIE = MeasureUnit.internalGetInstance("energy", "calorie");
+
+    /**
+     * Constant for unit of energy: calorie-it
+     * @draft ICU 78
+     */
+    public static final MeasureUnit CALORIE_IT = MeasureUnit.internalGetInstance("energy", "calorie-it");
 
     /**
      * Constant for unit of energy: electronvolt
@@ -1326,6 +1561,12 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 54
      */
     public static final MeasureUnit FOODCALORIE = MeasureUnit.internalGetInstance("energy", "foodcalorie");
+
+    /**
+     * Constant for unit of energy: gray
+     * @draft ICU 78
+     */
+    public static final MeasureUnit GRAY = MeasureUnit.internalGetInstance("energy", "gray");
 
     /**
      * Constant for unit of energy: joule
@@ -1352,10 +1593,22 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit KILOWATT_HOUR = MeasureUnit.internalGetInstance("energy", "kilowatt-hour");
 
     /**
+     * Constant for unit of energy: sievert
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SIEVERT = MeasureUnit.internalGetInstance("energy", "sievert");
+
+    /**
      * Constant for unit of energy: therm-us
      * @stable ICU 65
      */
     public static final MeasureUnit THERM_US = MeasureUnit.internalGetInstance("energy", "therm-us");
+
+    /**
+     * Constant for unit of force: kilogram-force
+     * @draft ICU 78
+     */
+    public static final MeasureUnit KILOGRAM_FORCE = MeasureUnit.internalGetInstance("force", "kilogram-force");
 
     /**
      * Constant for unit of force: kilowatt-hour-per-100-kilometer
@@ -1460,6 +1713,12 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit CENTIMETER = MeasureUnit.internalGetInstance("length", "centimeter");
 
     /**
+     * Constant for unit of length: chain
+     * @draft ICU 78
+     */
+    public static final MeasureUnit CHAIN = MeasureUnit.internalGetInstance("length", "chain");
+
+    /**
      * Constant for unit of length: decimeter
      * @stable ICU 54
      */
@@ -1494,6 +1753,18 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 53
      */
     public static final MeasureUnit INCH = MeasureUnit.internalGetInstance("length", "inch");
+
+    /**
+     * Constant for unit of length: jo-jp
+     * @draft ICU 78
+     */
+    public static final MeasureUnit JO_JP = MeasureUnit.internalGetInstance("length", "jo-jp");
+
+    /**
+     * Constant for unit of length: ken
+     * @draft ICU 78
+     */
+    public static final MeasureUnit KEN = MeasureUnit.internalGetInstance("length", "ken");
 
     /**
      * Constant for unit of length: kilometer
@@ -1568,10 +1839,46 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit POINT = MeasureUnit.internalGetInstance("length", "point");
 
     /**
+     * Constant for unit of length: ri-jp
+     * @draft ICU 78
+     */
+    public static final MeasureUnit RI_JP = MeasureUnit.internalGetInstance("length", "ri-jp");
+
+    /**
+     * Constant for unit of length: rin
+     * @draft ICU 78
+     */
+    public static final MeasureUnit RIN = MeasureUnit.internalGetInstance("length", "rin");
+
+    /**
+     * Constant for unit of length: rod
+     * @draft ICU 78
+     */
+    public static final MeasureUnit ROD = MeasureUnit.internalGetInstance("length", "rod");
+
+    /**
+     * Constant for unit of length: shaku-cloth
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SHAKU_CLOTH = MeasureUnit.internalGetInstance("length", "shaku-cloth");
+
+    /**
+     * Constant for unit of length: shaku-length
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SHAKU_LENGTH = MeasureUnit.internalGetInstance("length", "shaku-length");
+
+    /**
      * Constant for unit of length: solar-radius
      * @stable ICU 64
      */
     public static final MeasureUnit SOLAR_RADIUS = MeasureUnit.internalGetInstance("length", "solar-radius");
+
+    /**
+     * Constant for unit of length: sun
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SUN = MeasureUnit.internalGetInstance("length", "sun");
 
     /**
      * Constant for unit of length: yard
@@ -1604,6 +1911,18 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit SOLAR_LUMINOSITY = MeasureUnit.internalGetInstance("light", "solar-luminosity");
 
     /**
+     * Constant for unit of magnetic: tesla
+     * @draft ICU 78
+     */
+    public static final MeasureUnit TESLA = MeasureUnit.internalGetInstance("magnetic", "tesla");
+
+    /**
+     * Constant for unit of magnetic: weber
+     * @draft ICU 78
+     */
+    public static final MeasureUnit WEBER = MeasureUnit.internalGetInstance("magnetic", "weber");
+
+    /**
      * Constant for unit of mass: carat
      * @stable ICU 54
      */
@@ -1622,6 +1941,12 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit EARTH_MASS = MeasureUnit.internalGetInstance("mass", "earth-mass");
 
     /**
+     * Constant for unit of mass: fun
+     * @draft ICU 78
+     */
+    public static final MeasureUnit FUN = MeasureUnit.internalGetInstance("mass", "fun");
+
+    /**
      * Constant for unit of mass: grain
      * @stable ICU 68
      */
@@ -1638,14 +1963,6 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 53
      */
     public static final MeasureUnit KILOGRAM = MeasureUnit.internalGetInstance("mass", "kilogram");
-
-    /**
-     * Constant for unit of mass: metric-ton (renamed to tonne in CLDR 42 / ICU 72).
-     * Note: In ICU 74 this will be deprecated in favor of TONNE, which is currently
-     * draft but will become stable in ICU 74, and which uses the preferred naming.
-     * @stable ICU 54
-     */
-    public static final MeasureUnit METRIC_TON = MeasureUnit.internalGetInstance("mass", "tonne");
 
     /**
      * Constant for unit of mass: microgram
@@ -1678,6 +1995,12 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit POUND = MeasureUnit.internalGetInstance("mass", "pound");
 
     /**
+     * Constant for unit of mass: slug
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SLUG = MeasureUnit.internalGetInstance("mass", "slug");
+
+    /**
      * Constant for unit of mass: solar-mass
      * @stable ICU 64
      */
@@ -1700,6 +2023,14 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 72
      */
     public static final MeasureUnit TONNE = MeasureUnit.internalGetInstance("mass", "tonne");
+
+    /**
+     * Constant for unit of mass: metric-ton
+     * (renamed to tonne in CLDR 42 / ICU 72).
+     * @deprecated ICU 78 use TONNE
+     */
+    @Deprecated
+    public static final MeasureUnit METRIC_TON = MeasureUnit.internalGetInstance("mass", "tonne");
 
     /**
      * Constant for unit of power: gigawatt
@@ -1792,6 +2123,12 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit MILLIMETER_OF_MERCURY = MeasureUnit.internalGetInstance("pressure", "millimeter-ofhg");
 
     /**
+     * Constant for unit of pressure: ofhg
+     * @draft ICU 78
+     */
+    public static final MeasureUnit OFHG = MeasureUnit.internalGetInstance("pressure", "ofhg");
+
+    /**
      * Constant for unit of pressure: pascal
      * @stable ICU 65
      */
@@ -1862,6 +2199,12 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 54
      */
     public static final MeasureUnit KELVIN = MeasureUnit.internalGetInstance("temperature", "kelvin");
+
+    /**
+     * Constant for unit of temperature: rankine
+     * @draft ICU 78
+     */
+    public static final MeasureUnit RANKINE = MeasureUnit.internalGetInstance("temperature", "rankine");
 
     /**
      * Constant for unit of torque: newton-meter
@@ -1948,6 +2291,18 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit CUP = MeasureUnit.internalGetInstance("volume", "cup");
 
     /**
+     * Constant for unit of volume: cup-imperial
+     * @draft ICU 78
+     */
+    public static final MeasureUnit CUP_IMPERIAL = MeasureUnit.internalGetInstance("volume", "cup-imperial");
+
+    /**
+     * Constant for unit of volume: cup-jp
+     * @draft ICU 78
+     */
+    public static final MeasureUnit CUP_JP = MeasureUnit.internalGetInstance("volume", "cup-jp");
+
+    /**
      * Constant for unit of volume: cup-metric
      * @stable ICU 56
      */
@@ -1996,6 +2351,12 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit FLUID_OUNCE_IMPERIAL = MeasureUnit.internalGetInstance("volume", "fluid-ounce-imperial");
 
     /**
+     * Constant for unit of volume: fluid-ounce-metric
+     * @draft ICU 78
+     */
+    public static final MeasureUnit FLUID_OUNCE_METRIC = MeasureUnit.internalGetInstance("volume", "fluid-ounce-metric");
+
+    /**
      * Constant for unit of volume: gallon
      * @stable ICU 54
      */
@@ -2020,6 +2381,18 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit JIGGER = MeasureUnit.internalGetInstance("volume", "jigger");
 
     /**
+     * Constant for unit of volume: koku
+     * @draft ICU 78
+     */
+    public static final MeasureUnit KOKU = MeasureUnit.internalGetInstance("volume", "koku");
+
+    /**
+     * Constant for unit of volume: kosaji
+     * @draft ICU 78
+     */
+    public static final MeasureUnit KOSAJI = MeasureUnit.internalGetInstance("volume", "kosaji");
+
+    /**
      * Constant for unit of volume: liter
      * @stable ICU 53
      */
@@ -2038,6 +2411,12 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit MILLILITER = MeasureUnit.internalGetInstance("volume", "milliliter");
 
     /**
+     * Constant for unit of volume: osaji
+     * @draft ICU 78
+     */
+    public static final MeasureUnit OSAJI = MeasureUnit.internalGetInstance("volume", "osaji");
+
+    /**
      * Constant for unit of volume: pinch
      * @stable ICU 68
      */
@@ -2048,6 +2427,12 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 54
      */
     public static final MeasureUnit PINT = MeasureUnit.internalGetInstance("volume", "pint");
+
+    /**
+     * Constant for unit of volume: pint-imperial
+     * @draft ICU 78
+     */
+    public static final MeasureUnit PINT_IMPERIAL = MeasureUnit.internalGetInstance("volume", "pint-imperial");
 
     /**
      * Constant for unit of volume: pint-metric
@@ -2068,6 +2453,18 @@ public class MeasureUnit implements Serializable {
     public static final MeasureUnit QUART_IMPERIAL = MeasureUnit.internalGetInstance("volume", "quart-imperial");
 
     /**
+     * Constant for unit of volume: sai
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SAI = MeasureUnit.internalGetInstance("volume", "sai");
+
+    /**
+     * Constant for unit of volume: shaku
+     * @draft ICU 78
+     */
+    public static final MeasureUnit SHAKU = MeasureUnit.internalGetInstance("volume", "shaku");
+
+    /**
      * Constant for unit of volume: tablespoon
      * @stable ICU 54
      */
@@ -2078,6 +2475,12 @@ public class MeasureUnit implements Serializable {
      * @stable ICU 54
      */
     public static final MeasureUnit TEASPOON = MeasureUnit.internalGetInstance("volume", "teaspoon");
+
+    /**
+     * Constant for unit of volume: to-jp
+     * @draft ICU 78
+     */
+    public static final MeasureUnit TO_JP = MeasureUnit.internalGetInstance("volume", "to-jp");
 
     // End generated MeasureUnit constants
 

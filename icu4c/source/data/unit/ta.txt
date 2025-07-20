@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ta{
     units{
         acceleration{
@@ -395,6 +395,44 @@ ta{
                 one{"{0} மோல்"}
                 other{"{0} மோல்ஸ்"}
             }
+            part-per-1e6{
+                case{
+                    ablative{
+                        one{"{0} பகுதி/மில்லியனில்"}
+                        other{"{0} பகுதிகள்/மில்லியனில்"}
+                    }
+                    accusative{
+                        one{"{0} பகுதி/மில்லியனை"}
+                        other{"{0} பகுதிகள்/மில்லியனை"}
+                    }
+                    dative{
+                        one{"{0} பகுதி/மில்லியனுக்கு"}
+                        other{"{0} பகுதிகள்/மில்லியனுக்கு"}
+                    }
+                }
+                dnam{"பகுதிகள்/மில்லியன்"}
+                one{"{0} பகுதி/மில்லியன்"}
+                other{"{0} பகுதிகள்/மில்லியன்"}
+            }
+            part-per-1e9{
+                case{
+                    ablative{
+                        one{"{0} பார்ட்ஸ்/பில்லியனில்"}
+                        other{"{0} பார்ட்ஸ்/பில்லியனில்"}
+                    }
+                    accusative{
+                        one{"{0} பார்ட்ஸ்/பில்லியனை"}
+                        other{"{0} பார்ட்ஸ்/பில்லியனை"}
+                    }
+                    dative{
+                        one{"{0} பார்ட்ஸ்/பில்லியனுக்கு"}
+                        other{"{0} பார்ட்ஸ்/பில்லியனுக்கு"}
+                    }
+                }
+                dnam{"பார்ட்ஸ்/பில்லியன்"}
+                one{"{0} பார்ட்ஸ்/பில்லியன்"}
+                other{"{0} பார்ட்ஸ்/பில்லியன்"}
+            }
             percent{
                 case{
                     ablative{
@@ -430,25 +468,6 @@ ta{
                 }
                 one{"மில்லி ஒன்றுக்கு {0}"}
                 other{"மில்லி ஒன்றுக்கு {0}"}
-            }
-            permillion{
-                case{
-                    ablative{
-                        one{"{0} பகுதி/மில்லியனில்"}
-                        other{"{0} பகுதிகள்/மில்லியனில்"}
-                    }
-                    accusative{
-                        one{"{0} பகுதி/மில்லியனை"}
-                        other{"{0} பகுதிகள்/மில்லியனை"}
-                    }
-                    dative{
-                        one{"{0} பகுதி/மில்லியனுக்கு"}
-                        other{"{0} பகுதிகள்/மில்லியனுக்கு"}
-                    }
-                }
-                dnam{"பகுதிகள்/மில்லியன்"}
-                one{"{0} பகுதி/மில்லியன்"}
-                other{"{0} பகுதிகள்/மில்லியன்"}
             }
             permyriad{
                 case{
@@ -2756,15 +2775,20 @@ ta{
                 one{"{0}மோல்"}
                 other{"{0}மோல்"}
             }
+            part-per-1e6{
+                one{"{0}ப./மி."}
+                other{"{0}ப./மி."}
+            }
+            part-per-1e9{
+                dnam{"பா/பி"}
+                one{"{0} பா/பி"}
+                other{"{0} பா/பி"}
+            }
             percent{
                 dnam{"%"}
             }
             permille{
                 dnam{"‰"}
-            }
-            permillion{
-                one{"{0}ப./மி."}
-                other{"{0}ப./மி."}
             }
             permyriad{
                 dnam{"‱"}
@@ -3572,16 +3596,21 @@ ta{
                 one{"{0} மோல்"}
                 other{"{0} மோல்"}
             }
+            part-per-1e6{
+                dnam{"ப./மி."}
+                one{"{0} ப./மி."}
+                other{"{0} ப./மி."}
+            }
+            part-per-1e9{
+                dnam{"பார்ட்ஸ்/பில்லியன்"}
+                one{"{0} பார்ட்ஸ்/பில்லியன்"}
+                other{"{0} பார்ட்ஸ்/பில்லியன்"}
+            }
             percent{
                 dnam{"சதவீதம்"}
             }
             permille{
                 dnam{"மில்லி ஒன்றுக்கு"}
-            }
-            permillion{
-                dnam{"ப./மி."}
-                one{"{0} ப./மி."}
-                other{"{0} ப./மி."}
             }
             permyriad{
                 dnam{"பெர்மிரியட்"}

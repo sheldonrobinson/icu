@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 gu{
     units{
         acceleration{
@@ -139,6 +139,17 @@ gu{
             mole{
                 gender{"masculine"}
             }
+            part-per-1e6{
+                dnam{"કણ પ્રતિ મિલિયન"}
+                gender{"masculine"}
+                one{"{0} કણ પ્રતિ મિલિયન"}
+                other{"{0} કણ પ્રતિ મિલિયન"}
+            }
+            part-per-1e9{
+                dnam{"પ્રતિ અબજ ભાગ"}
+                one{"{0} પ્રતિ અબજ ભાગ"}
+                other{"{0} પ્રતિ અબજ ભાગ"}
+            }
             percent{
                 gender{"masculine"}
                 one{"{0} ટકા"}
@@ -148,12 +159,6 @@ gu{
                 gender{"feminine"}
                 one{"{0} પ્રતિમાઈલ"}
                 other{"{0} પ્રતિમાઈલ"}
-            }
-            permillion{
-                dnam{"કણ પ્રતિ મિલિયન"}
-                gender{"masculine"}
-                one{"{0} કણ પ્રતિ મિલિયન"}
-                other{"{0} કણ પ્રતિ મિલિયન"}
             }
             permyriad{
                 gender{"masculine"}
@@ -868,14 +873,18 @@ gu{
             millimole-per-liter{
                 dnam{"mmol/L"}
             }
+            part-per-1e6{
+                dnam{"ppm"}
+            }
+            part-per-1e9{
+                one{"{0} પ્રતિ અબજ ભાગ"}
+                other{"{0} પ્રતિ અબજ ભાગ"}
+            }
             percent{
                 dnam{"%"}
             }
             permille{
                 dnam{"‰"}
-            }
-            permillion{
-                dnam{"ppm"}
             }
             permyriad{
                 dnam{"‱"}
@@ -1192,14 +1201,19 @@ gu{
                 one{"{0} મોલ"}
                 other{"{0} મોલ"}
             }
+            part-per-1e6{
+                dnam{"કણ/મિલિયન"}
+            }
+            part-per-1e9{
+                dnam{"ભાગ/અબજ"}
+                one{"{0} પ્રતિ અબજ ભાગ"}
+                other{"{0} પ્રતિ અબજ ભાગ"}
+            }
             percent{
                 dnam{"ટકા"}
             }
             permille{
                 dnam{"પ્રતિમાઈલ"}
-            }
-            permillion{
-                dnam{"કણ/મિલિયન"}
             }
             permyriad{
                 dnam{"પરમિરિયડ"}

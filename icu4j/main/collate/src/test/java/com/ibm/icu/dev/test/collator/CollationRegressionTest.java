@@ -1072,7 +1072,7 @@ public class CollationRegressionTest extends TestFmwk {
         String text = "T\u00f6ne"; // o-umlaut
 
         CollationElementIterator iter = coll.getCollationElementIterator(text);
-        List elements = new ArrayList();
+        List<Integer> elements = new ArrayList<>();
         int elem;
 
         // Iterate forward and collect all of the elements into a Vector
@@ -1084,7 +1084,7 @@ public class CollationRegressionTest extends TestFmwk {
         iter.reset();
         int index = elements.size() - 1;
         while ((elem = iter.previous()) != CollationElementIterator.NULLORDER) {
-            int expect = ((Integer)elements.get(index)).intValue();
+            int expect = (elements.get(index)).intValue();
 
             if (elem != expect) {
                 errln("Mismatch at index " + index
@@ -1158,7 +1158,15 @@ public class CollationRegressionTest extends TestFmwk {
         String s = "\u9FE1\uCEF3\u2798\uAAB6\uDA7C";
         Collator coll = Collator.getInstance();
         CollationKey collKey = coll.getCollationKey(s);
-        logln("Pass: " + collKey.toString() + " generated OK.");
+        byte[] actualKey = collKey.toByteArray();
+        byte[] expectedKey = {
+                (byte) 0xFB, (byte) 0xF0, (byte) 0xDE, (byte) 0x7C, (byte) 0x24,
+                (byte) 0x6F, (byte) 0xCF, (byte) 0x03, (byte) 0x0C, (byte) 0xE4,
+                (byte) 0x7C, (byte) 0x75, (byte) 0x85, (byte) 0x85, (byte) 0xFF,
+                (byte) 0xFE, (byte) 0x10, (byte) 0x3D, (byte) 0x64, (byte) 0x01,
+                (byte) 0x0B, (byte) 0x01, (byte) 0x0B, (byte) 0x00
+        };
+        assertEquals("", hex(expectedKey), hex(actualKey));
     }
 
     @Test

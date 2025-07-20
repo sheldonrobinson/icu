@@ -54,10 +54,6 @@ jobs:
     steps:
       - name: Checkout and setup
         uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Checkout lfs objects
-        run: git lfs pull
       - name: Cache local Maven repository
         uses: actions/cache@v4
         with:
@@ -66,7 +62,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '8'
+          java-version: '11'
       # Download all of the artifacts needed for the code and build plugins, but
       # exclude any needed by profiles depending on system artifacts
       - name: Download all artifacts

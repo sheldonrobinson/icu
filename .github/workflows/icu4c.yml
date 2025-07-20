@@ -25,7 +25,10 @@ on:
     # https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
     inputs:
       gitReleaseTag:
-        description: 'Release tag to upload to. Must start with "release-"'
+        description: 'Release tag to upload to. Must start with "release-" or "icu4x/"'
+        type: string
+      gitReleaseFilename:
+        description: 'Release tag with no slashes, to be used in file names'
         type: string
 
 # For non-release branches (namely: PRs), only run CI on the most recent commit. Cancel
@@ -53,7 +56,7 @@ jobs:
           ./runConfigureICU Linux --disable-renaming;
            # Fail if 'warning:' appears in doxygen's output, but ignore warnings from file Doxyfile.
            # Regex note: (?! ... ) is a negative lookahead. Succeed if the pattern is not present.
-          set +o pipefail && make doc 2>&1 | tee doxygen.log && ( ! grep -P 'warning:(?! .* file .?Doxyfile)' doxygen.log )
+          set +o pipefail && make doc-searchengine 2>&1 | tee doxygen.log && ( ! grep -P 'warning:(?! .* file .?Doxyfile)' doxygen.log )
 
   # gcc debug build.
   # Includes dependency checker.
@@ -373,20 +376,20 @@ jobs:
             build_flags: '/p:Configuration=Debug /p:Platform=Win32'
           - test_flags: 'arm Release'
             build_flags: '/p:Configuration=Release /p:Platform=ARM'
+          - test_flags: 'x64 Release cpplatest'
+            build_flags: '/p:OverrideLanguageStandard=stdcpplatest /p:Configuration=Release /p:Platform=x64'
           - test_flags: 'x64 Release'
-            build_flags: '/p:LanguageStandard=stdcpplatest /p:Configuration=Release /p:Platform=x64'
-          - test_flags: 'x64 Release'
-            build_flags: '/p:_HAS_EXCEPTIONS=0 /p:Configuration=Release /p:Platform=x64'
+            build_flags: '/p:Configuration=Release /p:Platform=x64'
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
       - name: Build Solution x64
         if: contains(matrix.test_flags, 'arm Release')
-        run: msbuild icu4c/source/allinone/allinone.sln /p:Configuration=Release /p:Platform=x64
+        run: msbuild icu4c/source/allinone/allinone.sln /p:Configuration=Release /p:Platform=x64 /p:SkipUWP=true
       - name: Build Solution
         run: |
-          msbuild icu4c/source/allinone/allinone.sln ${{ matrix.build_flags }}
+          msbuild icu4c/source/allinone/allinone.sln ${{ matrix.build_flags }} /p:SkipUWP=true
       - name: Run ${{ matrix.test_flags }} Tests (icucheck.bat)
         if: contains(matrix.test_flags, 'arm Release') == false
         run: |
@@ -433,9 +436,9 @@ jobs:
       uses: microsoft/setup-msbuild@v2
     - name: Build Solution x64
       if: contains(matrix.win_ver, 'ARM64')
-      run: msbuild icu4c/source/allinone/allinone.sln /p:Configuration=Release /p:Platform=x64
+      run: msbuild icu4c/source/allinone/allinone.sln /p:Configuration=Release /p:Platform=x64 /p:SkipUWP=true
     - name: Build Solution
-      run: msbuild icu4c/source/allinone/allinone.sln /p:Configuration=Release /p:Platform=${{ matrix.plat }}
+      run: msbuild icu4c/source/allinone/allinone.sln /p:Configuration=Release /p:Platform=${{ matrix.plat }} /p:SkipUWP=true
     - name: Run Tests (icucheck.bat)
       if: contains(matrix.win_ver, 'ARM64') == false
       run: icu4c/source/allinone/icucheck.bat ${{ matrix.arch }} Release
@@ -740,13 +743,13 @@ jobs:
     runs-on: ubuntu-22.04  # Updated in BRS
     steps:
     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-    - uses: bazelbuild/setup-bazelisk@b39c379c82683a5f25d34f0d062761f62693e0b2 # v3.0.0
+    - uses: bazel-contrib/setup-bazel@0.15.0
     - name: Get CI Linux runner VM version
       id: linux-version
       run: |
         echo "LINUX_VERSION=$(grep -F VERSION_ID /etc/os-release | cut -d'"' -f2)" >> $GITHUB_OUTPUT
     - name: Mount bazel cache
-      uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2
+      uses: actions/cache@v4.2.0
       with:
         path: "~/.cache/bazel"
         key: bazel-${{ runner.os }}-${{ steps.linux-version.outputs.LINUX_VERSION }}
@@ -926,14 +929,20 @@ jobs:
       - name: Zip
         run: |
           cd icu4c/source/icuexportdata
-          zip -r ../../../icuexportdata_${{ inputs.gitReleaseTag }}.zip .
+          zip -r ../../../icuexportdata_${{ inputs.gitReleaseFilename }}.zip .
       - name: Publish Artifact
         uses: actions/upload-artifact@v4
         with:
           name: icuexportdata_output
           path: icuexportdata_*.zip
-      - name: Upload to release
+      - name: Upload to release tag
         if: ${{ inputs.gitReleaseTag && startsWith(inputs.gitReleaseTag, 'release-') }}
+        run: |
+          gh release upload ${{ inputs.gitReleaseTag }} icuexportdata_*.zip --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Upload to icu4x tag
+        if: ${{ inputs.gitReleaseTag && startsWith(inputs.gitReleaseTag, 'icu4x/') }}
         run: |
           gh release upload ${{ inputs.gitReleaseTag }} icuexportdata_*.zip --clobber
         env:

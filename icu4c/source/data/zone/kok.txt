@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 kok{
     zoneStrings{
         "Africa:Abidjan"{
@@ -1167,7 +1167,7 @@ kok{
             ec{"इफेट"}
         }
         "Pacific:Enderbury"{
-            ec{"इंडरबरी"}
+            ec{"कांटोन"}
         }
         "Pacific:Fakaofo"{
             ec{"फाकाओफो"}
@@ -1189,9 +1189,6 @@ kok{
         }
         "Pacific:Guam"{
             ec{"गुआम"}
-        }
-        "Pacific:Kanton"{
-            ec{"कांटोन"}
         }
         "Pacific:Kiritimati"{
             ec{"किरितिमाती"}

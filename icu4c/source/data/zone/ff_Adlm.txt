@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ff_Adlm{
     %%Parent{"root"}
     zoneStrings{
@@ -1166,7 +1166,7 @@ ff_Adlm{
             ec{"𞤉𞤬𞤢𞤼𞤵"}
         }
         "Pacific:Enderbury"{
-            ec{"𞤉𞤲𞤣𞤫𞤪𞤦𞤵𞥅𞤪𞤭"}
+            ec{"𞤑𞤢𞤲𞤼𞤮𞤲"}
         }
         "Pacific:Fakaofo"{
             ec{"𞤊𞤢𞤳𞤢𞤱𞤬𞤮"}
@@ -1193,9 +1193,6 @@ ff_Adlm{
             sd{"𞤑𞤕𞤖"}
             sg{"𞤑𞤖𞤖"}
             ss{"𞤑𞤖𞤖"}
-        }
-        "Pacific:Kanton"{
-            ec{"𞤑𞤢𞤲𞤼𞤮𞤲"}
         }
         "Pacific:Kiritimati"{
             ec{"𞤑𞤭𞤪𞤭𞤼𞤭𞤥𞤢𞤼𞤭"}

@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ig{
     units{
         compound{
@@ -27,6 +27,12 @@ ig{
                         _{"{0} kubik"}
                     }
                 }
+            }
+        }
+        concentr{
+            part-per-1e9{
+                dnam{"akụkụ kwa ijeri"}
+                other{"{0} akụkụ kwa ijeri"}
             }
         }
         coordinate{
@@ -148,8 +154,11 @@ ig{
             millimole-per-liter{
                 other{"{0}mmol/L"}
             }
-            permillion{
+            part-per-1e6{
                 other{"{0}ppm"}
+            }
+            part-per-1e9{
+                dnam{"akụkụ/ijeri"}
             }
         }
         duration{
@@ -228,6 +237,9 @@ ig{
             item{
                 dnam{"ihe"}
                 other{"{0} ihe"}
+            }
+            part-per-1e9{
+                dnam{"akụkụ/ijeri"}
             }
         }
         duration{

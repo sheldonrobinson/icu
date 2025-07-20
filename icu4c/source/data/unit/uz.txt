@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 uz{
     units{
         acceleration{
@@ -156,6 +156,11 @@ uz{
             millimole-per-liter{
                 one{"{0} millimol/litr"}
                 other{"{0} millimol/litr"}
+            }
+            part-per-1e9{
+                dnam{"qism/milliard"}
+                one{"{0} ta qism/milliard"}
+                other{"{0} ta qism/milliard"}
             }
             percent{
                 one{"{0} foiz"}
@@ -769,13 +774,18 @@ uz{
             }
         }
         concentr{
-            percent{
-                dnam{"%"}
-            }
-            permillion{
+            part-per-1e6{
                 dnam{"ppm"}
                 one{"{0}ppm"}
                 other{"{0}ppm"}
+            }
+            part-per-1e9{
+                dnam{"qism/milliard"}
+                one{"{0} ta qism/mlrd"}
+                other{"{0} ta qism/mlrd"}
+            }
+            percent{
+                dnam{"%"}
             }
         }
         consumption{
@@ -964,14 +974,19 @@ uz{
             millimole-per-liter{
                 dnam{"millimol/litr"}
             }
+            part-per-1e6{
+                dnam{"milliondan ulush"}
+            }
+            part-per-1e9{
+                dnam{"qism/milliard"}
+                one{"{0} ta qism/mlrd"}
+                other{"{0} ta qism/mlrd"}
+            }
             percent{
                 dnam{"foiz"}
             }
             permille{
                 dnam{"promille"}
-            }
-            permillion{
-                dnam{"milliondan ulush"}
             }
             permyriad{
                 dnam{"promiriada"}

@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 da{
     durationUnits{
         hm{"h.mm"}
@@ -308,6 +308,30 @@ da{
                 one{"{0} mol"}
                 other{"{0} mol"}
             }
+            part-per-1e6{
+                case{
+                    genitive{
+                        one{"{0} part per millions"}
+                        other{"{0} parts per millions"}
+                    }
+                }
+                dnam{"parts per million"}
+                gender{"common"}
+                one{"{0} part per million"}
+                other{"{0} parts per million"}
+            }
+            part-per-1e9{
+                case{
+                    genitive{
+                        one{"{0} milliardtedels"}
+                        other{"{0} milliardtedeles"}
+                    }
+                }
+                dnam{"milliardtedele"}
+                gender{"common"}
+                one{"{0} milliardtedel"}
+                other{"{0} milliardtedele"}
+            }
             percent{
                 case{
                     genitive{
@@ -331,18 +355,6 @@ da{
                 gender{"common"}
                 one{"{0} promille"}
                 other{"{0} promille"}
-            }
-            permillion{
-                case{
-                    genitive{
-                        one{"{0} part per millions"}
-                        other{"{0} parts per millions"}
-                    }
-                }
-                dnam{"parts per million"}
-                gender{"common"}
-                one{"{0} part per million"}
-                other{"{0} parts per million"}
             }
             permyriad{
                 gender{"common"}
@@ -2178,6 +2190,9 @@ da{
                 one{"{0} mmol/l"}
                 other{"{0} mmol/l"}
             }
+            part-per-1e9{
+                dnam{"dele/milliard"}
+            }
             percent{
                 dnam{"pct."}
                 one{"{0} pct."}
@@ -2429,9 +2444,9 @@ da{
         }
         pressure{
             inch-ofhg{
-                dnam{"# Hg"}
-                one{"{0} # Hg"}
-                other{"{0} # Hg"}
+                dnam{"″ Hg"}
+                one{"{0} ″ Hg"}
+                other{"{0} ″ Hg"}
             }
             millimeter-ofhg{
                 dnam{"mmHg"}

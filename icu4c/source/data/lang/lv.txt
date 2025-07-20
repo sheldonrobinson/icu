@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 lv{
     Keys{
         calendar{"Kalendārs"}
@@ -755,12 +755,10 @@ lv{
             }
         }
         collation{
-            big5han{"tradicionālās ķīniešu valodas kārtošanas secība - Big5"}
             compat{"saderīgā kārtošanas secība"}
             dictionary{"Vārdnīcas kārtošanas secība"}
             ducet{"noklusējuma unikoda kārtošanas secība"}
             eor{"Eiropas rakstību kārtošanas secīa"}
-            gb2312han{"vienkāršotās ķīniešu valodas kārtošanas secība - GB2312"}
             phonebook{"tālruņu grāmatas kārtošanas secība"}
             phonetic{"Fonētiskā kārtošanas secība"}
             pinyin{"piņjiņa kārtošanas secība"}

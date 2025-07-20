@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 fa{
     units{
         acceleration{
@@ -92,6 +92,16 @@ fa{
                 one{"{0} میلی‌مول در لیتر"}
                 other{"{0} میلی‌مول در لیتر"}
             }
+            part-per-1e6{
+                dnam{"بخش در میلیون"}
+                one{"{0} بخش در میلیون"}
+                other{"{0} بخش در میلیون"}
+            }
+            part-per-1e9{
+                dnam{"بخش در بیلیون"}
+                one{"{0} بخش در بیلیون"}
+                other{"{0} بخش در بیلیون"}
+            }
             percent{
                 one{"{0} درصد"}
                 other{"{0} درصد"}
@@ -99,11 +109,6 @@ fa{
             permille{
                 one{"{0} هزارم"}
                 other{"{0} هزارم"}
-            }
-            permillion{
-                dnam{"بخش در میلیون"}
-                one{"{0} بخش در میلیون"}
-                other{"{0} بخش در میلیون"}
             }
             permyriad{
                 one{"{0} ده‌هزارم"}
@@ -620,12 +625,15 @@ fa{
                 one{"{0}مورد"}
                 other{"{0}مورد"}
             }
-            percent{
-                dnam{"٪"}
-            }
-            permillion{
+            part-per-1e6{
                 one{"{0}ppm"}
                 other{"{0}ppm"}
+            }
+            part-per-1e9{
+                dnam{"بخش در بیلیون"}
+            }
+            percent{
+                dnam{"٪"}
             }
         }
         consumption{
@@ -1340,6 +1348,12 @@ fa{
                 one{"{0} مول"}
                 other{"{0} مول"}
             }
+            part-per-1e6{
+                dnam{"بخش/میلیون"}
+            }
+            part-per-1e9{
+                dnam{"بخش در بیلیون"}
+            }
             percent{
                 dnam{"درصد"}
                 one{"{0}٪"}
@@ -1347,9 +1361,6 @@ fa{
             }
             permille{
                 dnam{"هزارم"}
-            }
-            permillion{
-                dnam{"بخش/میلیون"}
             }
             permyriad{
                 dnam{"ده‌هزارم"}

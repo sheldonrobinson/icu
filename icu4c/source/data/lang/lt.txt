@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 lt{
     Keys{
         calendar{"kalendorius"}
@@ -923,12 +923,10 @@ lt{
             }
         }
         collation{
-            big5han{"įprasta kiniška rūšiavimo tvarka - Big5"}
             compat{"ankstesnė rūšiavimo tvarka, skirta suderinamumui"}
             dictionary{"žodyno rūšiavimo tvarka"}
             ducet{"numatytasis unikodo rikiavimas"}
             eor{"rūšiavimo tvarka daugiakalbės Europos dokumentų"}
-            gb2312han{"supaprastinta kiniška rūšiavimo tvarka - GB2312"}
             phonebook{"telefonų knygos rūšiavimo tvarka"}
             phonetic{"Fonetinė rikiavimo tvarka"}
             pinyin{"supaprastinta kiniškų hieroglifų rūšiavimo tvarka"}

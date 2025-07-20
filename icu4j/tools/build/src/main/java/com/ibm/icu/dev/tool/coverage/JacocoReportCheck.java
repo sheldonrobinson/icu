@@ -10,10 +10,10 @@ package com.ibm.icu.dev.tool.coverage;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +23,7 @@ import java.util.TreeSet;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.XMLConstants;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,9 +61,7 @@ public class JacocoReportCheck {
         Set<String> excludedSet = new HashSet<String>();
         if (args.length > 1) {
             File exclusionTxt = new File(args[1]);
-            BufferedReader reader = null;
-            try {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(exclusionTxt)));
+            try (BufferedReader reader = Files.newBufferedReader(exclusionTxt.toPath(), StandardCharsets.UTF_8)) {
                 while (true) {
                     String line = reader.readLine();
                     if (line == null) {
@@ -80,15 +79,6 @@ public class JacocoReportCheck {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            } finally {
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        // ignore
-                    }
-                }
             }
         }
 
@@ -142,7 +132,16 @@ public class JacocoReportCheck {
     private static Map<String, ReportEntry> parseReport(File reportXmlFile) {
         try {
             Map<String, ReportEntry> entries = new TreeMap<String, ReportEntry>();
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            // Securely configure DocumentBuilderFactory
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            docFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            docFactory.setNamespaceAware(true);
+
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             docBuilder.setEntityResolver(new EntityResolver() {
                 // Ignores JaCoCo report DTD
                 public InputSource resolveEntity(String publicId, String systemId) {

@@ -8,6 +8,8 @@
 
 #if U_SHOW_CPLUSPLUS_API
 
+#if !UCONFIG_NO_NORMALIZATION
+
 #if !UCONFIG_NO_FORMATTING
 
 #if !UCONFIG_NO_MF2
@@ -15,6 +17,7 @@
 #include "unicode/chariter.h"
 #include "unicode/numberformatter.h"
 #include "unicode/messageformat2_data_model_names.h"
+#include "unicode/smpdtfmt.h"
 
 #ifndef U_HIDE_DEPRECATED_API
 
@@ -64,6 +67,34 @@ namespace message2 {
         virtual ~FormattableObject();
     }; // class FormattableObject
 
+    /**
+     * The `DateInfo` struct represents all the information needed to
+     * format a date with a time zone. It includes an absolute date and a time zone name,
+     * as well as a calendar name. The calendar name is not currently used.
+     *
+     * @internal ICU 78 technology preview
+     * @deprecated This API is for technology preview only.
+     */
+    struct U_I18N_API DateInfo {
+        /**
+         * Date in UTC
+         *
+         * @internal ICU 78 technology preview
+         * @deprecated This API is for technology preview only.
+         */
+        UDate date;
+        /**
+         * IANA time zone name; "UTC" if UTC; empty string if value is floating
+         * The time zone is required in order to format the date/time value
+         * (its offset is added to/subtracted from the datestamp in order to
+         * produce the formatted date).
+         *
+         * @internal ICU 78 technology preview
+         * @deprecated This API is for technology preview only.
+         */
+        UnicodeString zoneId;
+    };
+
     class Formattable;
 } // namespace message2
 
@@ -82,6 +113,7 @@ template class U_I18N_API std::_Variant_storage_<false,
   int64_t,
   icu::UnicodeString,
   icu::Formattable,
+  icu::message2::DateInfo,
   const icu::message2::FormattableObject *,
   std::pair<const icu::message2::Formattable *,int32_t>>;
 #endif
@@ -90,6 +122,7 @@ template class U_I18N_API std::variant<double,
 				       int64_t,
 				       icu::UnicodeString,
 				       icu::Formattable,
+                                       icu::message2::DateInfo,
 				       const icu::message2::FormattableObject*,
                                        P>;
 #endif
@@ -98,6 +131,7 @@ template class U_I18N_API std::variant<double,
 U_NAMESPACE_BEGIN
 
 namespace message2 {
+
     /**
      * The `Formattable` class represents a typed value that can be formatted,
      * originating either from a message argument or a literal in the code.
@@ -226,22 +260,24 @@ namespace message2 {
         }
 
         /**
-         * Gets the Date value of this object. If this object is not of type
-         * kDate then the result is undefined and the error code is set.
+         * Gets the struct representing the date value of this object.
+         * If this object is not of type kDate then the result is
+         * undefined and the error code is set.
          *
          * @param status Input/output error code.
-         * @return    the Date value of this object.
+         * @return   A non-owned pointer to a DateInfo object
+         *           representing the underlying date of this object.
          * @internal ICU 75 technology preview
          * @deprecated This API is for technology preview only.
          */
-        UDate getDate(UErrorCode& status) const {
+        const DateInfo* getDate(UErrorCode& status) const {
             if (U_SUCCESS(status)) {
                 if (isDate()) {
-                    return *std::get_if<double>(&contents);
+                    return std::get_if<DateInfo>(&contents);
                 }
                 status = U_ILLEGAL_ARGUMENT_ERROR;
             }
-            return 0;
+            return nullptr;
         }
 
         /**
@@ -299,7 +335,6 @@ namespace message2 {
             using std::swap;
 
             swap(f1.contents, f2.contents);
-            swap(f1.holdsDate, f2.holdsDate);
         }
         /**
          * Copy constructor.
@@ -351,18 +386,15 @@ namespace message2 {
          */
         Formattable(int64_t i) : contents(i) {}
         /**
-         * Date factory method.
+         * Date constructor.
          *
-         * @param d A UDate value to wrap as a Formattable.
+         * @param d A DateInfo struct representing a date,
+         *          to wrap as a Formattable.
+         *          Passed by move
          * @internal ICU 75 technology preview
          * @deprecated This API is for technology preview only.
          */
-        static Formattable forDate(UDate d) {
-            Formattable f;
-            f.contents = d;
-            f.holdsDate = true;
-            return f;
-        }
+        Formattable(DateInfo&& d) : contents(std::move(d)) {}
         /**
          * Creates a Formattable object of an appropriate numeric type from a
          * a decimal number in string form.  The Formattable will retain the
@@ -422,16 +454,16 @@ namespace message2 {
                      int64_t,
                      UnicodeString,
                      icu::Formattable, // represents a Decimal
+                     DateInfo,
                      const FormattableObject*,
                      std::pair<const Formattable*, int32_t>> contents;
-        bool holdsDate = false; // otherwise, we get type errors about UDate being a duplicate type
         UnicodeString bogusString; // :((((
 
         UBool isDecimal() const {
             return std::holds_alternative<icu::Formattable>(contents);
         }
         UBool isDate() const {
-            return std::holds_alternative<double>(contents) && holdsDate;
+            return std::holds_alternative<DateInfo>(contents);
         }
     }; // class Formattable
 
@@ -454,16 +486,23 @@ class U_I18N_API ResolvedFunctionOption : public UObject {
 
     /* const */ UnicodeString name;
     /* const */ Formattable value;
+    // True iff this option was represented in the syntax by a literal value.
+    // This is necessary in order to implement the spec for the `select` option
+    // of `:number` and `:integer`.
+    /* const */ bool sourceIsLiteral;
 
   public:
       const UnicodeString& getName() const { return name; }
       const Formattable& getValue() const { return value; }
-      ResolvedFunctionOption(const UnicodeString& n, const Formattable& f) : name(n), value(f) {}
+      bool isLiteral() const { return sourceIsLiteral; }
+      ResolvedFunctionOption(const UnicodeString& n, const Formattable& f, bool s)
+          : name(n), value(f), sourceIsLiteral(s) {}
       ResolvedFunctionOption() {}
       ResolvedFunctionOption(ResolvedFunctionOption&&);
       ResolvedFunctionOption& operator=(ResolvedFunctionOption&& other) noexcept {
           name = std::move(other.name);
           value = std::move(other.value);
+          sourceIsLiteral = other.sourceIsLiteral;
           return *this;
     }
     virtual ~ResolvedFunctionOption();
@@ -549,15 +588,17 @@ class U_I18N_API FunctionOptions : public UObject {
      */
     FunctionOptions& operator=(const FunctionOptions&) = delete;
  private:
+    friend class InternalValue;
     friend class MessageFormatter;
     friend class StandardFunctions;
 
     explicit FunctionOptions(UVector&&, UErrorCode&);
 
     const ResolvedFunctionOption* getResolvedFunctionOptions(int32_t& len) const;
-    UBool getFunctionOption(const UnicodeString&, Formattable&) const;
+    UBool getFunctionOption(std::u16string_view, Formattable&) const;
+    UBool wasSetFromLiteral(const UnicodeString&) const;
     // Returns empty string if option doesn't exist
-    UnicodeString getStringFunctionOption(const UnicodeString&) const;
+    UnicodeString getStringFunctionOption(std::u16string_view) const;
     int32_t optionsCount() const { return functionOptionsLen; }
 
     // Named options passed to functions
@@ -566,12 +607,13 @@ class U_I18N_API FunctionOptions : public UObject {
     // that code in the header because it would have to call internal Hashtable methods.
     ResolvedFunctionOption* options;
     int32_t functionOptionsLen = 0;
+
+    /**
+     * The original FunctionOptions isn't usable after this call.
+     * @returns A new, merged FunctionOptions.
+     */
+    FunctionOptions mergeOptions(FunctionOptions&& other, UErrorCode&);
 }; // class FunctionOptions
-
-
-    // TODO doc comments
-    // Encapsulates either a formatted string or formatted number;
-    // more output types could be added in the future.
 
     /**
      * A `FormattedValue` represents the result of formatting a `message2::Formattable`.
@@ -1009,6 +1051,8 @@ U_NAMESPACE_END
 #endif /* #if !UCONFIG_NO_MF2 */
 
 #endif /* #if !UCONFIG_NO_FORMATTING */
+
+#endif /* #if !UCONFIG_NO_NORMALIZATION */
 
 #endif /* U_SHOW_CPLUSPLUS_API */
 

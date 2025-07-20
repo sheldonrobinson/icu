@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 xh{
     zoneStrings{
         "America:Bahia_Banderas"{
@@ -20,9 +20,6 @@ xh{
         }
         "Etc:UTC"{
             ls{"Coordinated Universal Time"}
-        }
-        "Etc:Unknown"{
-            ec{"Unknown City"}
         }
         "Europe:Dublin"{
             ld{"Irish Standard Time"}

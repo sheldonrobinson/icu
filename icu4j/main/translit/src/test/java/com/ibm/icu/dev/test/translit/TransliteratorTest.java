@@ -139,8 +139,8 @@ public class TransliteratorTest extends TestFmwk {
         checkRegistry("foo3", "::[a-z]; ::NFC; [:letter:] a > b;"); // check compound
         checkRegistry("foo2", "::NFC; [:letter:] a > b;"); // check compound
         checkRegistry("foo1", "[:letter:] a > b;");
-        for (Enumeration e = Transliterator.getAvailableIDs(); e.hasMoreElements(); ) {
-            String id = (String) e.nextElement();
+        for (Enumeration<String> e = Transliterator.getAvailableIDs(); e.hasMoreElements(); ) {
+            String id = e.nextElement();
             checkRegistry(id);
         }
         // Need to remove these test-specific transliterators in order not to interfere with other tests.
@@ -374,14 +374,14 @@ public class TransliteratorTest extends TestFmwk {
         Transliterator.Position index = new Transliterator.Position();
         ReplaceableString s = new ReplaceableString();
         for (int i=0; i<DATA.length; i+=2) {
-            StringBuffer log;
+            StringBuilder log;
             if (DATA[i] != null) {
-                log = new StringBuffer(s.toString() + " + "
+                log = new StringBuilder(s.toString() + " + "
                         + DATA[i]
                                + " -> ");
                 t.transliterate(s, index, DATA[i]);
             } else {
-                log = new StringBuffer(s.toString() + " => ");
+                log = new StringBuilder(s.toString() + " => ");
                 t.finishTransliteration(s, index);
             }
             UtilityExtensions.formatInput(log, s, index);
@@ -557,7 +557,7 @@ public class TransliteratorTest extends TestFmwk {
         // not used char epsilon = (char)0x3B5;
 
         // sigma upsilon nu -> syn
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append(sigma).append(upsilon).append(nu);
         String syn = buf.toString();
         expect(gl, syn, "syn");
@@ -994,7 +994,7 @@ public class TransliteratorTest extends TestFmwk {
 
         for (int i=0; DATA[i]!=null; i+=3) {
             String id=DATA[i];
-            int dir = (DATA[i+1]==FORWARD)?
+            int dir = (DATA[i+1].equals(FORWARD))?
                     Transliterator.FORWARD:Transliterator.REVERSE;
             String expID=DATA[i+2];
             Exception e = null;
@@ -1301,7 +1301,7 @@ public class TransliteratorTest extends TestFmwk {
         };
 
         for (int d=0; d < DATA.length; d+=3) {
-            if (DATA[d] == RBT) {
+            if (DATA[d].equals(RBT)) {
                 // Transliterator test
                 Transliterator t = Transliterator.createFromRules("ID",
                         DATA[d+1], Transliterator.FORWARD);
@@ -1538,25 +1538,25 @@ public class TransliteratorTest extends TestFmwk {
 
     @Test
     public void TestSTV() {
-        Enumeration es = Transliterator.getAvailableSources();
+        Enumeration<String> es = Transliterator.getAvailableSources();
         for (int i=0; es.hasMoreElements(); ++i) {
-            String source = (String) es.nextElement();
+            String source = es.nextElement();
             logln("" + i + ": " + source);
             if (source.length() == 0) {
                 errln("FAIL: empty source");
                 continue;
             }
-            Enumeration et = Transliterator.getAvailableTargets(source);
+            Enumeration<String> et = Transliterator.getAvailableTargets(source);
             for (int j=0; et.hasMoreElements(); ++j) {
-                String target = (String) et.nextElement();
+                String target = et.nextElement();
                 logln(" " + j + ": " + target);
                 if (target.length() == 0) {
                     errln("FAIL: empty target");
                     continue;
                 }
-                Enumeration ev = Transliterator.getAvailableVariants(source, target);
+                Enumeration<String> ev = Transliterator.getAvailableVariants(source, target);
                 for (int k=0; ev.hasMoreElements(); ++k) {
-                    String variant = (String) ev.nextElement();
+                    String variant = ev.nextElement();
                     if (variant.length() == 0) {
                         logln("  " + k + ": <empty>");
                     } else {
@@ -1599,25 +1599,25 @@ public class TransliteratorTest extends TestFmwk {
         }
 
         // Make sure getAvailable API reflects removal
-        for (Enumeration e = Transliterator.getAvailableIDs();
+        for (Enumeration<String> e = Transliterator.getAvailableIDs();
         e.hasMoreElements(); ) {
-            String id = (String) e.nextElement();
+            String id = e.nextElement();
             for (int i=0; i<3; ++i) {
                 if (id.equals(FULL_IDS[i])) {
                     errln("FAIL: unregister(" + id + ") failed");
                 }
             }
         }
-        for (Enumeration e = Transliterator.getAvailableTargets("Any");
+        for (Enumeration<String> e = Transliterator.getAvailableTargets("Any");
         e.hasMoreElements(); ) {
-            String t = (String) e.nextElement();
+            String t = e.nextElement();
             if (t.equals(IDS[0])) {
                 errln("FAIL: unregister(Any-" + t + ") failed");
             }
         }
-        for (Enumeration e = Transliterator.getAvailableSources();
+        for (Enumeration<String> e = Transliterator.getAvailableSources();
         e.hasMoreElements(); ) {
-            String s = (String) e.nextElement();
+            String s = e.nextElement();
             for (int i=0; i<3; ++i) {
                 if (SOURCES[i] == null) continue;
                 if (s.equals(SOURCES[i])) {
@@ -2178,8 +2178,8 @@ public class TransliteratorTest extends TestFmwk {
         UnicodeSetIterator vIter = new UnicodeSetIterator(vowel);
         UnicodeSetIterator nvIter = new UnicodeSetIterator(non_vowel);
         Transliterator trans = Transliterator.getInstance("Devanagari-Gurmukhi");
-        StringBuffer src = new StringBuffer(" \u0902");
-        StringBuffer expect = new StringBuffer(" \u0A02");
+        StringBuilder src = new StringBuilder(" \u0902");
+        StringBuilder expect = new StringBuilder(" \u0A02");
         while(vIter.next()){
             src.setCharAt(0,(char) vIter.codepoint);
             expect.setCharAt(0,(char) (vIter.codepoint+0x0100));
@@ -2545,8 +2545,8 @@ public class TransliteratorTest extends TestFmwk {
     @Test
     public void TestScriptAllCodepoints(){
         int code;
-        HashSet  scriptIdsChecked   = new HashSet();
-        HashSet  scriptAbbrsChecked = new HashSet();
+        HashSet<String> scriptIdsChecked = new HashSet<>();
+        HashSet<String> scriptAbbrsChecked = new HashSet<>();
         for( int i =0; i <= 0x10ffff; i++){
             code = UScript.getScript(i);
             if(code==UScript.INVALID_CODE){
@@ -2683,7 +2683,7 @@ public class TransliteratorTest extends TestFmwk {
 
     static class DummyFactory implements Transliterator.Factory {
         static DummyFactory singleton = new DummyFactory();
-        static HashMap m = new HashMap();
+        static HashMap<String, Transliterator> m = new HashMap<>();
 
         // Since Transliterators are immutable, we don't have to clone on set & get
         static void add(String ID, Transliterator t) {
@@ -2693,7 +2693,7 @@ public class TransliteratorTest extends TestFmwk {
         }
         @Override
         public Transliterator getInstance(String ID) {
-            return (Transliterator) m.get(ID);
+            return m.get(ID);
         }
     }
 
@@ -2896,7 +2896,7 @@ public class TransliteratorTest extends TestFmwk {
 
     static class TestUserFunctionFactory implements Transliterator.Factory {
         static TestUserFunctionFactory singleton = new TestUserFunctionFactory();
-        static HashMap m = new HashMap();
+        static HashMap<CaseInsensitiveString, Transliterator> m = new HashMap<>();
 
         static void add(String ID, Transliterator t) {
             m.put(new CaseInsensitiveString(ID), t);
@@ -2905,13 +2905,13 @@ public class TransliteratorTest extends TestFmwk {
 
         @Override
         public Transliterator getInstance(String ID) {
-            return (Transliterator) m.get(new CaseInsensitiveString(ID));
+            return m.get(new CaseInsensitiveString(ID));
         }
 
         static void unregister() {
-            Iterator ids = m.keySet().iterator();
+            Iterator<CaseInsensitiveString> ids = m.keySet().iterator();
             while (ids.hasNext()) {
-                CaseInsensitiveString id = (CaseInsensitiveString) ids.next();
+                CaseInsensitiveString id = ids.next();
                 Transliterator.unregister(id.getString());
                 ids.remove(); // removes pair from m
             }
@@ -2937,7 +2937,7 @@ public class TransliteratorTest extends TestFmwk {
     @Test
     public void TestAny() {
         UnicodeSet alphabetic = new UnicodeSet("[:alphabetic:]").freeze();
-        StringBuffer testString = new StringBuffer();
+        StringBuilder testString = new StringBuilder();
         for (int i = 0; i < UScript.CODE_LIMIT; ++i) {
             UnicodeSet sample = new UnicodeSet().applyPropertyAlias("script", UScript.getShortName(i)).retainAll(alphabetic);
             int count = 5;
@@ -3735,8 +3735,8 @@ the ::BEGIN/::END stuff)
         @Override
         public void run() {
             errorMsg = null;
-            StringBuffer inBuf = new StringBuffer(testData);
-            StringBuffer expectedBuf = new StringBuffer(expectedData);
+            StringBuilder inBuf = new StringBuilder(testData);
+            StringBuilder expectedBuf = new StringBuilder(expectedData);
 
             for(int i = 0; i < 1000; i++) {
                 String in = inBuf.toString();

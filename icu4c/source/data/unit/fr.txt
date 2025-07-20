@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 fr{
     units{
         acceleration{
@@ -215,6 +215,18 @@ fr{
                 one{"{0} mole"}
                 other{"{0} moles"}
             }
+            part-per-1e6{
+                dnam{"parts par million"}
+                gender{"feminine"}
+                one{"{0} part par million"}
+                other{"{0} parts par million"}
+            }
+            part-per-1e9{
+                dnam{"parts par milliard"}
+                gender{"feminine"}
+                one{"{0} part par milliard"}
+                other{"{0} parts par milliard"}
+            }
             percent{
                 dnam{"pour cent"}
                 gender{"masculine"}
@@ -226,12 +238,6 @@ fr{
                 gender{"masculine"}
                 one{"{0} pour mille"}
                 other{"{0} pour mille"}
-            }
-            permillion{
-                dnam{"parts par million"}
-                gender{"feminine"}
-                one{"{0} part par million"}
-                other{"{0} parts par million"}
             }
             permyriad{
                 dnam{"pour dix mille"}
@@ -1308,13 +1314,17 @@ fr{
                 one{"{0}mol"}
                 other{"{0}mol"}
             }
+            part-per-1e6{
+                one{"{0}ppm"}
+                other{"{0}ppm"}
+            }
+            part-per-1e9{
+                one{"{0}ppb"}
+                other{"{0}ppb"}
+            }
             permille{
                 one{"{0}‰"}
                 other{"{0}‰"}
-            }
-            permillion{
-                one{"{0}ppm"}
-                other{"{0}ppm"}
             }
             permyriad{
                 one{"{0}‱"}
@@ -2061,6 +2071,10 @@ fr{
                 one{"{0} mol"}
                 other{"{0} mol"}
             }
+            part-per-1e6{
+                one{"{0} ppm"}
+                other{"{0} ppm"}
+            }
             percent{
                 one{"{0} %"}
                 other{"{0} %"}
@@ -2068,10 +2082,6 @@ fr{
             permille{
                 one{"{0} ‰"}
                 other{"{0} ‰"}
-            }
-            permillion{
-                one{"{0} ppm"}
-                other{"{0} ppm"}
             }
             permyriad{
                 one{"{0} ‱"}

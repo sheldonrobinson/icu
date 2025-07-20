@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 si{
     durationUnits{
         hm{"h.mm"}
@@ -136,6 +136,16 @@ si{
                 one{"ලීටරයකට මිලිමෝල් {0}"}
                 other{"ලීටරයකට මිලිමෝල් {0}"}
             }
+            part-per-1e6{
+                dnam{"මිලියනයට කොටස්"}
+                one{"මිලියනයට කොටස් {0}"}
+                other{"මිලියනයට කොටස් {0}"}
+            }
+            part-per-1e9{
+                dnam{"බිලියනයකට කොටස්"}
+                one{"බිලියනයකට කොටස් {0}"}
+                other{"බිලියනයකට කොටස් {0}"}
+            }
             percent{
                 one{"ප්‍රතිශතය {0}"}
                 other{"ප්‍රතිශතය {0}"}
@@ -144,11 +154,6 @@ si{
                 dnam{"ප්‍රතිසහශ්‍රක"}
                 one{"ප්‍රතිසහශ්‍රක {0}"}
                 other{"ප්‍රතිසහශ්‍රක {0}"}
-            }
-            permillion{
-                dnam{"මිලියනයට කොටස්"}
-                one{"මිලියනයට කොටස් {0}"}
-                other{"මිලියනයට කොටස් {0}"}
             }
             permyriad{
                 one{"{0} පර්මැරියඩ්"}
@@ -962,11 +967,16 @@ si{
             10p9{"ගි{0}"}
         }
         concentr{
+            part-per-1e6{
+                dnam{"මිලිකො"}
+            }
+            part-per-1e9{
+                dnam{"බිකො"}
+                one{"බිකො {0}"}
+                other{"බිකො {0}"}
+            }
             percent{
                 dnam{"%"}
-            }
-            permillion{
-                dnam{"මිලිකො"}
             }
             permyriad{
                 dnam{"‱"}
@@ -1333,13 +1343,18 @@ si{
                 one{"{0} මවුල"}
                 other{"{0} මවුල"}
             }
-            percent{
-                dnam{"ප්‍රතිශතය"}
-            }
-            permillion{
+            part-per-1e6{
                 dnam{"කොටස්/මිලියනය"}
                 one{"{0} මිලිකො"}
                 other{"{0} මිලිකො"}
+            }
+            part-per-1e9{
+                dnam{"කොටස්/බිලියනය"}
+                one{"බිකො {0}"}
+                other{"බිකො {0}"}
+            }
+            percent{
+                dnam{"ප්‍රතිශතය"}
             }
             permyriad{
                 dnam{"පර්මැරියඩ්"}

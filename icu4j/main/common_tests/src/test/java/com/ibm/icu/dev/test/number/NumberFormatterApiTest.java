@@ -5900,7 +5900,7 @@ public class NumberFormatterApiTest extends CoreTestFmwk {
 
         // We require that the upper bounds all be 999 inclusive.
         // The lower bound may be either -1, 0, or 1.
-        Set<String> methodsWithLowerBound1 = new HashSet();
+        Set<String> methodsWithLowerBound1 = new HashSet<>();
         methodsWithLowerBound1.add("fixedSignificantDigits");
         methodsWithLowerBound1.add("minSignificantDigits");
         methodsWithLowerBound1.add("maxSignificantDigits");
@@ -5914,7 +5914,7 @@ public class NumberFormatterApiTest extends CoreTestFmwk {
         // maxFraction
         // minMaxFraction
         // zeroFillTo
-        Set<String> methodsWithLowerBoundN1 = new HashSet();
+        Set<String> methodsWithLowerBoundN1 = new HashSet<>();
         methodsWithLowerBoundN1.add("truncateAt");
 
         // Some of the methods require an object to be called upon.
@@ -6014,7 +6014,7 @@ public class NumberFormatterApiTest extends CoreTestFmwk {
                 new TestCase(MeasureUnit.MILLIGRAM_OFGLUCOSE_PER_DECILITER, "2 milligrams per deciliter"),
                 new TestCase(MeasureUnit.forIdentifier("millimeter-ofhg"), "2 millimeters of mercury"),
                 new TestCase(MeasureUnit.forIdentifier("liter-per-100-kilometer"), "2 liters per 100 kilometers"),
-                new TestCase(MeasureUnit.forIdentifier("permillion"), "2 parts per million"),
+                new TestCase(MeasureUnit.forIdentifier("part-per-1e6"), "2 parts per million"),
         };
 
         for (TestCase testCase : testCases) {

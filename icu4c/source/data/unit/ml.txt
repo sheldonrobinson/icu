@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ml{
     units{
         acceleration{
@@ -426,6 +426,43 @@ ml{
                 }
                 gender{"neuter"}
             }
+            part-per-1e6{
+                case{
+                    accusative{
+                        one{"{0} പാർട്ട് / മില്ല്യണിനെ"}
+                        other{"{0} പാർട്ട് / മില്ല്യണിനെ"}
+                    }
+                    dative{
+                        one{"{0} പാർട്ട് / മില്ല്യണിന്"}
+                        other{"{0} പാർട്ട് / മില്ല്യണിന്"}
+                    }
+                    genitive{
+                        one{"{0} പാർട്ട് / മില്ല്യണിന്റെ"}
+                        other{"{0} പാർട്ട് / മില്ല്യണിന്റെ"}
+                    }
+                    instrumental{
+                        one{"{0} പാർട്ട് / മില്ല്യണിനാൽ"}
+                        other{"{0} പാർട്ട് / മില്ല്യണിനാൽ"}
+                    }
+                    locative{
+                        one{"{0} പാർട്ട് / മില്ല്യണിൽ"}
+                        other{"{0} പാർട്ട് / മില്ല്യണിൽ"}
+                    }
+                    sociative{
+                        one{"{0} പാർട്ട് / മില്ല്യണിനോട്"}
+                        other{"{0} പാർട്ട് / മില്ല്യണിനോട്"}
+                    }
+                }
+                dnam{"പാർട്‌സ് / മില്ല്യൺ"}
+                gender{"neuter"}
+                one{"{0} പാർട്ട് / മില്ല്യൺ"}
+                other{"{0} പാർട്‌സ് / മില്ല്യൺ"}
+            }
+            part-per-1e9{
+                dnam{"പാർട്‌സ്/ബില്ല്യൺ"}
+                one{"{0} പാർട്ട്/ബില്ല്യൺ"}
+                other{"{0} പാർട്‌സ്/ബില്ല്യൺ"}
+            }
             percent{
                 case{
                     accusative{
@@ -486,38 +523,6 @@ ml{
                 gender{"neuter"}
                 one{"{0} പ്രതിമില്ലി"}
                 other{"{0} പ്രതിമില്ലി"}
-            }
-            permillion{
-                case{
-                    accusative{
-                        one{"{0} പാർട്ട് / മില്ല്യണിനെ"}
-                        other{"{0} പാർട്ട് / മില്ല്യണിനെ"}
-                    }
-                    dative{
-                        one{"{0} പാർട്ട് / മില്ല്യണിന്"}
-                        other{"{0} പാർട്ട് / മില്ല്യണിന്"}
-                    }
-                    genitive{
-                        one{"{0} പാർട്ട് / മില്ല്യണിന്റെ"}
-                        other{"{0} പാർട്ട് / മില്ല്യണിന്റെ"}
-                    }
-                    instrumental{
-                        one{"{0} പാർട്ട് / മില്ല്യണിനാൽ"}
-                        other{"{0} പാർട്ട് / മില്ല്യണിനാൽ"}
-                    }
-                    locative{
-                        one{"{0} പാർട്ട് / മില്ല്യണിൽ"}
-                        other{"{0} പാർട്ട് / മില്ല്യണിൽ"}
-                    }
-                    sociative{
-                        one{"{0} പാർട്ട് / മില്ല്യണിനോട്"}
-                        other{"{0} പാർട്ട് / മില്ല്യണിനോട്"}
-                    }
-                }
-                dnam{"പാർട്‌സ് / മില്ല്യൺ"}
-                gender{"neuter"}
-                one{"{0} പാർട്ട് / മില്ല്യൺ"}
-                other{"{0} പാർട്‌സ് / മില്ല്യൺ"}
             }
             permyriad{
                 case{
@@ -2363,6 +2368,11 @@ ml{
                 one{"{0} കാ."}
                 other{"{0}കാ."}
             }
+            part-per-1e9{
+                dnam{"പി.പി.ബി."}
+                one{"{0}പി.പി.ബി."}
+                other{"{0}പി.പി.ബി."}
+            }
             permyriad{
                 dnam{"‱"}
             }
@@ -2780,10 +2790,15 @@ ml{
                 one{"{0} മോൾ"}
                 other{"{0} മോൾ"}
             }
-            permillion{
+            part-per-1e6{
                 dnam{"പാർട്‌സ്/മില്ല്യൺ"}
                 one{"{0} പാ.പെ.മി."}
                 other{"{0} പാ.പെ.മി."}
+            }
+            part-per-1e9{
+                dnam{"പാർട്‌സ്/ബില്ല്യൺ"}
+                one{"{0} പി.പി.ബി."}
+                other{"{0} പി.പി.ബി."}
             }
             permyriad{
                 dnam{"പെ൪മിറിയാഡ്"}

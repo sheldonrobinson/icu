@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 vec{
     zoneStrings{
         "Africa:Abidjan"{
@@ -595,6 +595,9 @@ vec{
         "Pacific:Efate"{
             ec{"Ìzola Efate"}
         }
+        "Pacific:Enderbury"{
+            ec{"Atolo Canton"}
+        }
         "Pacific:Fakaofo"{
             ec{"Atolo Fakaofo"}
         }
@@ -609,9 +612,6 @@ vec{
         }
         "Pacific:Guadalcanal"{
             ec{"Ìzola Guadalcanal"}
-        }
-        "Pacific:Kanton"{
-            ec{"Atolo Canton"}
         }
         "Pacific:Kiritimati"{
             ec{"Atolo Kiritimati"}

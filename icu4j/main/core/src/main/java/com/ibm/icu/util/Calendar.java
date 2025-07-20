@@ -13,12 +13,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.MissingResourceException;
 
 import com.ibm.icu.impl.CalType;
 import com.ibm.icu.impl.CalendarUtil;
+import com.ibm.icu.impl.Grego;
 import com.ibm.icu.impl.ICUCache;
 import com.ibm.icu.impl.ICUData;
 import com.ibm.icu.impl.ICUResourceBundle;
@@ -300,13 +302,13 @@ import com.ibm.icu.util.ULocale.Category;
  *
  * <p><b>Note:</b> You should always use {@link #roll roll} and {@link #add add} rather
  * than attempting to perform arithmetic operations directly on the fields
- * of a <tt>Calendar</tt>.  It is quite possible for <tt>Calendar</tt> subclasses
+ * of a {@code Calendar}.  It is quite possible for {@code Calendar} subclasses
  * to have fields with non-linear behavior, for example missing months
- * or days during non-leap years.  The subclasses' <tt>add</tt> and <tt>roll</tt>
+ * or days during non-leap years.  The subclasses' {@code add} and {@code roll}
  * methods will take this into account, while simple arithmetic manipulations
  * may give invalid results.
  *
- * <p><big><big><b>Calendar Architecture in ICU4J</b></big></big></p>
+ * <p style="font-size:x-large;font-weight:bold">Calendar Architecture in ICU4J</p>
  *
  * <p>Recently the implementation of <code>Calendar</code> has changed
  * significantly in order to better support subclassing. The original
@@ -321,7 +323,7 @@ import com.ibm.icu.util.ULocale.Category;
  * <code>java.util.Calendar</code>.
  * </p>
  *
- * <p><big><b>Changes</b></big></p>
+ * <p style="font-size:large;font-weight:bold">Changes</p>
  *
  * <p>Overview of changes between the classic <code>Calendar</code>
  * architecture and the new architecture.
@@ -401,7 +403,7 @@ import com.ibm.icu.util.ULocale.Category;
  *
  * </ul>
  *
- * <p><big><b>Subclass API</b></big></p>
+ * <p style="font-size:large;font-weight:bold">Subclass API</p>
  *
  * <p>The original <code>Calendar</code> API was based on the experience
  * of implementing a only a single subclass,
@@ -427,7 +429,7 @@ import com.ibm.icu.util.ULocale.Category;
  * fields and the time related fields. These are commonly handled for all
  * calendars by the base class. </p>
  *
- * <p><b>Subclass computation of time <tt>=&gt;</tt> fields</b>
+ * <p><b>Subclass computation of time {@code =&gt;} fields</b>
  *
  * <p>The {@link #ERA}, {@link #YEAR},
  * {@link #EXTENDED_YEAR}, {@link #MONTH},
@@ -454,7 +456,7 @@ import com.ibm.icu.util.ULocale.Category;
  *
  * </ul>
  *
- * <p><b>Subclass computation of fields <tt>=&gt;</tt> time</b>
+ * <p><b>Subclass computation of fields {@code =&gt;} time</b>
  *
  * <p>The interpretation of most field values is handled entirely by
  * <code>Calendar</code>. <code>Calendar</code> determines which fields
@@ -494,7 +496,7 @@ import com.ibm.icu.util.ULocale.Category;
  *   <li>Subclasses should implement {@link #handleGetYearLength}
  *     to return the number of days in the given
  *     extended year. This method is used by
- *     <tt>computeWeekFields</tt> to compute the
+ *     {@code computeWeekFields} to compute the
  *     {@link #WEEK_OF_YEAR} and {@link #YEAR_WOY} fields.</li>
  *
  *   <li>Subclasses should implement {@link #handleGetLimit}
@@ -544,7 +546,7 @@ import com.ibm.icu.util.ULocale.Category;
  *
  * </ul>
  *
- * <p><big><b>Normalized behavior</b></big>
+ * <p style="font-size:large;font-weight:bold">Normalized behavior</p>
  *
  * <p>The behavior of certain fields has been made consistent across all
  * calendar systems and implemented in <code>Calendar</code>.
@@ -586,7 +588,7 @@ import com.ibm.icu.util.ULocale.Category;
  *
  * </ul>
  *
- * <p><big><b>Supported range</b></big>
+ * <p style="font-size:large;font-weight:bold">Supported range</p>
  *
  * <p>The allowable range of <code>Calendar</code> has been
  * narrowed. <code>GregorianCalendar</code> used to attempt to support
@@ -601,7 +603,7 @@ import com.ibm.icu.util.ULocale.Category;
  * should use the protected constants in <code>Calendar</code> to
  * specify an extremely early or extremely late date.</p>
  *
- * <p><big><b>General notes</b></big>
+ * <p style="font-size:large;font-weight:bold">General notes</p>
  *
  * <ul>
  *
@@ -1355,9 +1357,9 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
     /**
      * Pseudo-time-stamps which specify when each field was set. There
      * are two special values, UNSET and INTERNALLY_SET. Values from
-     * MINIMUM_USER_SET to Integer.MAX_VALUE are legal user set values.
+     * MINIMUM_USER_SET to STAMP_MAX are legal user set values.
      */
-    private transient int           stamp[];
+    private transient byte           stamp[];
 
     /**
      * The currently set time for this calendar, expressed in milliseconds after
@@ -1507,10 +1509,10 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * The next available value for <code>stamp[]</code>, an internal array.
      * @serial
      */
-    private transient int             nextStamp = MINIMUM_USER_STAMP;
+    private transient byte             nextStamp = MINIMUM_USER_STAMP;
 
     /* Max value for stamp allowable before recalculation */
-    private static int STAMP_MAX = 10000;
+    private static byte STAMP_MAX = Byte.MAX_VALUE;
 
     // the internal serial version which says which version was written
     // - 0 (default) for version up to JDK 1.1.5
@@ -1684,7 +1686,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
 
     private void recalculateStamp() {
         int index;
-        int currentValue;
+        byte currentValue;
         int j, i;
 
         nextStamp = 1;
@@ -1721,7 +1723,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
             throw new IllegalStateException("Invalid fields[]");
         }
         ///CLOVER:ON
-        stamp = new int[fields.length];
+        stamp = new byte[fields.length];
         int mask = (1 << ERA) |
                 (1 << YEAR) |
                 (1 << MONTH) |
@@ -2054,9 +2056,9 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
         areFieldsSet = areAllFieldsSet = false;
         isTimeSet = areFieldsVirtuallySet = true;
 
-        for (int i=0; i<fields.length; ++i) {
-            fields[i] = stamp[i] = 0; // UNSET == 0
-        }
+        Arrays.fill(fields, 0);
+        Arrays.fill(stamp, (byte)0);
+        nextStamp = MINIMUM_USER_STAMP;
 
     }
 
@@ -2300,29 +2302,21 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
         set(SECOND, second);
     }
 
-    // -------------------------------------
-    // For now the full getRelatedYear implementation is here;
-    // per #10752 move the non-default implementation to subclasses
-    // (default implementation will do no year adjustment)
-
     /**
-     * utility function for getRelatedYear
+     * @internal
+     * @deprecated This API is ICU internal only.
      */
-    private static int gregoYearFromIslamicStart(int year) {
-        // ad hoc conversion, improve under #10752
-        // rough est for now, ok for grego 1846-2138,
-        // otherwise occasionally wrong (for 3% of years)
-        int cycle, offset, shift = 0;
-        if (year >= 1397) {
-            cycle = (year - 1397) / 67;
-            offset = (year - 1397) % 67;
-            shift = 2*cycle + ((offset >= 33)? 1: 0);
-        } else {
-            cycle = (year - 1396) / 67 - 1;
-            offset = -(year - 1396) % 67;
-            shift = 2*cycle + ((offset <= 33)? 1: 0);
-        }
-        return year + 579 - shift;
+    @Deprecated
+    protected int getRelatedYearDifference() {
+        return 0;
+    }
+    /**
+     * @internal
+     * @deprecated This API is ICU internal only.
+     */
+    @Deprecated
+    public int getRelatedYear() {
+        return get(EXTENDED_YEAR) + getRelatedYearDifference();
     }
 
     /**
@@ -2330,123 +2324,8 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @deprecated This API is ICU internal only.
      */
     @Deprecated
-    public final int getRelatedYear() {
-        int year = get(EXTENDED_YEAR);
-        CalType type = CalType.GREGORIAN;
-        String typeString = getType();
-        for (CalType testType : CalType.values()) {
-            if (typeString.equals(testType.getId())) {
-                type = testType;
-                break;
-            }
-        }
-        switch (type) {
-            case PERSIAN:
-                year += 622; break;
-            case HEBREW:
-                year -= 3760; break;
-            case CHINESE:
-                year -= 2637; break;
-            case INDIAN:
-                year += 79; break;
-            case COPTIC:
-                year += 284; break;
-            case ETHIOPIC:
-                year += 8; break;
-            case ETHIOPIC_AMETE_ALEM:
-                year -=5492; break;
-            case DANGI:
-                year -= 2333; break;
-            case ISLAMIC_CIVIL:
-            case ISLAMIC:
-            case ISLAMIC_UMALQURA:
-            case ISLAMIC_TBLA:
-            case ISLAMIC_RGSA:
-                year = gregoYearFromIslamicStart(year); break;
-            // case GREGORIAN:
-            // case JAPANESE:
-            // case BUDDHIST:
-            // case ROC:
-            // case ISO8601:
-            default:
-                // do nothing, EXTENDED_YEAR same as Gregorian
-                break;
-        }
-        return year;
-    }
-
-    // -------------------------------------
-    // For now the full setRelatedYear implementation is here;
-    // per #10752 move the non-default implementation to subclasses
-    // (default implementation will do no year adjustment)
-
-    /**
-     * utility function for setRelatedYear
-     */
-    private static int firstIslamicStartYearFromGrego(int year) {
-        // ad hoc conversion, improve under #10752
-        // rough est for now, ok for grego 1846-2138,
-        // otherwise occasionally wrong (for 3% of years)
-        int cycle, offset, shift = 0;
-        if (year >= 1977) {
-            cycle = (year - 1977) / 65;
-            offset = (year - 1977) % 65;
-            shift = 2*cycle + ((offset >= 32)? 1: 0);
-        } else {
-            cycle = (year - 1976) / 65 - 1;
-            offset = -(year - 1976) % 65;
-            shift = 2*cycle + ((offset <= 32)? 1: 0);
-        }
-        return year - 579 + shift;
-    }
-
-    /**
-     * @internal
-     * @deprecated This API is ICU internal only.
-     */
-    @Deprecated
-    public final void setRelatedYear(int year) {
-        CalType type = CalType.GREGORIAN;
-        String typeString = getType();
-        for (CalType testType : CalType.values()) {
-            if (typeString.equals(testType.getId())) {
-                type = testType;
-                break;
-            }
-        }
-        switch (type) {
-            case PERSIAN:
-                year -= 622; break;
-            case HEBREW:
-                year += 3760; break;
-            case CHINESE:
-                year += 2637; break;
-            case INDIAN:
-                year -= 79; break;
-            case COPTIC:
-                year -= 284; break;
-            case ETHIOPIC:
-                year -= 8; break;
-            case ETHIOPIC_AMETE_ALEM:
-                year +=5492; break;
-            case DANGI:
-                year += 2333; break;
-            case ISLAMIC_CIVIL:
-            case ISLAMIC:
-            case ISLAMIC_UMALQURA:
-            case ISLAMIC_TBLA:
-            case ISLAMIC_RGSA:
-                year = firstIslamicStartYearFromGrego(year); break;
-            // case GREGORIAN:
-            // case JAPANESE:
-            // case BUDDHIST:
-            // case ROC:
-            // case ISO8601:
-            default:
-                // do nothing, EXTENDED_YEAR same as Gregorian
-                break;
-        }
-        set(EXTENDED_YEAR, year);
+    public void setRelatedYear(int year) {
+        set(EXTENDED_YEAR, year - getRelatedYearDifference());
     }
 
     /**
@@ -2455,9 +2334,9 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      */
     public final void clear()
     {
-        for (int i=0; i<fields.length; ++i) {
-            fields[i] = stamp[i] = 0; // UNSET == 0
-        }
+        Arrays.fill(fields, 0);
+        Arrays.fill(stamp, (byte)0);
+        nextStamp = MINIMUM_USER_STAMP;
         isTimeSet = areFieldsSet = areAllFieldsSet = areFieldsVirtuallySet = false;
     }
 
@@ -2646,7 +2525,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
         switch (field) {
         case DAY_OF_MONTH:
         {
-            Calendar cal = (Calendar) clone();
+            Calendar cal = clone();
             cal.setLenient(true);
             cal.prepareGetActual(field, false);
             result = handleGetMonthLength(cal.get(EXTENDED_YEAR), cal.get(MONTH));
@@ -2655,7 +2534,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
 
         case DAY_OF_YEAR:
         {
-            Calendar cal = (Calendar) clone();
+            Calendar cal = clone();
             cal.setLenient(true);
             cal.prepareGetActual(field, false);
             result = handleGetYearLength(cal.get(EXTENDED_YEAR));
@@ -2820,7 +2699,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
 
         // clone the calendar so we don't mess with the real one, and set it to
         // accept anything for the field values
-        Calendar work = (Calendar) clone();
+        Calendar work = clone();
 
         // need to resolve time here, otherwise, fields set for actual limit
         // may cause conflict with fields previously set (but not yet resolved).
@@ -2886,19 +2765,19 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * result in negative years for era 0 (that is the only way to represent years before
      * the calendar epoch in such calendars).
      * <p>
-     * <b>Note:</b> Calling <tt>roll(field, true)</tt> N times is <em>not</em>
-     * necessarily equivalent to calling <tt>roll(field, N)</tt>.  For example,
+     * <b>Note:</b> Calling {@code roll(field, true)} N times is <em>not</em>
+     * necessarily equivalent to calling {@code roll(field, N)}.  For example,
      * imagine that you start with the date Gregorian date January 31, 1995.  If you call
-     * <tt>roll(Calendar.MONTH, 2)</tt>, the result will be March 31, 1995.
-     * But if you call <tt>roll(Calendar.MONTH, true)</tt>, the result will be
+     * {@code roll(Calendar.MONTH, 2)}, the result will be March 31, 1995.
+     * But if you call {@code roll(Calendar.MONTH, true)}, the result will be
      * February 28, 1995.  Calling it one more time will give March 28, 1995, which
      * is usually not the desired result.
      * <p>
-     * <b>Note:</b> You should always use <tt>roll</tt> and <tt>add</tt> rather
+     * <b>Note:</b> You should always use {@code roll} and {@code add} rather
      * than attempting to perform arithmetic operations directly on the fields
-     * of a <tt>Calendar</tt>.  It is quite possible for <tt>Calendar</tt> subclasses
+     * of a {@code Calendar}.  It is quite possible for {@code Calendar} subclasses
      * to have fields with non-linear behavior, for example missing months
-     * or days during non-leap years.  The subclasses' <tt>add</tt> and <tt>roll</tt>
+     * or days during non-leap years.  The subclasses' {@code add} and {@code roll}
      * methods will take this into account, while simple arithmetic manipulations
      * may give invalid results.
      * <p>
@@ -2951,11 +2830,11 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * and {@link #ZONE_OFFSET ZONE_OFFSET}.  Subclasses may, of course, add support for
      * additional fields in their overrides of <code>roll</code>.
      * <p>
-     * <b>Note:</b> You should always use <tt>roll</tt> and <tt>add</tt> rather
+     * <b>Note:</b> You should always use {@code roll} and {@code add} rather
      * than attempting to perform arithmetic operations directly on the fields
-     * of a <tt>Calendar</tt>.  It is quite possible for <tt>Calendar</tt> subclasses
+     * of a {@code Calendar}.  It is quite possible for {@code Calendar} subclasses
      * to have fields with non-linear behavior, for example missing months
-     * or days during non-leap years.  The subclasses' <tt>add</tt> and <tt>roll</tt>
+     * or days during non-leap years.  The subclasses' {@code add} and {@code roll}
      * methods will take this into account, while simple arithmetic manipulations
      * may give invalid results.
      * <p>
@@ -3329,11 +3208,11 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * and {@link #ZONE_OFFSET ZONE_OFFSET}.  Subclasses may, of course, add support for
      * additional fields in their overrides of <code>add</code>.
      * <p>
-     * <b>Note:</b> You should always use <tt>roll</tt> and <tt>add</tt> rather
+     * <b>Note:</b> You should always use {@code roll} and {@code add} rather
      * than attempting to perform arithmetic operations directly on the fields
-     * of a <tt>Calendar</tt>.  It is quite possible for <tt>Calendar</tt> subclasses
+     * of a {@code Calendar}.  It is quite possible for {@code Calendar} subclasses
      * to have fields with non-linear behavior, for example missing months
-     * or days during non-leap years.  The subclasses' <tt>add</tt> and <tt>roll</tt>
+     * or days during non-leap years.  The subclasses' {@code add} and {@code roll}
      * methods will take this into account, while simple arithmetic manipulations
      * may give invalid results.
      * <p>
@@ -4898,17 +4777,16 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @stable ICU 2.0
      */
     @Override
-    public Object clone()
+    public Calendar clone()
     {
         try {
             Calendar other = (Calendar) super.clone();
 
             other.fields = new int[fields.length];
-            other.stamp = new int[fields.length];
+            other.stamp = new byte[fields.length];
             System.arraycopy(this.fields, 0, other.fields, 0, fields.length);
             System.arraycopy(this.stamp, 0, other.stamp, 0, fields.length);
-
-            other.zone = (TimeZone) zone.clone();
+            other.zone = zone.clone();
             return other;
         }
         catch (CloneNotSupportedException e) {
@@ -5321,42 +5199,11 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @stable ICU 2.0
      */
     protected final void computeGregorianFields(int julianDay) {
-        int year, month, dayOfMonth, dayOfYear;
-
-        // The Gregorian epoch day is zero for Monday January 1, year 1.
-        long gregorianEpochDay = julianDay - JAN_1_1_JULIAN_DAY;
-
-        // Here we convert from the day number to the multiple radix
-        // representation.  We use 400-year, 100-year, and 4-year cycles.
-        // For example, the 4-year cycle has 4 years + 1 leap day; giving
-        // 1461 == 365*4 + 1 days.
-        int[] rem = new int[1];
-        int n400 = floorDivide(gregorianEpochDay, 146097, rem); // 400-year cycle length
-        int n100 = floorDivide(rem[0], 36524, rem); // 100-year cycle length
-        int n4 = floorDivide(rem[0], 1461, rem); // 4-year cycle length
-        int n1 = floorDivide(rem[0], 365, rem);
-        year = 400*n400 + 100*n100 + 4*n4 + n1;
-        dayOfYear = rem[0]; // zero-based day of year
-        if (n100 == 4 || n1 == 4) {
-            dayOfYear = 365; // Dec 31 at end of 4- or 400-yr cycle
-        } else {
-            ++year;
-        }
-
-        boolean isLeap = ((year&0x3) == 0) && // equiv. to (year%4 == 0)
-                (year%100 != 0 || year%400 == 0);
-
-        int correction = 0;
-        int march1 = isLeap ? 60 : 59; // zero-based DOY for March 1
-        if (dayOfYear >= march1) correction = isLeap ? 1 : 2;
-        month = (12 * (dayOfYear + correction) + 6) / 367; // zero-based month
-        dayOfMonth = dayOfYear -
-                GREGORIAN_MONTH_COUNT[month][isLeap?3:2] + 1; // one-based DOM
-
-        gregorianYear = year;
-        gregorianMonth = month; // 0-based already
-        gregorianDayOfMonth = dayOfMonth; // 1-based already
-        gregorianDayOfYear = dayOfYear + 1; // Convert from 0-based to 1-based
+        int[] gregorian = Grego.dayToFields(julianDay - EPOCH_JULIAN_DAY, null);
+        gregorianYear = gregorian[0];
+        gregorianMonth = gregorian[1];
+        gregorianDayOfMonth = gregorian[2];
+        gregorianDayOfYear = gregorian[4];
     }
 
     /**
@@ -6156,6 +6003,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * @stable ICU 2.0
      */
     protected int handleGetMonthLength(int extendedYear, int month) {
+      System.out.printf("handleGetMonthLength(ey=%d, m=%d)",  extendedYear, month);
         return handleComputeMonthStart(extendedYear, month+1, true) -
                 handleComputeMonthStart(extendedYear, month, true);
     }
@@ -6744,9 +6592,9 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
      * {@icu} Returns the locale that was used to create this object, or null.
      * This may may differ from the locale requested at the time of
      * this object's creation.  For example, if an object is created
-     * for locale <tt>en_US_CALIFORNIA</tt>, the actual data may be
-     * drawn from <tt>en</tt> (the <i>actual</i> locale), and
-     * <tt>en_US</tt> may be the most specific locale that exists (the
+     * for locale {@code en_US_CALIFORNIA}, the actual data may be
+     * drawn from {@code en} (the <i>actual</i> locale), and
+     * {@code en_US} may be the most specific locale that exists (the
      * <i>valid</i> locale).
      *
      * <p>Note: This method will be implemented in ICU 3.0; ICU 2.8

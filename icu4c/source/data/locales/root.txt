@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 root{
     AuxExemplarCharacters{"[]"}
     Ellipsis{
@@ -12,8 +12,8 @@ root{
         word-medial{"{0} … {1}"}
     }
     ExemplarCharacters{"[]"}
-    ExemplarCharactersNumbers{"[\\- ‑ , . % ‰ + 0 1 2 3 4 5 6 7 8 9]"}
-    ExemplarCharactersPunctuation{"[\\- ‑ , ; \\: ! ? . ( ) \\[ \\] \\{ \\}]"}
+    ExemplarCharactersNumbers{"[\\- ‑ , . % ‰ + − 0 1 2 3 4 5 6 7 8 9]"}
+    ExemplarCharactersPunctuation{"[\\- ‐‑ , ; \\: ! ? . ( ) \\[ \\] \\{ \\}]"}
     MoreInformation{"?"}
     NumberElements{
         adlm{
@@ -490,6 +490,7 @@ root{
             patterns{
                 accountingFormat:alias{"/LOCALE/NumberElements/latn/patterns/currencyFormat"}
                 currencyFormat{"¤ #,##0.00"}
+                currencyFormat%alphaNextToNumber{"¤ #,##0.00"}
                 currencyFormat%noCurrency{"#,##0.00"}
                 currencyPatternAppendISO{"{0} ¤¤"}
                 decimalFormat{"#,##0.###"}
@@ -573,6 +574,11 @@ root{
                         other{"000T"}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{"{0} {1}"}
+                rationalPattern{"{0}⁄{1}"}
+                rationalUsage{"sometimes"}
             }
             symbols{
                 approximatelySign{"~"}
@@ -1231,7 +1237,7 @@ root{
             symbols:alias{"/LOCALE/NumberElements/latn/symbols"}
         }
     }
-    Version{"46"}
+    Version{"48"}
     calendar{
         buddhist{
             AmPmMarkers:alias{"/LOCALE/calendar/gregorian/AmPmMarkers"}
@@ -2550,6 +2556,7 @@ root{
             eras{
                 abbreviated{
                     "AH",
+                    "BH",
                 }
                 narrow:alias{"/LOCALE/calendar/islamic/eras/abbreviated"}
                 wide:alias{"/LOCALE/calendar/islamic/eras/abbreviated"}
@@ -2697,7 +2704,7 @@ root{
             appendItems{
                 Day{"{0} ({2}: {1})"}
                 Day-Of-Week{"{0} {1}"}
-                Era{"{1} {0}"}
+                Era{"{0} {1}"}
                 Hour{"{0} ({2}: {1})"}
                 Minute{"{0} ({2}: {1})"}
                 Month{"{0} ({2}: {1})"}
@@ -2705,7 +2712,7 @@ root{
                 Second{"{0} ({2}: {1})"}
                 Timezone{"{0} {1}"}
                 Week{"{0} ({2}: {1})"}
-                Year{"{1} {0}"}
+                Year{"{0} {1}"}
             }
             availableFormats{
                 Bh{"h B"}
@@ -2732,7 +2739,7 @@ root{
                 M{"L"}
                 MEd{"MM-dd, E"}
                 MMM{"LLL"}
-                MMMEd{"MMM d"}
+                MMMEd{"MMM d, E"}
                 MMMMW{
                     other{"MMMM 'week' W"}
                 }

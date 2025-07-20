@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 am{
     zoneStrings{
         "Africa:Abidjan"{
@@ -1167,7 +1167,7 @@ am{
             ec{"ኢፋቴ"}
         }
         "Pacific:Enderbury"{
-            ec{"ኢንደርበሪ"}
+            ec{"ካንቶን"}
         }
         "Pacific:Fakaofo"{
             ec{"ፋካኦፎ"}
@@ -1192,9 +1192,6 @@ am{
         }
         "Pacific:Honolulu"{
             ec{"ሆኖሉሉ"}
-        }
-        "Pacific:Kanton"{
-            ec{"ካንቶን"}
         }
         "Pacific:Kiritimati"{
             ec{"ኪሪቲማቲ"}

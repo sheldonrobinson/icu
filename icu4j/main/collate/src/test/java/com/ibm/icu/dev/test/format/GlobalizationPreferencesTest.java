@@ -166,7 +166,7 @@ public class GlobalizationPreferencesTest extends TestFmwk {
         // setLocales(ULocale[])
         logln("Call setLocales(List) after frozen");
         bSet = true;
-        ArrayList list = new ArrayList(1);
+        ArrayList<ULocale> list = new ArrayList<>(1);
         list.add(new ULocale("fr_FR"));
         try {
             gp.setLocales(list);
@@ -274,8 +274,8 @@ public class GlobalizationPreferencesTest extends TestFmwk {
         // setLocales(List)
         for (int i = 0; i < INPUT_LOCALEIDS.length; i++) {
             String[] localeStrings = INPUT_LOCALEIDS[i];
-            ArrayList locales = new ArrayList();
-            StringBuffer sb = new StringBuffer();
+            ArrayList<ULocale> locales = new ArrayList<>();
+            StringBuilder sb = new StringBuilder();
             for (int j = 0; j < localeStrings.length; j++) {
                 locales.add(new ULocale(localeStrings[j]));
                 if (j != 0) {
@@ -288,7 +288,7 @@ public class GlobalizationPreferencesTest extends TestFmwk {
             gp.reset();
             gp.setLocales(locales);
 
-            List resultLocales = gp.getLocales();
+            List<ULocale> resultLocales = gp.getLocales();
             if (resultLocales.size() != RESULTS_LOCALEIDS[i].length) {
                 errln("FAIL: Number of locales mismatch - GP:" + resultLocales.size()
                         + " Expected:" + RESULTS_LOCALEIDS[i].length);
@@ -309,7 +309,7 @@ public class GlobalizationPreferencesTest extends TestFmwk {
         for (int i = 0; i < INPUT_LOCALEIDS.length; i++) {
             String[] localeStrings = INPUT_LOCALEIDS[i];
             ULocale[] localeArray = new ULocale[INPUT_LOCALEIDS[i].length];
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int j = 0; j < localeStrings.length; j++) {
                 localeArray[j] = new ULocale(localeStrings[j]);
                 if (j != 0) {
@@ -322,7 +322,7 @@ public class GlobalizationPreferencesTest extends TestFmwk {
             gp.reset();
             gp.setLocales(localeArray);
 
-            List resultLocales = gp.getLocales();
+            List<ULocale> resultLocales = gp.getLocales();
             if (resultLocales.size() != RESULTS_LOCALEIDS[i].length) {
                 errln("FAIL: Number of locales mismatch - GP:" + resultLocales.size()
                         + " Expected:" + RESULTS_LOCALEIDS[i].length);
@@ -1004,11 +1004,11 @@ public class GlobalizationPreferencesTest extends TestFmwk {
         ULocale loc_peo = new ULocale("peo");
 
         // Locale list - fr_FR_Paris
-        ArrayList locales1 = new ArrayList(1);
+        ArrayList<ULocale> locales1 = new ArrayList<>(1);
         locales1.add(loc_fr_FR_Paris);
 
         // Locale list - ain, fr_FR_Paris
-        ArrayList locales2 = new ArrayList(2);
+        ArrayList<ULocale> locales2 = new ArrayList<>(2);
         locales2.add(loc_peo);
         locales2.add(loc_fr_FR_Paris);
 
@@ -1200,7 +1200,7 @@ public class GlobalizationPreferencesTest extends TestFmwk {
         }
 
         // Set locale - fr, fr_CA, fr_FR
-        ArrayList lcls = new ArrayList(3);
+        ArrayList<ULocale> lcls = new ArrayList<>(3);
         lcls.add(new ULocale("fr"));
         lcls.add(new ULocale("fr_CA"));
         lcls.add(new ULocale("fr_FR"));

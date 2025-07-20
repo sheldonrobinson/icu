@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ko{
     units{
         acceleration{
@@ -143,6 +143,9 @@ ko{
             mole{
                 dnam{"몰"}
                 other{"{0}몰"}
+            }
+            part-per-1e9{
+                other{"{0}ppb"}
             }
         }
         consumption{
@@ -777,6 +780,11 @@ ko{
         }
     }
     unitsNarrow{
+        concentr{
+            part-per-1e9{
+                other{"{0}ppb"}
+            }
+        }
         digital{
             byte{
                 dnam{"B"}
@@ -912,8 +920,11 @@ ko{
             mole{
                 other{"{0}mol"}
             }
-            permillion{
+            part-per-1e6{
                 other{"{0}ppm"}
+            }
+            part-per-1e9{
+                other{"{0}ppb"}
             }
         }
         consumption{

@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 rm{
     Keys{
         calendar{"chalender"}
@@ -687,9 +687,7 @@ rm{
             standard{"format da valuta da standard"}
         }
         collation{
-            big5han{"chinaisa tradiziunala - Big5"}
             ducet{"zavrada unicode standard"}
-            gb2312han{"chinaisa simplifitgada - GB2312"}
             phonebook{"cudesch da telefon"}
             pinyin{"Pinyin"}
             search{"tschertga generala"}

@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 it{
     Keys{
         calendar{"Calendario"}
@@ -919,11 +919,9 @@ it{
             tertiary{"Ordina accenti/lettere/larghezza"}
         }
         collation{
-            big5han{"Ordinamento Cinese tradizionale - Big5"}
             compat{"Ordinamento precedente, per compatibilità"}
             dictionary{"Ordinamento dizionario"}
             ducet{"Ordinamento Unicode predefinito"}
-            gb2312han{"Ordinamento Cinese semplificato - GB2312"}
             phonebook{"Ordinamento Elenco telefonico"}
             phonetic{"Ordinamento fonetico"}
             pinyin{"Ordinamento pinyin"}

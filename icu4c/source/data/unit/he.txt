@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 he{
     units{
         acceleration{
@@ -245,6 +245,21 @@ he{
                 other{"{0} מול"}
                 two{"{0} מול"}
             }
+            part-per-1e6{
+                dnam{"חלקים למיליון"}
+                gender{"masculine"}
+                many{"{0} חלקים למיליון"}
+                one{"{0} חלקים למיליון"}
+                other{"{0} חלקים למיליון"}
+                two{"{0} חלקים למיליון"}
+            }
+            part-per-1e9{
+                dnam{"חלקים למיליארד"}
+                gender{"masculine"}
+                one{"{0} חלקים למיליארד"}
+                other{"{0} חלקים למיליארד"}
+                two{"{0} חלקים למיליארד"}
+            }
             percent{
                 dnam{"אחוז"}
                 gender{"masculine"}
@@ -260,14 +275,6 @@ he{
                 one{"{0} פרומיל"}
                 other{"{0} פרומיל"}
                 two{"{0} פרומיל"}
-            }
-            permillion{
-                dnam{"חלקים למיליון"}
-                gender{"masculine"}
-                many{"{0} חלקים למיליון"}
-                one{"{0} חלקים למיליון"}
-                other{"{0} חלקים למיליון"}
-                two{"{0} חלקים למיליון"}
             }
             permyriad{
                 dnam{"רבבית"}

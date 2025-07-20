@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 sd{
     units{
         acceleration{
@@ -97,10 +97,15 @@ sd{
                 one{"{0} مول"}
                 other{"{0} مولز"}
             }
-            permillion{
+            part-per-1e6{
                 dnam{"حصا في ملين"}
                 one{"{0} حصو في ملين"}
                 other{"{0} حصا في ملين"}
+            }
+            part-per-1e9{
+                dnam{"حصا في ارب"}
+                one{"{0} حصو في ارب"}
+                other{"{0} حصا في ارب"}
             }
             permyriad{
                 one{"{0} پيرمائيرڊ"}
@@ -553,6 +558,13 @@ sd{
                 other{"{0}m²"}
             }
         }
+        concentr{
+            part-per-1e9{
+                dnam{"ح ف ا"}
+                one{"{0}ح ف ا"}
+                other{"{0}ح ف ا"}
+            }
+        }
         duration{
             century{
                 dnam{"ص"}
@@ -823,6 +835,11 @@ sd{
             }
             mole{
                 dnam{"مول"}
+            }
+            part-per-1e9{
+                dnam{"حصا/ارب"}
+                one{"{0} ح ف ا"}
+                other{"{0} ح ف ا"}
             }
             permyriad{
                 dnam{"پيرمائيرڊ"}

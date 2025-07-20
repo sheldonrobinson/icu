@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 cy{
     units{
         acceleration{
@@ -263,6 +263,24 @@ cy{
             mole{
                 dnam{"molau"}
             }
+            part-per-1e6{
+                dnam{"rhannau pob miliwn"}
+                few{"{0} rhan pob miliwn"}
+                many{"{0} rhan pob miliwn"}
+                one{"{0} rhan pob miliwn"}
+                other{"{0} rhan pob miliwn"}
+                two{"{0} ran pob miliwn"}
+                zero{"{0} rhan pob miliwn"}
+            }
+            part-per-1e9{
+                dnam{"rhannau fesul biliwn"}
+                few{"{0} rhan fesul biliwn"}
+                many{"{0} rhan fesul biliwn"}
+                one{"{0} rhan fesul biliwn"}
+                other{"{0} rhan fesul biliwn"}
+                two{"{0} rhan fesul biliwn"}
+                zero{"ppb"}
+            }
             percent{
                 few{"{0}%"}
                 many{"{0}%"}
@@ -278,15 +296,6 @@ cy{
                 other{"{0} permille"}
                 two{"{0}‰"}
                 zero{"{0}‰"}
-            }
-            permillion{
-                dnam{"rhannau pob miliwn"}
-                few{"{0} rhan pob miliwn"}
-                many{"{0} rhan pob miliwn"}
-                one{"{0} rhan pob miliwn"}
-                other{"{0} rhan pob miliwn"}
-                two{"{0} ran pob miliwn"}
-                zero{"{0} rhan pob miliwn"}
             }
             permyriad{
                 few{"{0}‱"}
@@ -1719,6 +1728,14 @@ cy{
                 two{"{0} kt"}
                 zero{"{0} kt"}
             }
+            part-per-1e9{
+                few{"{0} ppb"}
+                many{"{0} ppb"}
+                one{"{0}ppb"}
+                other{"{0}ppb"}
+                two{"{0} ppb"}
+                zero{"{0} ppb"}
+            }
             percent{
                 dnam{"%"}
             }
@@ -2876,14 +2893,17 @@ cy{
                 two{"{0} môl"}
                 zero{"{0} môl"}
             }
+            part-per-1e6{
+                dnam{"rhan/miliwn"}
+            }
+            part-per-1e9{
+                dnam{"rhannau/biliwn"}
+            }
             percent{
                 dnam{"y cant"}
             }
             permille{
                 dnam{"permille"}
-            }
-            permillion{
-                dnam{"rhan/miliwn"}
             }
             permyriad{
                 dnam{"permyriad"}

@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 be{
     zoneStrings{
         "Africa:Abidjan"{
@@ -1167,7 +1167,7 @@ be{
             ec{"Эфатэ"}
         }
         "Pacific:Enderbury"{
-            ec{"Эндэрберы"}
+            ec{"Кантон"}
         }
         "Pacific:Fakaofo"{
             ec{"Факаофа"}
@@ -1192,9 +1192,6 @@ be{
         }
         "Pacific:Honolulu"{
             ec{"Ганалулу"}
-        }
-        "Pacific:Kanton"{
-            ec{"Кантон"}
         }
         "Pacific:Kiritimati"{
             ec{"Кірыцімаці"}

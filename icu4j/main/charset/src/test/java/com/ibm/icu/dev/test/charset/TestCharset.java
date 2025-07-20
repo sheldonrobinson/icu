@@ -802,8 +802,8 @@ public class TestCharset extends TestFmwk {
         int[] badposindices = new int[n];
         int[] malfindices = new int[n];
         int[] unmapindices = new int[n];
-        ArrayList pass = new ArrayList();
-        ArrayList exempt = new ArrayList();
+        ArrayList<String> pass = new ArrayList<>();
+        ArrayList<String> exempt = new ArrayList<>();
 
         outer: for (int conv=0; conv<converters.length; conv++) {
             String converter = (String)converters[conv];
@@ -1622,9 +1622,9 @@ public class TestCharset extends TestFmwk {
 
     @Test
     public void TestAvailableCharsets() {
-        SortedMap map = Charset.availableCharsets();
-        Set keySet = map.keySet();
-        Iterator iter = keySet.iterator();
+        SortedMap<String, Charset> map = Charset.availableCharsets();
+        Set<String> keySet = map.keySet();
+        Iterator<String> iter = keySet.iterator();
         while(iter.hasNext()){
             logln("Charset name: "+iter.next().toString());
         }
@@ -3231,14 +3231,14 @@ public class TestCharset extends TestFmwk {
 
         byte[] bytes = test.getBytes(cs_utf7);
         if (!Arrays.equals(bytes, expected_utf7)) {
-            errln("Incorrect UTF-7 conversion. Got " + new String(bytes) + " but expect " +
-                  new String(expected_utf7));
+            errln("Incorrect UTF-7 conversion. Got " + hex(bytes) + " but expect " +
+                  hex(expected_utf7));
         }
 
         bytes = test.getBytes(cs_imap);
         if (!Arrays.equals(bytes, expected_imap)) {
-            errln("Incorrect IMAP-mailbox-name conversion. Got " + new String(bytes) +
-                  " but expect " + new String(expected_imap));
+            errln("Incorrect IMAP-mailbox-name conversion. Got " + hex(bytes) +
+                  " but expect " + hex(expected_imap));
         }
     }
 
@@ -5818,7 +5818,8 @@ public class TestCharset extends TestFmwk {
         String testCase = "\u7d42";
 
         try {
-            testCase.getBytes(charsetName);
+            // We don't expect any particular value.
+            var unused = testCase.getBytes(charsetName);
         } catch (Exception ex) {
             errln("Error calling getBytes(): " + ex);
         }

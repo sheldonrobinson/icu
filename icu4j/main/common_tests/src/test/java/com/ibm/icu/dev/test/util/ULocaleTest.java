@@ -152,8 +152,7 @@ public class ULocaleTest extends CoreTestFmwk {
             }
             @Override
             public NumberFormat createFormat(ULocale loc, int formatType) {
-                return (NumberFormat) (locale.equals(loc) ?
-                        proto.clone() : null);
+                return locale.equals(loc) ? proto.clone() : (NumberFormat) null;
             }
         }
 
@@ -407,9 +406,9 @@ public class ULocaleTest extends CoreTestFmwk {
      */
     void checkObject(String requestedLocale, Object obj,
             String expReqValid, String expValidActual) {
-        Class[] getLocaleParams = new Class[] { ULocale.Type.class };
+        Class<?>[] getLocaleParams = new Class<?>[] { ULocale.Type.class };
         try {
-            Class cls = obj.getClass();
+            Class<?> cls = obj.getClass();
             Method getLocale = cls.getMethod("getLocale", getLocaleParams);
             ULocale valid = (ULocale) getLocale.invoke(obj, new Object[] {
                     ULocale.VALID_LOCALE });
@@ -1455,7 +1454,7 @@ public class ULocaleTest extends CoreTestFmwk {
             errln("ULocale.ULocale(String a, String b)");
         }
 
-        ULocale loc5 = (ULocale) loc4.clone();
+        ULocale loc5 = loc4.clone();
         if (!loc5.equals(loc4)){
             errln("ULocale.clone should get the same ULocale");
         }
@@ -1490,12 +1489,12 @@ public class ULocaleTest extends CoreTestFmwk {
             logln("Testing locale " + localeID + " ...");
             ULocale loc = new ULocale(localeID);
 
-            Iterator it = loc.getKeywords();
-            Iterator it2 = ULocale.getKeywords(localeID);
+            Iterator<String> it = loc.getKeywords();
+            Iterator<String> it2 = ULocale.getKeywords(localeID);
             //it and it2 are not equal here. No way to verify their equivalence yet.
             while(it.hasNext()) {
-                String key = (String)it.next();
-                String key2 = (String)it2.next();
+                String key = it.next();
+                String key2 = it2.next();
                 if (!key.equals(key2)) {
                     errln("FAIL: static and non-static getKeywords returned different results.");
                 }
@@ -1678,7 +1677,8 @@ public class ULocaleTest extends CoreTestFmwk {
     }
 
     //Hashtables for storing expected display of keys/types of locale in English and Chinese
-    private static Map[] h = new Map[2];
+    @SuppressWarnings("unchecked")
+    private static Map<String, String>[] h = new Map[2];
 
     private static final String ACCEPT_LANGUAGE_TESTS[][]  =  {
         /*#      result  fallback? */
@@ -1823,8 +1823,8 @@ public class ULocaleTest extends CoreTestFmwk {
                 {"en_Cyrl-RU", "en-Cyrl-RU", "en-Cyrl-RU"},
                 {"en_Latn-RU", "en-RU", "en-RU"},
                 {"sr_Cyrl-US", "sr-US", "sr-US"},
-                {"sr_Cyrl-RU", "sr-Cyrl-RU", "sr-Cyrl-RU"},
-                {"sr_Latn-RU", "sr-RU", "sr-RU"},
+                {"sr_Cyrl-RU", "sr-RU", "sr-RU"},
+                {"sr_Latn-RU", "sr_Latn-RU", "sr_Latn-RU"},
         };
         for (String[] test : data) {
             ULocale source = new ULocale(test[0]);
@@ -2712,8 +2712,8 @@ public class ULocaleTest extends CoreTestFmwk {
                     "dz"
                 }, {
                     "und_BY",
-                    "be_Cyrl_BY",
-                    "be"
+                    "ru_Cyrl_BY",
+                    "ru_BY"
                 }, {
                     "und_Beng",
                     "bn_Beng_BD",
@@ -2724,12 +2724,12 @@ public class ULocaleTest extends CoreTestFmwk {
                     "bn_IN"
                 }, {
                     "und_CD",
-                    "sw_Latn_CD",
-                    "sw_CD"
+                    "fr_Latn_CD",
+                    "fr_CD"
                 }, {
                     "und_CF",
-                    "fr_Latn_CF",
-                    "fr_CF"
+                    "sg_Latn_CF",
+                    "sg"
                 }, {
                     "und_CG",
                     "fr_Latn_CG",
@@ -2792,8 +2792,8 @@ public class ULocaleTest extends CoreTestFmwk {
                     "de"
                 }, {
                     "und_DJ",
-                    "aa_Latn_DJ",
-                    "aa_DJ"
+                    "fr_Latn_DJ",
+                    "fr_DJ"
                 }, {
                     "und_DK",
                     "da_Latn_DK",
@@ -3336,8 +3336,8 @@ public class ULocaleTest extends CoreTestFmwk {
                     "it_SM"
                 }, {
                     "und_SN",
-                    "fr_Latn_SN",
-                    "fr_SN"
+                    "wo_Latn_SN",
+                    "wo"
                 }, {
                     "und_SO",
                     "so_Latn_SO",
@@ -3368,8 +3368,8 @@ public class ULocaleTest extends CoreTestFmwk {
                     "syr"
                 }, {
                     "und_TD",
-                    "fr_Latn_TD",
-                    "fr_TD"
+                    "ar_Arab_TD",
+                    "ar_TD"
                 }, {
                     "und_TG",
                     "fr_Latn_TG",
@@ -3659,9 +3659,9 @@ public class ULocaleTest extends CoreTestFmwk {
                     "zh_Hant_TW",
                     "zh_TW"
                 }, {
-                    "und_Hant_CN",
-                    "zh_Hant_CN",
-                    "zh_Hant_CN"
+                  "und_Hant_CN",
+                  "yue_Hant_CN",
+                  "yue_Hant_CN"
                 }, {
                     "und_Hant_TW",
                     "zh_Hant_TW",
@@ -4174,10 +4174,6 @@ public class ULocaleTest extends CoreTestFmwk {
         };
 
         for (int i = 0; i < full_data.length; i++) {
-			if (full_data[i][0].equals("und_Hant_CN") &&
-            	logKnownIssue("CLDR-17981", "und_Hant_CN changed expected result for Likely Subtags")) {
-    	        continue;
-        	}
             ULocale org = new ULocale(full_data[i][0]);
             ULocale res = ULocale.addLikelySubtags(org);
             String exp = full_data[i][1];
@@ -5547,7 +5543,7 @@ public class ULocaleTest extends CoreTestFmwk {
 
     @Test
     public void TestLocaleCanonicalizationFromFile() throws IOException {
-        BufferedReader testFile = TestUtil.getDataReader("cldr/localeIdentifiers/localeCanonicalization.txt");
+        BufferedReader testFile = TestUtil.getUtf8DataReader("cldr/localeIdentifiers/localeCanonicalization.txt");
         try {
             String line;
             while ((line = testFile.readLine()) != null) {
@@ -5601,7 +5597,7 @@ public class ULocaleTest extends CoreTestFmwk {
     static List<TestCase> readLikelySubtagsTestCases() throws Exception {
         List<TestCase> tests = new ArrayList<>();
         TestCase test = new TestCase();
-        BufferedReader testFile = TestUtil.getDataReader("cldr/localeIdentifiers/likelySubtags.txt");
+        BufferedReader testFile = TestUtil.getUtf8DataReader("cldr/localeIdentifiers/likelySubtags.txt");
         try {
             String line;
             while ((line = testFile.readLine()) != null) {
@@ -5726,11 +5722,6 @@ public class ULocaleTest extends CoreTestFmwk {
             assertEquals("addLikelySubtags(" + test.source + ") should be unchanged",
                 l, ULocale.addLikelySubtags(l));
         } else {
-			if ( ( test.source.equals("und-Latn-MU") || test.source.equals("und-Latn-RS") || test.source.equals("und-Latn-SL") 
-					|| test.source.equals("und-Latn-TK") || test.source.equals("und-Latn-ZM") )
-				 && logKnownIssue("CLDR-17981", "und_Hant_CN changed expected result for Likely Subtags") ) {
-    	        return;
-        	}        	
             assertEquals("addLikelySubtags(" + test.source + ")",
                 test.addLikely, ULocale.addLikelySubtags(l).toLanguageTag());
         }

@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 kk{
     units{
         acceleration{
@@ -152,6 +152,16 @@ kk{
                 one{"{0} миллимоль/литр"}
                 other{"{0} миллимоль/литр"}
             }
+            part-per-1e6{
+                dnam{"миллиондық үлес"}
+                one{"{0} миллиондық үлес"}
+                other{"{0} миллиондық үлес"}
+            }
+            part-per-1e9{
+                dnam{"миллиардтағы бөлік"}
+                one{"{0} б/млрд"}
+                other{"{0} б/млрд"}
+            }
             percent{
                 one{"{0} пайыз"}
                 other{"{0} пайыз"}
@@ -159,11 +169,6 @@ kk{
             permille{
                 one{"{0} промилле"}
                 other{"{0} промилле"}
-            }
-            permillion{
-                dnam{"миллиондық үлес"}
-                one{"{0} миллиондық үлес"}
-                other{"{0} миллиондық үлес"}
             }
             permyriad{
                 one{"{0} промириад"}
@@ -887,6 +892,11 @@ kk{
             }
         }
         concentr{
+            part-per-1e9{
+                dnam{"б/млрд"}
+                one{"{0} б/млрд"}
+                other{"{0} б/млрд"}
+            }
             percent{
                 dnam{"%"}
             }
@@ -1182,6 +1192,11 @@ kk{
                 dnam{"моль"}
                 one{"{0} моль"}
                 other{"{0} моль"}
+            }
+            part-per-1e9{
+                dnam{"бөлік/миллиард"}
+                one{"{0} б/млрд"}
+                other{"{0} б/млрд"}
             }
             percent{
                 dnam{"пайыз"}

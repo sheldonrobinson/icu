@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ja{
     zoneStrings{
         "Africa:Abidjan"{
@@ -1167,7 +1167,7 @@ ja{
             ec{"エフェテ島"}
         }
         "Pacific:Enderbury"{
-            ec{"エンダーベリー島"}
+            ec{"カントン島"}
         }
         "Pacific:Fakaofo"{
             ec{"ファカオフォ"}
@@ -1192,9 +1192,6 @@ ja{
         }
         "Pacific:Honolulu"{
             ec{"ホノルル"}
-        }
-        "Pacific:Kanton"{
-            ec{"カントン島"}
         }
         "Pacific:Kiritimati"{
             ec{"キリスィマスィ島"}

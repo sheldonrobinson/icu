@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 te{
     units{
         acceleration{
@@ -176,6 +176,15 @@ te{
                 one{"{0} మోల్"}
                 other{"{0} మోల్‌లు"}
             }
+            part-per-1e6{
+                one{"{0} భాగం/మిలియన్"}
+                other{"{0} భాగాలు/మిలియన్"}
+            }
+            part-per-1e9{
+                dnam{"ప్రతి బిలియన్‌కి భాగాలు"}
+                one{"ప్రతి బిలియన్‌కి {0} భాగం"}
+                other{"ప్రతి బిలియన్‌కి {0} భాగాలు"}
+            }
             percent{
                 one{"{0} శాతం"}
                 other{"{0} శాతం"}
@@ -183,10 +192,6 @@ te{
             permille{
                 one{"{0}/మైలుకు"}
                 other{"{0}/మైలుకు"}
-            }
-            permillion{
-                one{"{0} భాగం/మిలియన్"}
-                other{"{0} భాగాలు/మిలియన్"}
             }
             permyriad{
                 one{"{0} పెర్మేరియాడ్"}
@@ -1481,16 +1486,19 @@ te{
             mole{
                 dnam{"మోల్"}
             }
+            part-per-1e6{
+                dnam{"భాగాలు/మిలియన్"}
+                one{"{0} భా./మి."}
+                other{"{0} భా./మి."}
+            }
+            part-per-1e9{
+                dnam{"భాగాలు/బిలియన్"}
+            }
             percent{
                 dnam{"శాతం"}
             }
             permille{
                 dnam{"మైలుకు"}
-            }
-            permillion{
-                dnam{"భాగాలు/మిలియన్"}
-                one{"{0} భా./మి."}
-                other{"{0} భా./మి."}
             }
             permyriad{
                 dnam{"పెర్మేరియాడ్"}

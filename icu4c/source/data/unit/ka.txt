@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ka{
     units{
         acceleration{
@@ -147,6 +147,16 @@ ka{
                 one{"{0} მილიმოლი ლიტრზე"}
                 other{"{0} მილიმოლი ლიტრზე"}
             }
+            part-per-1e6{
+                dnam{"ნაწილი მილიონზე"}
+                one{"{0} ნაწილი მილიონზე"}
+                other{"{0} ნაწილი მილიონზე"}
+            }
+            part-per-1e9{
+                dnam{"ნაწილი მილიარდზე"}
+                one{"{0} ნაწილი მილიარდზე"}
+                other{"{0} ნაწილი მილიარდზე"}
+            }
             percent{
                 dnam{"პროცენტი"}
                 one{"{0} პროცენტი"}
@@ -156,11 +166,6 @@ ka{
                 dnam{"პრომილე"}
                 one{"{0} პრომილე"}
                 other{"{0} პრომილე"}
-            }
-            permillion{
-                dnam{"ნაწილი მილიონზე"}
-                one{"{0} ნაწილი მილიონზე"}
-                other{"{0} ნაწილი მილიონზე"}
             }
         }
         consumption{
@@ -871,6 +876,11 @@ ka{
                 other{"{0} წმ"}
             }
         }
+        concentr{
+            part-per-1e9{
+                dnam{"ნ/მ"}
+            }
+        }
         consumption{
             liter-per-100-kilometer{
                 one{"{0}ლ/100კმ"}
@@ -1102,8 +1112,13 @@ ka{
                 one{"{0} მმოლ/ლ"}
                 other{"{0} მმოლ/ლ"}
             }
-            permillion{
+            part-per-1e6{
                 dnam{"ნაწილი/მილიონზე"}
+            }
+            part-per-1e9{
+                dnam{"ნაწილი/მილიარდზე"}
+                one{"{0} ნ/მ"}
+                other{"{0} ნ/მ"}
             }
         }
         consumption{

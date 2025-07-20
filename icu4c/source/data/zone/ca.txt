@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ca{
     zoneStrings{
         "Africa:Addis_Ababa"{
@@ -359,17 +359,11 @@ ca{
         "Pacific:Easter"{
             ec{"Illa de Pasqua"}
         }
-        "Pacific:Enderbury"{
-            ec{"Enderbury"}
-        }
         "Pacific:Galapagos"{
             ec{"Galápagos"}
         }
         "Pacific:Honolulu"{
             ec{"Honolulu"}
-        }
-        "Pacific:Kanton"{
-            ec{"Canton"}
         }
         "Pacific:Marquesas"{
             ec{"Marqueses"}

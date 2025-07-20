@@ -17,6 +17,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -58,11 +59,11 @@ public class WriteCharts {
     }
     
     public static String[] getAllScripts() {
-        Set set = new TreeSet();
+        Set<String> set = new TreeSet<>();
         int scripts[];
-        Enumeration sources = Transliterator.getAvailableSources();
+        Enumeration<String> sources = Transliterator.getAvailableSources();
         while(sources.hasMoreElements()) {
-            String source = (String) sources.nextElement();
+            String source = sources.nextElement();
             scripts = UScript.getCode(source);
             if (scripts == null) {
                 System.out.println("[Skipping " + source + "]");
@@ -70,9 +71,9 @@ public class WriteCharts {
             }
             int sourceScript = scripts[0];
             System.out.println("Source: " + source + ";\tScripts: " + showScripts(scripts));
-            Enumeration targets = Transliterator.getAvailableTargets(source);
+            Enumeration<String> targets = Transliterator.getAvailableTargets(source);
             while(targets.hasMoreElements()) {
-                String target = (String) targets.nextElement();
+                String target = targets.nextElement();
                 scripts = UScript.getCode(target);
                 if (scripts == null
                         || priority(scripts[0]) < priority(sourceScript)) {
@@ -81,9 +82,9 @@ public class WriteCharts {
                     continue;
                 }
                 System.out.println("\tTarget: " + target + ";\tScripts: " + showScripts(scripts));
-                Enumeration variants = Transliterator.getAvailableVariants(source, target);
+                Enumeration<String> variants = Transliterator.getAvailableVariants(source, target);
                 while(variants.hasMoreElements()) {
-                    String variant = (String) variants.nextElement();
+                    String variant = variants.nextElement();
                     String id = source + "-" + target;
                     if (variant.length() != 0) {
                         id += "/" + variant;
@@ -108,10 +109,9 @@ public class WriteCharts {
     }
     
     public static String showScripts(int[] scripts) {
-        StringBuffer results = new StringBuffer();
+        StringJoiner results = new StringJoiner(", ");
         for (int i = 0; i < scripts.length; ++i) {
-            if (i != 0) results.append(", ");
-            results.append(UScript.getName(scripts[i]));
+            results.add(UScript.getName(scripts[i]));
         }
         return results.toString();
     }
@@ -167,7 +167,7 @@ public class WriteCharts {
         UnicodeSet leftOverSet = new UnicodeSet(targetSet);
         UnicodeSet privateUse = new UnicodeSet("[:private use:]");
             
-        Map map = new TreeMap();
+        Map<String, String> map = new TreeMap<>();
         
         UnicodeSet targetSetPlusAnyways = new UnicodeSet(targetSet);
         targetSetPlusAnyways.addAll(okAnyway);
@@ -208,9 +208,9 @@ public class WriteCharts {
                     
                 map.put(group + UCharacter.toLowerCase(Normalizer.normalize(ss, Normalizer.NFKD))
                         + "\u0000" + ss, 
-                    "<td class='s'>" + ss + "<br><tt>" + hex(ss)
-                        + "</tt></td><td class='t'>" + ts + "<br><tt>" + hex(ts)
-                        + "</tt></td><td class='r'>" + rt + "<br><tt>" + hex(rt) + "</tt></td>" );
+                    "<td class='s'>" + ss + "<br>{@code " + hex(ss)
+                        + "</tt></td><td class='t'>" + ts + "<br>{@code " + hex(ts)
+                        + "</tt></td><td class='r'>" + rt + "<br>{@code " + hex(rt) + "</tt></td>" );
                 
                 // Check Duals
                 /*
@@ -233,9 +233,9 @@ public class WriteCharts {
                         group = 0x100;
                         map.put(group + UCharacter.toLowerCase(Normalizer.normalize(ss12, Normalizer.DECOMP_COMPAT, 0))
                                 + "\u0000" + ss12, 
-                            "<td class='s'>" + ss12 + "<br><tt>" + hex(ss12)
-                                + "</tt></td><td class='t'>" + ts12 + "<br><tt>" + hex(ts12)
-                                + "</tt></td><td class='r'>" + rt12 + "<br><tt>" + hex(rt12) + "</tt></td>" );
+                            "<td class='s'>" + ss12 + "<br>{@code " + hex(ss12)
+                                + "</tt></td><td class='t'>" + ts12 + "<br>{@code " + hex(ts12)
+                                + "</tt></td><td class='r'>" + rt12 + "<br>{@code " + hex(rt12) + "</tt></td>" );
                     }
                 }
                 */
@@ -271,7 +271,7 @@ public class WriteCharts {
                 }
                     
                 map.put(group + UCharacter.toLowerCase(Normalizer.normalize(ts, Normalizer.NFKD)) + ts, 
-                    "<td class='s'>-</td><td class='t'>" + ts + "<br><tt>" + hex(ts)
+                    "<td class='s'>-</td><td class='t'>" + ts + "<br>{@code " + hex(ts)
                     + "</tt></td><td class='r'>"
                     + rt + "<br><tt>" + hex(rt) + "</tt></td>");
             //}
@@ -315,7 +315,7 @@ public class WriteCharts {
             out.println("<h2>Round Trip</h2>");
             out.println(tableHeader);
             
-            Iterator it = map.keySet().iterator();
+            Iterator<String> it = map.keySet().iterator();
             char lastGroup = 0;
             int count = 0;
             int column = 0;
@@ -363,15 +363,10 @@ public class WriteCharts {
             out.close();
         }
     }
-    
+
     public static String hex(String s) {
-        int cp;
-        StringBuffer results = new StringBuffer();
-        for (int i = 0; i < s.length(); i += UTF16.getCharCount(cp)) {
-            cp = UTF16.charAt(s, i);
-            if (i != 0) results.append(' ');
-            results.append(Integer.toHexString(cp));
-        }
+        StringJoiner results = new StringJoiner(" ");
+        s.codePoints().mapToObj(Integer::toHexString).forEach(results::add);
         return results.toString().toUpperCase();
     }
     

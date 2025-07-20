@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 vi{
     zoneStrings{
         "America:Bahia_Banderas"{
@@ -77,9 +77,6 @@ vi{
         }
         "Europe:Prague"{
             ec{"Praha"}
-        }
-        "Pacific:Enderbury"{
-            ec{"Enderbury"}
         }
         "Pacific:Honolulu"{
             ec{"Honolulu"}

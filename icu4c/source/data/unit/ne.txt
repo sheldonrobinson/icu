@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ne{
     units{
         acceleration{
@@ -120,6 +120,11 @@ ne{
                 dnam{"मिलिग्राम पति डेेसिलिटर"}
                 one{"{0} mg/dL"}
                 other{"{0} मिलिग्राम पति डेेसिलिटर"}
+            }
+            part-per-1e9{
+                dnam{"अंश प्रति बरब"}
+                one{"{0} अंश प्रति अरब"}
+                other{"{0} अंश प्रति अरब"}
             }
             percent{
                 one{"{0} प्रतिशत"}
@@ -814,13 +819,17 @@ ne{
                 one{"{0}mmol/L"}
                 other{"{0}mmol/L"}
             }
+            part-per-1e6{
+                one{"{0}ppm"}
+                other{"{0}ppm"}
+            }
+            part-per-1e9{
+                one{"{0}ppb"}
+                other{"{0}ppb"}
+            }
             permille{
                 one{"{0}‰"}
                 other{"{0}‰"}
-            }
-            permillion{
-                one{"{0}ppm"}
-                other{"{0}ppm"}
             }
         }
         consumption{
@@ -1347,6 +1356,9 @@ ne{
                 dnam{"मोल"}
                 one{"{0} मोल"}
                 other{"{0} मोल"}
+            }
+            part-per-1e9{
+                dnam{"अंश/अरब"}
             }
             percent{
                 dnam{"प्रतिशत"}

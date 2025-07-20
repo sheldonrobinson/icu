@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 tr{
     units{
         acceleration{
@@ -157,6 +157,16 @@ tr{
                 one{"{0} milimol/litre"}
                 other{"{0} milimol/litre"}
             }
+            part-per-1e6{
+                dnam{"parça/milyon"}
+                one{"{0} parça/milyon"}
+                other{"{0} parça/milyon"}
+            }
+            part-per-1e9{
+                dnam{"parça/milyar"}
+                one{"{0} parça/milyar"}
+                other{"{0} parça/milyar"}
+            }
             percent{
                 dnam{"yüzde"}
                 one{"yüzde {0}"}
@@ -166,11 +176,6 @@ tr{
                 dnam{"binde"}
                 one{"binde {0}"}
                 other{"binde {0}"}
-            }
-            permillion{
-                dnam{"parça/milyon"}
-                one{"{0} parça/milyon"}
-                other{"{0} parça/milyon"}
             }
             permyriad{
                 one{"onbinde {0}"}
@@ -1147,6 +1152,9 @@ tr{
                 dnam{"mmol/l"}
                 one{"{0} mmol/l"}
                 other{"{0} mmol/l"}
+            }
+            part-per-1e9{
+                dnam{"parça/milyar"}
             }
             percent{
                 one{"%{0}"}

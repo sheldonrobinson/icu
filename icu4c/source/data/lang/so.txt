@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 so{
     Keys{
         calendar{"Habeentiris"}
@@ -672,13 +672,11 @@ so{
             standard{"Habka Heerka Lacagta"}
         }
         collation{
-            big5han{"Isku hagaajinta Shiineeskii Hore - Big5"}
             compat{"Iswaafajinta Isku hajintii hore"}
             dictionary{"Isku hagaajinta Qaamuuska"}
             ducet{"Lambar Sireedka Caalamiga ee Kala Soocidda Dalabka"}
             emoji{"Isku hagaajinta Emojiga"}
             eor{"Xeerarka Dalabka Yurub"}
-            gb2312han{"Isku hagaajinta Farta shiineeska"}
             phonebook{"Isku hagaajinta foonbuuga"}
             pinyin{"Isku hagaajinta Pinyin"}
             search{"Raadinta Guud"}

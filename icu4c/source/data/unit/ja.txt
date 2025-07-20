@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ja{
     units{
         acceleration{
@@ -726,14 +726,17 @@ ja{
                 dnam{"mol"}
                 other{"{0}mol"}
             }
+            part-per-1e6{
+                other{"{0}ppm"}
+            }
+            part-per-1e9{
+                other{"{0}ppb"}
+            }
             percent{
                 dnam{"%"}
             }
             permille{
                 dnam{"‰"}
-            }
-            permillion{
-                other{"{0}ppm"}
             }
             permyriad{
                 dnam{"‱"}

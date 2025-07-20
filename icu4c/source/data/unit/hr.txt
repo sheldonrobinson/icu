@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 hr{
     units{
         acceleration{
@@ -564,6 +564,54 @@ hr{
                 one{"{0} mola"}
                 other{"{0} mola"}
             }
+            part-per-1e6{
+                case{
+                    accusative{
+                        few{"{0} dijela na milijun"}
+                        one{"{0} dio na milijun"}
+                        other{"{0} dijelova na milijun"}
+                    }
+                    genitive{
+                        few{"{0} dijela na milijun"}
+                        one{"{0} dijela na milijun"}
+                        other{"{0} dijelova na milijun"}
+                    }
+                    instrumental{
+                        few{"{0} dijela na milijun"}
+                        one{"{0} dijelom na milijun"}
+                        other{"{0} dijelova na milijun"}
+                    }
+                }
+                dnam{"dijelovi na milijun"}
+                few{"{0} dijela na milijun"}
+                gender{"inanimate"}
+                one{"{0} dio na milijun"}
+                other{"{0} dijelova na milijun"}
+            }
+            part-per-1e9{
+                case{
+                    accusative{
+                        few{"{0} dijela na milijardu"}
+                        one{"{0} dio na milijardu"}
+                        other{"{0} dijelova na milijardu"}
+                    }
+                    genitive{
+                        few{"{0} dijela na milijardu"}
+                        one{"{0} dijela na milijardu"}
+                        other{"{0} dijelova na milijardu"}
+                    }
+                    instrumental{
+                        few{"{0} dijela na milijardu"}
+                        one{"{0} dijelom na milijardu"}
+                        other{"{0} dijelova na milijardu"}
+                    }
+                }
+                dnam{"dijelovi na milijardu"}
+                few{"{0} dijela na milijardu"}
+                gender{"inanimate"}
+                one{"{0} dio na milijardu"}
+                other{"{0} dijelova na milijardu"}
+            }
             percent{
                 case{
                     accusative{
@@ -611,30 +659,6 @@ hr{
                 gender{"inanimate"}
                 one{"{0} promil"}
                 other{"{0} promila"}
-            }
-            permillion{
-                case{
-                    accusative{
-                        few{"{0} dijela na milijun"}
-                        one{"{0} dio na milijun"}
-                        other{"{0} dijelova na milijun"}
-                    }
-                    genitive{
-                        few{"{0} dijela na milijun"}
-                        one{"{0} dijela na milijun"}
-                        other{"{0} dijelova na milijun"}
-                    }
-                    instrumental{
-                        few{"{0} dijela na milijun"}
-                        one{"{0} dijelom na milijun"}
-                        other{"{0} dijelova na milijun"}
-                    }
-                }
-                dnam{"dijelovi na milijun"}
-                few{"{0} dijela na milijun"}
-                gender{"inanimate"}
-                one{"{0} dio na milijun"}
-                other{"{0} dijelova na milijun"}
             }
             permyriad{
                 case{
@@ -3388,6 +3412,9 @@ hr{
                 one{"{0} mol"}
                 other{"{0} mola"}
             }
+            part-per-1e9{
+                dnam{"dijelovi/milijarda"}
+            }
         }
         consumption{
             liter-per-100-kilometer{
@@ -3579,6 +3606,9 @@ hr{
                 few{"{0} mola"}
                 one{"{0} mola"}
                 other{"{0} mola"}
+            }
+            part-per-1e9{
+                dnam{"dijelovi/milijarda"}
             }
             percent{
                 few{"{0} %"}

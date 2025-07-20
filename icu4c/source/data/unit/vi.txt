@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 vi{
     units{
         acceleration{
@@ -114,6 +114,10 @@ vi{
             karat{
                 dnam{"carat"}
                 other{"{0} carat"}
+            }
+            part-per-1e9{
+                dnam{"phần tỷ"}
+                other{"{0} phần tỷ"}
             }
             permyriad{
                 other{"{0} phần vạn"}
@@ -635,6 +639,9 @@ vi{
             }
         }
         concentr{
+            part-per-1e9{
+                other{"{0}ppb"}
+            }
             permyriad{
                 dnam{"‱"}
             }
@@ -797,6 +804,9 @@ vi{
             item{
                 dnam{"mục"}
                 other{"{0} mục"}
+            }
+            part-per-1e9{
+                dnam{"phần tỷ"}
             }
             permyriad{
                 dnam{"phần vạn"}

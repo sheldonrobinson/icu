@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 fil{
     units{
         acceleration{
@@ -169,6 +169,16 @@ fil{
                 one{"{0} mole"}
                 other{"{0} mole"}
             }
+            part-per-1e6{
+                dnam{"parts per million"}
+                one{"{0} part per million"}
+                other{"{0} parts per million"}
+            }
+            part-per-1e9{
+                dnam{"parts per billion"}
+                one{"{0} part per billion"}
+                other{"{0} parts per billion"}
+            }
             percent{
                 dnam{"porsyento"}
                 one{"{0} porsyento"}
@@ -178,11 +188,6 @@ fil{
                 dnam{"permille"}
                 one{"{0} permille"}
                 other{"{0} na permille"}
-            }
-            permillion{
-                dnam{"parts per million"}
-                one{"{0} part per million"}
-                other{"{0} parts per million"}
             }
             permyriad{
                 one{"{0} permyriad"}
@@ -1029,8 +1034,12 @@ fil{
             mole{
                 dnam{"mol"}
             }
-            permillion{
+            part-per-1e6{
                 dnam{"ppm"}
+            }
+            part-per-1e9{
+                one{"{0}ppb"}
+                other{"{0}ppb"}
             }
             permyriad{
                 dnam{"‱"}
@@ -1504,8 +1513,11 @@ fil{
             mole{
                 dnam{"mole"}
             }
-            permillion{
+            part-per-1e6{
                 dnam{"parts/million"}
+            }
+            part-per-1e9{
+                dnam{"parts/billion"}
             }
             permyriad{
                 dnam{"permyriad"}

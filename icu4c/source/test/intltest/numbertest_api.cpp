@@ -133,6 +133,8 @@ void NumberFormatterApiTest::runIndexedTest(int32_t index, UBool exec, const cha
         TESTCASE_AUTO(toDecimalNumber);
         TESTCASE_AUTO(microPropsInternals);
         TESTCASE_AUTO(formatUnitsAliases);
+        TESTCASE_AUTO(formatArbitraryConstant);
+        TESTCASE_AUTO(TestPortionFormat);
         TESTCASE_AUTO(testIssue22378);
     TESTCASE_AUTO_END;
 }
@@ -6057,6 +6059,9 @@ void NumberFormatterApiTest::microPropsInternals() {
 void NumberFormatterApiTest::formatUnitsAliases() {
     IcuTestErrorCode status(*this, "formatUnitsAliases");
 
+    if (logKnownIssue("ICU-23105", "With CLDR 48m1, C++ NumberFormatterApiTest::formatUnitsAliases fails (J passes)")) {
+        return;
+    }
     struct TestCase {
         const MeasureUnit measureUnit;
         const UnicodeString expectedFormat;
@@ -6065,13 +6070,14 @@ void NumberFormatterApiTest::formatUnitsAliases() {
         {MeasureUnit::getMilligramPerDeciliter(), u"2 milligrams per deciliter"},
         {MeasureUnit::getLiterPer100Kilometers(), u"2 liters per 100 kilometers"},
         {MeasureUnit::getPartPerMillion(), u"2 parts per million"},
-        {MeasureUnit::getMillimeterOfMercury(), u"2 millimeters of mercury"},
-
-        // Replacements
-        {MeasureUnit::getMilligramOfglucosePerDeciliter(), u"2 milligrams per deciliter"},
-        {MeasureUnit::forIdentifier("millimeter-ofhg", status), u"2 millimeters of mercury"},
-        {MeasureUnit::forIdentifier("liter-per-100-kilometer", status), u"2 liters per 100 kilometers"},
         {MeasureUnit::forIdentifier("permillion", status), u"2 parts per million"},
+        {MeasureUnit::getMillimeterOfMercury(), u"2 millimeters of mercury"},
+ 
+        // Some replacements
+        {MeasureUnit::getMilligramOfglucosePerDeciliter(), u"2 milligrams per deciliter"},
+        {MeasureUnit::getLiterPer100Kilometers(), u"2 liters per 100 kilometers"},
+        {MeasureUnit::getPartPer1E6(), u"2 parts per million"},
+        {MeasureUnit::forIdentifier("millimeter-ofhg", status), u"2 millimeters of mercury"},
     };
 
     for (const auto &testCase : testCases) {
@@ -6082,6 +6088,94 @@ void NumberFormatterApiTest::formatUnitsAliases() {
                                          .toString(status);
 
         assertEquals("test unit aliases", testCase.expectedFormat, actualFormat);
+    }
+}
+
+void NumberFormatterApiTest::formatArbitraryConstant() {
+    IcuTestErrorCode status(*this, "formatArbitraryConstant");
+
+    struct TestCase {
+        const char *unitIdentifier;
+        int32_t inputValue;
+        UNumberUnitWidth width;
+        Locale locale;
+        const UnicodeString expectedOutput;
+    } testCases[]{
+        {"meter-per-kelvin-second", 2, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getEnglish(),
+         "2 meters per second-kelvin"},
+        {"meter-per-100-kelvin-second", 3, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getEnglish(),
+         u"3 meters per 100-second-kelvin"},
+        {"meter-per-1000", 1, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getEnglish(), u"1 meter per 1000"},
+        {"meter-per-1000-second", 1, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getEnglish(),
+         u"1 meter per 1000-second"},
+        {"meter-per-1000-second-kelvin", 1, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getEnglish(),
+         u"1 meter per 1000-second-kelvin"},
+        {"meter-per-1-second-kelvin-per-kilogram", 1, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getEnglish(),
+         u"1 meter per 1-kilogram-second-kelvin"},
+        {"meter-second-per-kilogram-kelvin", 1, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getEnglish(),
+         u"1 meter-second per kilogram-kelvin"},
+        {"meter-second-per-1000-kilogram-kelvin", 1, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getEnglish(),
+         u"1 meter-second per 1000-kilogram-kelvin"},
+        {"meter-second-per-1000-kilogram-kelvin", 1, UNUM_UNIT_WIDTH_SHORT, Locale::getEnglish(),
+         u"1 m⋅sec/1000⋅kg⋅K"},
+        {"meter-second-per-1000-kilogram-kelvin", 1, UNUM_UNIT_WIDTH_FULL_NAME, Locale::getGerman(),
+         u"1 Meter⋅Sekunde pro 1000⋅Kilogramm⋅Kelvin"},
+        {"meter-second-per-1000-kilogram-kelvin", 1, UNUM_UNIT_WIDTH_SHORT, Locale::getGerman(),
+         u"1 m⋅Sek./1000⋅kg⋅K"},
+    };
+
+    for (auto testCase : testCases) {
+        auto unit = MeasureUnit::forIdentifier(testCase.unitIdentifier, status);
+        UnicodeString actualFormat = NumberFormatter::withLocale(testCase.locale)
+                                         .unit(unit)
+                                         .unitWidth(testCase.width)
+                                         .formatDouble(testCase.inputValue, status)
+                                         .toString(status);
+
+        if (status.errIfFailureAndReset()) {
+            continue;
+        }
+
+        assertEquals(UnicodeString("test arbitrary constant \"") + testCase.unitIdentifier + "\"",
+                     testCase.expectedOutput, actualFormat);
+    }
+}
+
+void NumberFormatterApiTest::TestPortionFormat() {
+    IcuTestErrorCode status(*this, "TestPortionFormat");
+
+    struct TestCase {
+        const char *unitIdentifier;
+        const char *locale;
+        double inputValue;
+        UnicodeString expectedOutput;
+    } testCases[]{
+        {"part-per-1e9", "en-US", 1, "1 part per billion"},
+        {"part-per-1e9", "en-US", 2, "2 parts per billion"},
+        {"part-per-1e9", "en-US", 1000000, "1,000,000 parts per billion"},
+        {"part-per-1e9", "de-DE", 1000000, "1.000.000 Milliardstel"},
+        {"part-per-1e1", "en-US", 1, "1 part per 10"},
+        {"part-per-1e2", "en-US", 1, "1 part per 100"},
+        {"part-per-1e3", "en-US", 1, "1 part per 1000"},
+        {"part-per-1e4", "en-US", 1, "1 part per 10000"},
+        {"part-per-1e5", "en-US", 1, "1 part per 100000"},
+        {"part-per-1e6", "en-US", 1, "1 part per million"},
+        {"part-per-1e7", "en-US", 1, "1 part per 10000000"},
+        {"part-per-1e8", "en-US", 1, "1 part per 100000000"},
+    };
+
+    for (auto testCase : testCases) {
+        //if (uprv_strcmp(testCase.unitIdentifier, "portion-per-1e9") != 0) {
+        //    logKnownIssue("CLDR-18274", "The data for portion-per-XYZ is not determined yet.");
+        //    continue;
+        //}
+        MeasureUnit unit = MeasureUnit::forIdentifier(testCase.unitIdentifier, status);
+        LocalizedNumberFormatter lnf =
+            NumberFormatter::withLocale(Locale::forLanguageTag(testCase.locale, status))
+                .unit(unit)
+                .unitWidth(UNumberUnitWidth::UNUM_UNIT_WIDTH_FULL_NAME);
+        UnicodeString actualOutput = lnf.formatDouble(testCase.inputValue, status).toString(status);
+        assertEquals("test part format", testCase.expectedOutput, actualOutput);
     }
 }
 

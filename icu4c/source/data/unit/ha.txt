@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ha{
     units{
         acceleration{
@@ -165,6 +165,16 @@ ha{
                 one{"mole {0}"}
                 other{"moles {0}"}
             }
+            part-per-1e6{
+                dnam{"parts per million"}
+                one{"part per million {0}"}
+                other{"parts per million {0}"}
+            }
+            part-per-1e9{
+                dnam{"sashi a cikin biliyan"}
+                one{"sashi {0} a cikin biliyan"}
+                other{"sashi {0} a cikin biliyan"}
+            }
             percent{
                 one{"kaso {0}"}
                 other{"Kaso {0}"}
@@ -172,11 +182,6 @@ ha{
             permille{
                 one{"permille {0}"}
                 other{"permille {0}"}
-            }
-            permillion{
-                dnam{"parts per million"}
-                one{"part per million {0}"}
-                other{"parts per million {0}"}
             }
             permyriad{
                 one{"permyriad {0}"}
@@ -1097,17 +1102,22 @@ ha{
                 one{"mol{0}"}
                 other{"mol{0}"}
             }
+            part-per-1e6{
+                dnam{"ppm"}
+                one{"ppm{0}"}
+                other{"ppm{0}"}
+            }
+            part-per-1e9{
+                dnam{"sashi/biliyan"}
+                one{"sashi {0} a cikin biliyan"}
+                other{"sashi {0} a cikin biliyan"}
+            }
             percent{
                 one{"%{0}"}
                 other{"%{0}"}
             }
             permille{
                 dnam{"‰"}
-            }
-            permillion{
-                dnam{"ppm"}
-                one{"ppm{0}"}
-                other{"ppm{0}"}
             }
             permyriad{
                 dnam{"‱"}
@@ -1953,6 +1963,16 @@ ha{
                 one{"mol {0}"}
                 other{"mol {0}"}
             }
+            part-per-1e6{
+                dnam{"parts/million"}
+                one{"ppm {0}"}
+                other{"ppm {0}"}
+            }
+            part-per-1e9{
+                dnam{"sashi/biliyan"}
+                one{"sashi {0} a cikin biliyan"}
+                other{"sashi {0} a cikin biliyan"}
+            }
             percent{
                 dnam{"kaso"}
             }
@@ -1960,11 +1980,6 @@ ha{
                 dnam{"permille"}
                 one{"‰{0}"}
                 other{"‰{0}"}
-            }
-            permillion{
-                dnam{"parts/million"}
-                one{"ppm {0}"}
-                other{"ppm {0}"}
             }
             permyriad{
                 dnam{"permyriad"}

@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ro{
     units{
         acceleration{
@@ -394,6 +394,34 @@ ro{
                 one{"{0} mol"}
                 other{"{0} de moli"}
             }
+            part-per-1e6{
+                case{
+                    genitive{
+                        few{"{0} părți pe milion"}
+                        one{"unei părți pe milion"}
+                        other{"{0} de părți pe milion"}
+                    }
+                }
+                dnam{"părți pe milion"}
+                few{"{0} părți pe milion"}
+                gender{"feminine"}
+                one{"{0} parte pe milion"}
+                other{"{0} de părți pe milion"}
+            }
+            part-per-1e9{
+                case{
+                    genitive{
+                        few{"{0} părți pe miliard"}
+                        one{"unei părți pe miliard"}
+                        other{"{0} de părți pe miliard"}
+                    }
+                }
+                dnam{"părți pe miliard"}
+                few{"{0} părți pe miliard"}
+                gender{"feminine"}
+                one{"{0} parte pe miliard"}
+                other{"{0} de părți pe miliard"}
+            }
             percent{
                 case{
                     genitive{
@@ -421,20 +449,6 @@ ro{
                 gender{"feminine"}
                 one{"{0} promilă"}
                 other{"{0} de promile"}
-            }
-            permillion{
-                case{
-                    genitive{
-                        few{"{0} părți pe milion"}
-                        one{"unei părți pe milion"}
-                        other{"{0} de părți pe milion"}
-                    }
-                }
-                dnam{"părți pe milion"}
-                few{"{0} părți pe milion"}
-                gender{"feminine"}
-                one{"{0} parte pe milion"}
-                other{"{0} de părți pe milion"}
             }
             permyriad{
                 case{
@@ -2257,6 +2271,9 @@ ro{
             karat{
                 dnam{"carat"}
             }
+            part-per-1e9{
+                dnam{"părți/miliard"}
+            }
             permille{
                 few{"{0} ‰"}
                 one{"{0} ‰"}
@@ -2503,6 +2520,9 @@ ro{
                 few{"{0} moli"}
                 one{"{0} mol"}
                 other{"{0} moli"}
+            }
+            part-per-1e9{
+                dnam{"părți/miliard"}
             }
         }
         consumption{

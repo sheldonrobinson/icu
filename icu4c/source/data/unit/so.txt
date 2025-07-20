@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 so{
     units{
         acceleration{
@@ -160,6 +160,16 @@ so{
                 one{"{0} milimool litirkiiba"}
                 other{"{0} milimool litirkiiba"}
             }
+            part-per-1e6{
+                dnam{"qeyb milyankiiba"}
+                one{"{0} qeyb milyankiiba"}
+                other{"{0} qeyb milyankiiba"}
+            }
+            part-per-1e9{
+                dnam{"qeybaha bilyankiiba"}
+                one{"{0} qeybaha bilyankiiba"}
+                other{"{0} qeybaha bilyankiiba"}
+            }
             percent{
                 one{"boqolkiiba {0}"}
                 other{"boqolkiiba {0}"}
@@ -167,11 +177,6 @@ so{
             permille{
                 one{"{0} baarmiil"}
                 other{"{0} baarmiil"}
-            }
-            permillion{
-                dnam{"qeyb milyankiiba"}
-                one{"{0} qeyb milyankiiba"}
-                other{"{0} qeyb milyankiiba"}
             }
             permyriad{
                 one{"{0} bermiraad"}
@@ -947,13 +952,18 @@ so{
                 one{"{0}mg/dL"}
                 other{"{0}mg/dL"}
             }
-            percent{
-                dnam{"%"}
-            }
-            permillion{
+            part-per-1e6{
                 dnam{"ppm"}
                 one{"{0}ppm"}
                 other{"{0}ppm#"}
+            }
+            part-per-1e9{
+                dnam{"qb"}
+                one{"{0}qb"}
+                other{"{0}qb"}
+            }
+            percent{
+                dnam{"%"}
             }
         }
         consumption{
@@ -1284,14 +1294,19 @@ so{
                 one{"{0} mool"}
                 other{"{0} mool"}
             }
+            part-per-1e6{
+                dnam{"qeyb/milyankiiba"}
+            }
+            part-per-1e9{
+                dnam{"qeybaha/bilyan"}
+                one{"{0} qb"}
+                other{"{0} qb"}
+            }
             percent{
                 dnam{"boqolkiiba"}
             }
             permille{
                 dnam{"baarmiil"}
-            }
-            permillion{
-                dnam{"qeyb/milyankiiba"}
             }
             permyriad{
                 dnam{"bermiraad"}

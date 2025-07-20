@@ -33,8 +33,9 @@
 
 #if !U_DISABLE_RENAMING
 
-// Disable Renaming for Visual Studio's IntelliSense feature, so that 'Go-to-Definition' (F12) will work.
-#if !(defined(_MSC_VER) && defined(__INTELLISENSE__))
+// Disable Renaming for Visual Studio's IntelliSense feature and for LLVM's Clang-Tidy tool, so that
+// 'Go-to-Definition' (F12) and 'include-cleaner' respectively will work.
+#if !(defined(_MSC_VER) && defined(__INTELLISENSE__)) && !defined(__clang_analyzer__)
 
 /* We need the U_ICU_ENTRY_POINT_RENAME definition. There's a default one in unicode/uvernum.h we can use, but we will give
    the platform a chance to define it first.
@@ -1820,7 +1821,6 @@
 #define usnum_setMinimumIntegerDigits U_ICU_ENTRY_POINT_RENAME(usnum_setMinimumIntegerDigits)
 #define usnum_setSign U_ICU_ENTRY_POINT_RENAME(usnum_setSign)
 #define usnum_setToInt64 U_ICU_ENTRY_POINT_RENAME(usnum_setToInt64)
-#define usnum_truncateStart U_ICU_ENTRY_POINT_RENAME(usnum_truncateStart)
 #define usnumf_close U_ICU_ENTRY_POINT_RENAME(usnumf_close)
 #define usnumf_format U_ICU_ENTRY_POINT_RENAME(usnumf_format)
 #define usnumf_formatInt64 U_ICU_ENTRY_POINT_RENAME(usnumf_formatInt64)
@@ -2038,7 +2038,7 @@
 #define ztrans_setTime U_ICU_ENTRY_POINT_RENAME(ztrans_setTime)
 #define ztrans_setTo U_ICU_ENTRY_POINT_RENAME(ztrans_setTo)
 
-#endif /* !(defined(_MSC_VER) && defined(__INTELLISENSE__)) */
+#endif /* !(defined(_MSC_VER) && defined(__INTELLISENSE__)) && !defined(__clang_analyzer__) */
 #endif /* U_DISABLE_RENAMING */
 #endif /* URENAME_H */
 

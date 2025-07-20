@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 mn{
     Keys{
         calendar{"цаглавар"}
@@ -688,13 +688,11 @@ mn{
             standard{"мөнгөн тэмдэгтийн стандарт хэлбэр"}
         }
         collation{
-            big5han{"Хуучин хятад Эрэмбэлэх дараалал - Том5"}
             compat{"Нийцлийн үүднээс өмнөх эрэмбэлэх дараалал"}
             dictionary{"Тольны эрэмбэлэх дараалал"}
             ducet{"юникодын үндсэн эрэмбэлэх дараалал"}
             emoji{"Эможи эрэмбэлэх дараалал"}
             eor{"Европийн эрэмбэлэх дүрэм"}
-            gb2312han{"Хялбаршуулсан хятад Эрэмбэлэх дараалал - GB2312"}
             phonebook{"Утасны дэвтрийн эрэмбэлэх дараалал"}
             pinyin{"Пиньян эрэмбэлэх дараалал"}
             search{"ерөнхий хайлт"}

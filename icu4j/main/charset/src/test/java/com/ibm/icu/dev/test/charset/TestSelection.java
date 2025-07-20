@@ -127,7 +127,7 @@ public class TestSelection extends TestFmwk {
     /* This test is to provide better code coverage for CharsetSelector */
     @Test
     public void TestCharsetSelectorCodeCoverage() {
-        List emptyList = new ArrayList();
+        List<String> emptyList = new ArrayList<>();
         UnicodeSet nonEmptySet = new UnicodeSet();
 
         nonEmptySet.add(0x0001, 0x0FFF);
@@ -139,7 +139,7 @@ public class TestSelection extends TestFmwk {
         /* Test bogus mappingType */
         try {
             sel = new CharsetSelector(null, null, -1);
-            errln("IllegalArgumentException should have been thrown by CharsetSelector when given a bogus mappingType, but got - " + sel.toString());
+            errln("IllegalArgumentException should have been thrown by CharsetSelector when given a bogus mappingType, but it wasn't.");
         } catch (IllegalArgumentException e) {
             logln("IllegalArgumentException was thrown by CharsetSelector with a bogus mappingType.");
         }

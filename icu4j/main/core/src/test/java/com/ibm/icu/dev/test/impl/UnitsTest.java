@@ -26,6 +26,7 @@ import com.ibm.icu.impl.units.UnitsData;
 import com.ibm.icu.impl.units.UnitsRouter;
 import com.ibm.icu.util.Measure;
 import com.ibm.icu.util.MeasureUnit;
+import com.ibm.icu.util.MeasureUnit.Complexity;
 import com.ibm.icu.util.ULocale;
 
 public class UnitsTest {
@@ -276,7 +277,7 @@ public class UnitsTest {
                 new TestData("millimeter", "meter", UnitsConverter.Convertibility.CONVERTIBLE),
                 new TestData("yard", "meter", UnitsConverter.Convertibility.CONVERTIBLE),
                 new TestData("ounce-troy", "kilogram", UnitsConverter.Convertibility.CONVERTIBLE),
-                new TestData("percent", "portion", UnitsConverter.Convertibility.CONVERTIBLE),
+                new TestData("percent", "part", UnitsConverter.Convertibility.CONVERTIBLE),
                 new TestData("ofhg", "kilogram-per-square-meter-square-second", UnitsConverter.Convertibility.CONVERTIBLE),
                 new TestData("second-per-meter", "meter-per-second", UnitsConverter.Convertibility.RECIPROCAL),
                 new TestData("mile-per-hour", "meter-per-second", UnitsConverter.Convertibility.CONVERTIBLE),
@@ -506,6 +507,25 @@ public class UnitsTest {
                 new TestData("dot-per-centimeter", "pixel-per-centimeter", 1.0, 1.0),
                 new TestData("dot-per-inch", "pixel-per-inch", 1.0, 1.0),
                 new TestData("dot", "pixel", 1.0, 1.0),
+
+                // With constants
+                new TestData("meter-per-10", "foot", 1.0, 0.328084),
+                new TestData("meter", "foot-per-10", 1.0, 32.8084),
+                new TestData("meter", "foot-per-100", 1.0, 328.084),
+                new TestData("part", "part-per-1000", 1.0, 1000),
+                new TestData("part", "part-per-10000", 1.0, 10000),
+                new TestData("part", "part-per-100000", 1.0, 100000),
+                new TestData("part", "part-per-1000000", 1.0, 1000000),
+                new TestData("part-per-10", "part", 1.0, 0.1),
+                new TestData("part-per-100", "part", 1.0, 0.01),
+                new TestData("part-per-1000", "part", 1.0, 0.001),
+                new TestData("part-per-10000", "part", 1.0, 0.0001),
+                new TestData("part-per-100000", "part", 1.0, 0.00001),
+                new TestData("part-per-1000000", "part", 1.0, 0.000001),
+                new TestData("mile-per-hour", "meter-per-second", 1.0, 0.44704),
+                new TestData("mile-per-100-hour", "meter-per-100-second", 1.0, 0.44704),
+                new TestData("mile-per-hour", "meter-per-100-second", 1.0, 44.704),
+                new TestData("mile-per-100-hour", "meter-per-second", 1.0, 0.0044704),
         };
 
         ConversionRates conversionRates = new ConversionRates();
@@ -570,9 +590,8 @@ public class UnitsTest {
             }
         }
 
-        String codePage = "UTF-8";
         ArrayList<TestCase> tests = new ArrayList<>();
-        try (BufferedReader f = TestUtil.getDataReader("cldr/units/unitsTest.txt", codePage)) {
+        try (BufferedReader f = TestUtil.getUtf8DataReader("cldr/units/unitsTest.txt")) {
             while (true) {
                 String line = f.readLine();
                 if (line == null) break;
@@ -693,10 +712,9 @@ public class UnitsTest {
         }
 
         // Read Test data from the unitPreferencesTest
-        String codePage = "UTF-8";
         ArrayList<TestCase> tests = new ArrayList<>();
 
-        try (BufferedReader f = TestUtil.getDataReader("cldr/units/unitPreferencesTest.txt", codePage)) {
+        try (BufferedReader f = TestUtil.getUtf8DataReader("cldr/units/unitPreferencesTest.txt")) {
             while (true) {
                 String line = f.readLine();
                 if (line == null) break;
@@ -815,6 +833,48 @@ public class UnitsTest {
             } else {
                 fail(t.name + ": failed to find preferences");
             }
+        }
+    }
+
+    @Test
+    public void testWithConstantDenominator() {
+        class TestCase {
+            String unitIdentifier;
+            long constantDenominator;
+            Complexity expectedComplexity;
+
+            TestCase(String unitIdentifier, long constantDenominator, Complexity expectedComplexity) {
+                this.unitIdentifier = unitIdentifier;
+                this.constantDenominator = constantDenominator;
+                this.expectedComplexity = expectedComplexity;
+            }
+        }
+
+        TestCase[] testCases = {
+                new TestCase("meter-per-second", 100, Complexity.COMPOUND),
+                new TestCase("meter-per-100-second", 0, Complexity.COMPOUND),
+                new TestCase("part", 100, Complexity.COMPOUND),
+                new TestCase("part-per-100", 0, Complexity.SINGLE),
+        };
+
+        for (TestCase testCase : testCases) {
+            MeasureUnit unit = MeasureUnit.forIdentifier(testCase.unitIdentifier);
+            unit = unit.withConstantDenominator(testCase.constantDenominator);
+
+            long actualDenominator = unit.getConstantDenominator();
+            Complexity actualComplexity = unit.getComplexity();
+
+            assertEquals(testCase.constantDenominator, actualDenominator);
+            assertEquals(testCase.expectedComplexity, actualComplexity);
+        }
+
+        // Test invalid withConstantDenominator
+        MeasureUnit unit = MeasureUnit.forIdentifier("meter-per-second");
+        try {
+            unit = unit.withConstantDenominator(-1);
+            fail("Expected IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+            // Expected exception
         }
     }
 }

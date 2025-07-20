@@ -270,7 +270,7 @@ import com.ibm.icu.util.UResourceBundle;
  * @stable ICU 4.0
  */
 
-public class DateIntervalFormat extends UFormat {
+public class DateIntervalFormat extends UFormat implements Cloneable {
 
     /**
      * An immutable class containing the result of a date interval formatting operation.
@@ -526,8 +526,8 @@ public class DateIntervalFormat extends UFormat {
         fSkeleton = skeleton;
         fInfo = dtItvInfo;
         isDateIntervalInfoDefault = false;
-        fFromCalendar = (Calendar) fDateFormat.getCalendar().clone();
-        fToCalendar = (Calendar) fDateFormat.getCalendar().clone();
+        fFromCalendar = fDateFormat.getCalendar().clone();
+        fToCalendar = fDateFormat.getCalendar().clone();
         initializePattern(null);
     }
 
@@ -538,8 +538,8 @@ public class DateIntervalFormat extends UFormat {
         fSkeleton = skeleton;
         fInfo = new DateIntervalInfo(locale).freeze();
         isDateIntervalInfoDefault = true;
-        fFromCalendar = (Calendar) fDateFormat.getCalendar().clone();
-        fToCalendar = (Calendar) fDateFormat.getCalendar().clone();
+        fFromCalendar = fDateFormat.getCalendar().clone();
+        fToCalendar = fDateFormat.getCalendar().clone();
         initializePattern(LOCAL_PATTERN_CACHE);
 }
 
@@ -570,7 +570,54 @@ public class DateIntervalFormat extends UFormat {
      * This is a convenient override of
      * getInstance(String skeleton, ULocale locale)
      *
-     * <p>Example code:{@.jcite com.ibm.icu.samples.text.dateintervalformat.DateIntervalFormatSample:---dtitvfmtPreDefinedExample}
+     * <!-- From: com.ibm.icu.samples.text.dateintervalformat.DateIntervalFormatSample:dtitvfmtPreDefinedExample -->
+     * <p>Example code:</p>
+     *
+     * <pre>
+     * import java.util.Date;
+     *
+     * import com.ibm.icu.text.DateFormat;
+     * import com.ibm.icu.text.DateIntervalFormat;
+     * import com.ibm.icu.text.DateIntervalInfo;
+     * import com.ibm.icu.util.Calendar;
+     * import com.ibm.icu.util.DateInterval;
+     * import com.ibm.icu.util.GregorianCalendar;
+     * import com.ibm.icu.util.ULocale;
+     * ...
+     * final Date date[] = {
+     *         new GregorianCalendar(2007,10,10,10,10,10).getTime(),
+     *         new GregorianCalendar(2008,10,10,10,10,10).getTime(),
+     *         new GregorianCalendar(2008,11,10,10,10,10).getTime(),
+     *         new GregorianCalendar(2008,11,10,15,10,10).getTime(),
+     * };
+     * final DateInterval dtitv[] = {
+     *         new DateInterval(date[0].getTime(),date[1].getTime()),
+     *         new DateInterval(date[1].getTime(),date[2].getTime()),
+     *         new DateInterval(date[2].getTime(),date[3].getTime()),
+     * };
+     * final String [] skeletons = {
+     *         DateFormat.YEAR_ABBR_MONTH_DAY,
+     *         DateFormat.MONTH_DAY,
+     *         DateFormat.HOUR_MINUTE,
+     * };
+     * System.out.printf("%-15s%-35s%-35s%-35s%-35s\n", "Skeleton", "from","to","Date Interval in en_US", "Date Interval in Ja");
+     * int i=0;
+     * for (String skeleton:skeletons) {
+     *     System.out.printf("%-15s%-35s%-35s", skeleton,date[i].toString(), date[i+1].toString());
+     *     DateIntervalFormat dtitvfmtEn = DateIntervalFormat.getInstance(skeleton, ULocale.ENGLISH);
+     *     DateIntervalFormat dtitvfmtJa = DateIntervalFormat.getInstance(skeleton, ULocale.JAPANESE);
+     *     System.out.printf("%-35s%-35s\n", dtitvfmtEn.format(dtitv[i]),dtitvfmtJa.format(dtitv[i]));
+     *     i++;
+     * }
+     * /** output of the sample code:
+     *  *********************************************************************************************************************************************************
+     *  Skeleton       from                               to                                 Date Interval in en_US             Date Interval in Ja
+     *  yMMMd          Sat Nov 10 10:10:10 EST 2007       Mon Nov 10 10:10:10 EST 2008       Nov 10, 2007 – Nov 10, 2008        2007年11月10日～2008年11月10日
+     *  MMMMd          Mon Nov 10 10:10:10 EST 2008       Wed Dec 10 10:10:10 EST 2008       November 10 – December 10          11月10日～12月10日
+     *  jm             Wed Dec 10 10:10:10 EST 2008       Wed Dec 10 15:10:10 EST 2008       10:10 AM – 3:10 PM                 10:10～15:10
+     *  *********************************************************************************************************************************************************<code>/</code>
+     * </pre>
+     *
      * @param skeleton  the skeleton on which interval format based.
      * @param locale    the given locale
      * @return          a date time interval formatter.
@@ -650,7 +697,50 @@ public class DateIntervalFormat extends UFormat {
      * This is a convenient override of
      * getInstance(String skeleton, ULocale locale, DateIntervalInfo dtitvinf)
      *
-     * <p>Example code:{@.jcite com.ibm.icu.samples.text.dateintervalformat.DateIntervalFormatSample:---dtitvfmtCustomizedExample}
+     * <!-- From: com.ibm.icu.samples.text.dateintervalformat.DateIntervalFormatSample:dtitvfmtCustomizedExample -->
+     * <p>Example code:</p>
+     *
+     * <pre>
+     * final Date date[] = {
+     *         new GregorianCalendar(2007,9,10,10,10,10).getTime(),
+     *         new GregorianCalendar(2007,10,10,10,10,10).getTime(),
+     *         new GregorianCalendar(2007,10,10,22,10,10).getTime(),
+     * };
+     * final DateInterval dtitv[] = {
+     *         new DateInterval(date[0].getTime(),date[1].getTime()),
+     *         new DateInterval(date[1].getTime(),date[2].getTime()),
+     * };
+     * final String [] skeletons = {
+     *         DateFormat.YEAR_ABBR_MONTH_DAY,
+     *         DateFormat.HOUR24_MINUTE,
+     * };
+     * System.out.printf("%-15s%-35s%-35s%-45s%-35s\n", "Skeleton", "from","to", "Date Interval in en_US", "Date Interval in Ja");
+     * // Create an empty DateIntervalInfo object
+     * DateIntervalInfo dtitvinf = new DateIntervalInfo(ULocale.ENGLISH);
+     * // Set Date Time internal pattern for MONTH, DAY_OF_MONTH, HOUR_OF_DAY
+     * dtitvinf.setIntervalPattern("yMMMd", Calendar.MONTH, "y 'Diff' MMM d --- MMM d");
+     * dtitvinf.setIntervalPattern("Hm", Calendar.HOUR_OF_DAY, "yyyy MMM d HH:mm ~ HH:mm");
+     * // Set fallback interval pattern
+     * dtitvinf.setFallbackIntervalPattern("{0} ~~~ {1}");
+     * // Get the DateIntervalFormat with the custom pattern
+     * for (String skeleton:skeletons){
+     *     for (int i=0;i&lt;2;i++) {
+     *         System.out.printf("%-15s%-35s%-35s", skeleton,date[i].toString(), date[i+1].toString());
+     *         DateIntervalFormat dtitvfmtEn = DateIntervalFormat.getInstance(skeleton,ULocale.ENGLISH,dtitvinf);
+     *         DateIntervalFormat dtitvfmtJa = DateIntervalFormat.getInstance(skeleton,ULocale.JAPANESE,dtitvinf);
+     *         System.out.printf("%-45s%-35s\n", dtitvfmtEn.format(dtitv[i]),dtitvfmtJa.format(dtitv[i]));
+     *     }
+     * }
+     * /** output of the sample code:
+     *  *************************************************************************************************************************************************************************
+     *   Skeleton       from                               to                                 Date Interval in en_US                       Date Interval in Ja
+     *   yMMMd          Wed Oct 10 10:10:10 EDT 2007       Sat Nov 10 10:10:10 EST 2007       2007 Diff Oct 10 --- Nov 10                  2007 Diff 10月 10 --- 11月 10
+     *   yMMMd          Sat Nov 10 10:10:10 EST 2007       Sat Nov 10 22:10:10 EST 2007       Nov 10, 2007                                 2007年11月10日
+     *   Hm             Wed Oct 10 10:10:10 EDT 2007       Sat Nov 10 10:10:10 EST 2007       10/10/2007, 10:10 ~~~ 11/10/2007, 10:10      2007/10/10 10:10 ~~~ 2007/11/10 10:10
+     *   Hm             Sat Nov 10 10:10:10 EST 2007       Sat Nov 10 22:10:10 EST 2007       2007 Nov 10 10:10 ~ 22:10                    2007 11月 10 10:10 ~ 22:10
+     *  *************************************************************************************************************************************************************************<code>/</code>
+     * </pre>
+     *
      * @param skeleton  the skeleton on which interval format based.
      * @param locale    the given locale
      * @param dtitvinf  the DateIntervalInfo object to be adopted.
@@ -708,7 +798,7 @@ public class DateIntervalFormat extends UFormat {
     {
         // clone. If it is frozen, clone returns itself, otherwise, clone
         // returns a copy.
-        dtitvinf = (DateIntervalInfo)dtitvinf.clone();
+        dtitvinf = dtitvinf.clone();
         DateTimePatternGenerator generator = DateTimePatternGenerator.getInstance(locale);
         return new DateIntervalFormat(skeleton, dtitvinf, new SimpleDateFormat(generator.getBestPattern(skeleton), locale));
     }
@@ -720,13 +810,13 @@ public class DateIntervalFormat extends UFormat {
      * @stable ICU 4.0
      */
     @Override
-    public synchronized Object clone()
+    public synchronized DateIntervalFormat clone()
     {
         DateIntervalFormat other = (DateIntervalFormat) super.clone();
-        other.fDateFormat = (SimpleDateFormat) fDateFormat.clone();
-        other.fInfo = (DateIntervalInfo) fInfo.clone();
-        other.fFromCalendar = (Calendar) fFromCalendar.clone();
-        other.fToCalendar = (Calendar) fToCalendar.clone();
+        other.fDateFormat = fDateFormat.clone();
+        other.fInfo = fInfo.clone();
+        other.fFromCalendar = fFromCalendar.clone();
+        other.fToCalendar = fToCalendar.clone();
         other.fDatePattern = fDatePattern;
         other.fTimePattern = fTimePattern;
         other.fDateTimeFormat = fDateTimeFormat;
@@ -1249,7 +1339,7 @@ public class DateIntervalFormat extends UFormat {
      */
     public DateIntervalInfo getDateIntervalInfo()
     {
-        return (DateIntervalInfo)fInfo.clone();
+        return fInfo.clone();
     }
 
 
@@ -1262,7 +1352,7 @@ public class DateIntervalFormat extends UFormat {
     {
         // clone it. If it is frozen, the clone returns itself.
         // Otherwise, clone returns a copy
-        fInfo = (DateIntervalInfo)newItvPattern.clone();
+        fInfo = newItvPattern.clone();
         this.isDateIntervalInfoDefault = false;
         fInfo.freeze(); // freeze it
         if ( fDateFormat != null ) {
@@ -1281,7 +1371,7 @@ public class DateIntervalFormat extends UFormat {
             // Here we clone, like other getters here, but unlike
             // DateFormat.getTimeZone() and Calendar.getTimeZone()
             // which return the TimeZone from the Calendar's zone variable
-            return (TimeZone)(fDateFormat.getTimeZone().clone());
+            return fDateFormat.getTimeZone().clone();
         }
         // If fDateFormat is null (unexpected), return default timezone.
         return TimeZone.getDefault();
@@ -1296,7 +1386,7 @@ public class DateIntervalFormat extends UFormat {
     public void setTimeZone(TimeZone zone)
     {
         // zone is cloned once for all three usages below:
-        TimeZone zoneToSet = (TimeZone)zone.clone();
+        TimeZone zoneToSet = zone.clone();
         if (fDateFormat != null) {
             fDateFormat.setTimeZone(zoneToSet);
         }
@@ -1349,7 +1439,7 @@ public class DateIntervalFormat extends UFormat {
      */
     public synchronized DateFormat getDateFormat()
     {
-        return (DateFormat)fDateFormat.clone();
+        return fDateFormat.clone();
     }
 
 

@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 kxv_Orya{
     %%Parent{"root"}
     zoneStrings{
@@ -1164,6 +1164,9 @@ kxv_Orya{
         "Pacific:Efate"{
             ec{"ଇଫେଟ୍‌"}
         }
+        "Pacific:Enderbury"{
+            ec{"କେଣ୍ଟନ"}
+        }
         "Pacific:Fakaofo"{
             ec{"ପକାଅପ"}
         }
@@ -1184,9 +1187,6 @@ kxv_Orya{
         }
         "Pacific:Guam"{
             ec{"ଗୁଆମ"}
-        }
-        "Pacific:Kanton"{
-            ec{"କେଣ୍ଟନ"}
         }
         "Pacific:Kiritimati"{
             ec{"କିରିତିମାଟି"}

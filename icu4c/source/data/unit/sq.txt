@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 sq{
     units{
         acceleration{
@@ -177,6 +177,16 @@ sq{
                 one{"{0} mol"}
                 other{"{0} molë"}
             }
+            part-per-1e6{
+                dnam{"pjesë për milion"}
+                one{"{0} pjesë për milion"}
+                other{"{0} pjesë për milion"}
+            }
+            part-per-1e9{
+                dnam{"pjesë për miliard"}
+                one{"{0} pjesë për miliard"}
+                other{"{0} pjesë për miliard"}
+            }
             percent{
                 dnam{"përqind"}
                 one{"{0} përqind"}
@@ -186,11 +196,6 @@ sq{
                 dnam{"përmijë"}
                 one{"{0} përmijë"}
                 other{"{0} përmijë"}
-            }
-            permillion{
-                dnam{"pjesë për milion"}
-                one{"{0} pjesë për milion"}
-                other{"{0} pjesë për milion"}
             }
             permyriad{
                 dnam{"përdhjetëmijë"}

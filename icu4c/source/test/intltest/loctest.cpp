@@ -249,6 +249,7 @@ void LocaleTest::runIndexedTest( int32_t index, UBool exec, const char* &name, c
     TESTCASE_AUTO(TestCreateUnicodeKeywordSetWithPrivateUse);
     TESTCASE_AUTO(TestGetKeywordValueStdString);
     TESTCASE_AUTO(TestGetUnicodeKeywordValueStdString);
+    TESTCASE_AUTO(TestSetKeywordValueImp);
     TESTCASE_AUTO(TestSetKeywordValue);
     TESTCASE_AUTO(TestSetKeywordValueStringPiece);
     TESTCASE_AUTO(TestSetUnicodeKeywordValueStringPiece);
@@ -2570,8 +2571,8 @@ LocaleTest::TestAddLikelyAndMinimizeSubtags() {
             "dz"
         }, {
             "und_BY",
-            "be_Cyrl_BY",
-            "be"
+            "ru_Cyrl_BY",
+            "ru_BY"
         }, {
             "und_Beng",
             "bn_Beng_BD",
@@ -2582,12 +2583,12 @@ LocaleTest::TestAddLikelyAndMinimizeSubtags() {
             "bn_IN"
         }, {
             "und_CD",
-            "sw_Latn_CD",
-            "sw_CD"
+            "fr_Latn_CD",
+            "fr_CD"
         }, {
             "und_CF",
-            "fr_Latn_CF",
-            "fr_CF"
+            "sg_Latn_CF",
+            "sg"
         }, {
             "und_CG",
             "fr_Latn_CG",
@@ -2650,8 +2651,8 @@ LocaleTest::TestAddLikelyAndMinimizeSubtags() {
             "de"
         }, {
             "und_DJ",
-            "aa_Latn_DJ",
-            "aa_DJ"
+            "fr_Latn_DJ",
+            "fr_DJ"
         }, {
             "und_DK",
             "da_Latn_DK",
@@ -3194,8 +3195,8 @@ LocaleTest::TestAddLikelyAndMinimizeSubtags() {
             "it_SM"
         }, {
             "und_SN",
-            "fr_Latn_SN",
-            "fr_SN"
+            "wo_Latn_SN",
+            "wo"
         }, {
             "und_SO",
             "so_Latn_SO",
@@ -3226,8 +3227,8 @@ LocaleTest::TestAddLikelyAndMinimizeSubtags() {
             "syr"
         }, {
             "und_TD",
-            "fr_Latn_TD",
-            "fr_TD"
+            "ar_Arab_TD",
+            "ar_TD"
         }, {
             "und_TG",
             "fr_Latn_TG",
@@ -3518,8 +3519,8 @@ LocaleTest::TestAddLikelyAndMinimizeSubtags() {
             "zh_TW"
         }, {
             "und_Hant_CN",
-            "zh_Hant_CN",
-            "zh_Hant_CN"
+            "yue_Hant_CN",
+            "yue_Hant_CN"
         }, {
             "und_Hant_TW",
             "zh_Hant_TW",
@@ -4139,10 +4140,6 @@ LocaleTest::TestAddLikelyAndMinimizeSubtags() {
     for (const auto& item : full_data) {
         const char* const org = item.from;
         const char* const exp = item.add;
-        if (uprv_strcmp(org,"und_Hant_CN") == 0 &&
-                logKnownIssue("CLDR-17981", "und_Hant_CN changed expected result for Likely Subtags")) {
-            continue;
-        }
         Locale res(org);
         res.addLikelySubtags(status);
         status.errIfFailureAndReset("\"%s\"", org);
@@ -4156,10 +4153,6 @@ LocaleTest::TestAddLikelyAndMinimizeSubtags() {
     for (const auto& item : full_data) {
         const char* const org = item.from;
         const char* const exp = item.remove;
-        if (uprv_strcmp(org,"und_Hant_CN") == 0 &&
-            	logKnownIssue("CLDR-17981", "und_Hant_CN changed expected result for Likely Subtags")) {
-            continue;
-        }
         Locale res(org);
         res.minimizeSubtags(status);
         status.errIfFailureAndReset("\"%s\"", org);
@@ -4380,7 +4373,7 @@ LocaleTest::TestCreateKeywordSet() {
             status);
     status.errIfFailureAndReset("\"%s\"", l.getName());
 
-    assertEquals("set::size()", 2, static_cast<int32_t>(result.size()));
+    assertEquals("set::size()", 2, result.size());
     assertTrue("set::find(\"calendar\")",
                result.find("calendar") != result.end());
     assertTrue("set::find(\"collation\")",
@@ -4399,7 +4392,7 @@ LocaleTest::TestCreateKeywordSetEmpty() {
             status);
     status.errIfFailureAndReset("\"%s\"", l.getName());
 
-    assertEquals("set::size()", 0, static_cast<int32_t>(result.size()));
+    assertEquals("set::size()", 0, result.size());
 }
 
 void
@@ -4435,7 +4428,7 @@ LocaleTest::TestCreateUnicodeKeywordSet() {
             status);
     status.errIfFailureAndReset("\"%s\"", l.getName());
 
-    assertEquals("set::size()", 2, static_cast<int32_t>(result.size()));
+    assertEquals("set::size()", 2, result.size());
     assertTrue("set::find(\"ca\")",
                result.find("ca") != result.end());
     assertTrue("set::find(\"co\")",
@@ -4459,7 +4452,7 @@ LocaleTest::TestCreateUnicodeKeywordSetEmpty() {
             status);
     status.errIfFailureAndReset("\"%s\"", l.getName());
 
-    assertEquals("set::size()", 0, static_cast<int32_t>(result.size()));
+    assertEquals("set::size()", 0, result.size());
 
     LocalPointer<StringEnumeration> se(l.createUnicodeKeywords(status), status);
     assertTrue("createUnicodeKeywords", se.isNull());
@@ -4484,7 +4477,7 @@ LocaleTest::TestCreateUnicodeKeywordSetWithPrivateUse() {
                result.find("x") == result.end());
     assertTrue("getUnicodeKeywords set::find(\"foo\")",
                result.find("foo") == result.end());
-    assertEquals("set::size()", 1, static_cast<int32_t>(result.size()));
+    assertEquals("set::size()", 1, result.size());
 
     LocalPointer<StringEnumeration> se(l.createUnicodeKeywords(status), status);
     status.errIfFailureAndReset("\"%s\" createUnicodeKeywords()", l.getName());
@@ -4520,6 +4513,35 @@ LocaleTest::TestGetUnicodeKeywordValueStdString() {
     std::string result = l.getUnicodeKeywordValue<std::string>(keyword, status);
     status.errIfFailureAndReset("\"%s\"", keyword);
     assertEquals(keyword, expected, result.c_str());
+}
+
+void
+LocaleTest::TestSetKeywordValueImp() {
+    IcuTestErrorCode status(*this, "TestSetKeywordValueImp()");
+
+    {
+        CharString localeID("aa", status);
+        ulocimp_setKeywordValue("bb", "cc", localeID, status);
+        assertEquals("", "aa@bb=cc", localeID.data());
+    }
+
+    {
+        CharString localeID("aa@bb=cc", status);
+        ulocimp_setKeywordValue("bb", "", localeID, status);
+        assertEquals("", "aa", localeID.data());
+    }
+
+    {
+        CharString localeID("aa", status);
+        ulocimp_setKeywordValue("zz", "", localeID, status);
+        assertEquals("", "aa", localeID.data());
+    }
+
+    {
+        CharString localeID("aa@bb=cc", status);
+        ulocimp_setKeywordValue("zz", "", localeID, status);
+        assertEquals("", "aa@bb=cc", localeID.data());
+    }
 }
 
 void
@@ -5727,10 +5749,6 @@ void LocaleTest::TestIsRightToLeft() {
     assertTrue("ckb RTL", Locale("ckb").isRightToLeft(), false, true);  // Sorani Kurdish
     assertFalse("fil LTR", Locale("fil").isRightToLeft());
     assertFalse("he-Zyxw LTR", Locale("he-Zyxw").isRightToLeft());
-
-    if (logKnownIssue("CLDR-17981", "und_Hant_CN changed expected result for Likely Subtags")) {
-            return;
-    }   
 }
 
 void LocaleTest::TestBug11421() {
@@ -5934,14 +5952,6 @@ testLikelySubtagsLineFn(void *context,
         *pErrorCode = U_ZERO_ERROR;
         return;
     }
-    
-     if ( (uprv_strcmp(source.c_str(), "und-Latn-MU") == 0 || uprv_strcmp(source.c_str(), "und-Latn-RS") == 0 || uprv_strcmp(source.c_str(), "und-Latn-SL") == 0
-            || uprv_strcmp(source.c_str(), "und-Latn-TK") == 0 || uprv_strcmp(source.c_str(), "und-Latn-ZM") == 0 )
-                 && THIS->logKnownIssue("CLDR-17981", "und_Hant_CN changed expected result for Likely Subtags")) {
-             return;
-     }    
-    
- 
 
     Locale actualMax(l);
     actualMax.addLikelySubtags(*pErrorCode);

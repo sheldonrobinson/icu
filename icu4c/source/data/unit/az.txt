@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 az{
     units{
         acceleration{
@@ -147,6 +147,16 @@ az{
                 one{"{0} millimol/litr"}
                 other{"{0} millimol/litr"}
             }
+            part-per-1e6{
+                dnam{"milyonda hissəcik"}
+                one{"{0} milyonda hissəcik"}
+                other{"{0} milyonda hissəcik"}
+            }
+            part-per-1e9{
+                dnam{"bir milyarda düşən hissə sayı"}
+                one{"bir milyarda düşən {0} hissə"}
+                other{"bir milyarda düşən {0} hissə"}
+            }
             percent{
                 one{"{0} faiz"}
                 other{"{0} faiz"}
@@ -154,11 +164,6 @@ az{
             permille{
                 one{"{0} promil"}
                 other{"{0} promil"}
-            }
-            permillion{
-                dnam{"milyonda hissəcik"}
-                one{"{0} milyonda hissəcik"}
-                other{"{0} milyonda hissəcik"}
             }
             permyriad{
                 one{"{0} permiriada"}
@@ -838,15 +843,15 @@ az{
             10p3{"k{0}"}
         }
         concentr{
+            part-per-1e6{
+                one{"{0} hs/mln"}
+                other{"{0}ppm"}
+            }
             percent{
                 dnam{"%"}
             }
             permille{
                 dnam{"‰"}
-            }
-            permillion{
-                one{"{0} hs/mln"}
-                other{"{0}ppm"}
             }
             permyriad{
                 dnam{"‱"}
@@ -1189,16 +1194,19 @@ az{
                 one{"{0} mmol/l"}
                 other{"{0} mmol/l"}
             }
+            part-per-1e6{
+                dnam{"hissəcik/milyon"}
+                one{"{0} hs/mln"}
+                other{"{0} hs/mln"}
+            }
+            part-per-1e9{
+                dnam{"hissə/milyard"}
+            }
             percent{
                 dnam{"faiz"}
             }
             permille{
                 dnam{"promil"}
-            }
-            permillion{
-                dnam{"hissəcik/milyon"}
-                one{"{0} hs/mln"}
-                other{"{0} hs/mln"}
             }
             permyriad{
                 dnam{"permiriada"}

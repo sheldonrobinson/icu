@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 nn{
     %%Parent{"no"}
     Keys{
@@ -139,9 +139,7 @@ nn{
             account{"valutaformat for rekneskapsføring"}
         }
         collation{
-            big5han{"tradisjonell kinesisk sortering"}
             ducet{"standard Unicode-sorteringsrekkjefølgje"}
-            gb2312han{"forenkla kinesisk sortering"}
             pinyin{"pinyin-sortering"}
             standard{"standard sorteringsrekkjefølgje"}
         }

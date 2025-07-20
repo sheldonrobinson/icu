@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 de{
     units{
         acceleration{
@@ -506,6 +506,46 @@ de{
                 one{"{0} Mol"}
                 other{"{0} Mol"}
             }
+            part-per-1e6{
+                case{
+                    accusative{
+                        one{"{0} Millionstel"}
+                        other{"{0} Millionstel"}
+                    }
+                    dative{
+                        one{"{0} Millionstel"}
+                        other{"{0} Millionsteln"}
+                    }
+                    genitive{
+                        one{"{0} Millionstels"}
+                        other{"{0} Millionstel"}
+                    }
+                }
+                dnam{"Millionstel"}
+                gender{"neuter"}
+                one{"{0} Millionstel"}
+                other{"{0} Millionstel"}
+            }
+            part-per-1e9{
+                case{
+                    accusative{
+                        one{"{0} Milliardstel"}
+                        other{"{0} Milliardstel"}
+                    }
+                    dative{
+                        one{"{0} Milliardstel"}
+                        other{"{0} Milliardsteln"}
+                    }
+                    genitive{
+                        one{"{0} Milliardstels"}
+                        other{"{0} Milliardstel"}
+                    }
+                }
+                dnam{"Milliardstel"}
+                gender{"neuter"}
+                one{"{0} Milliardstel"}
+                other{"{0} Milliardstel"}
+            }
             percent{
                 case{
                     accusative{
@@ -545,26 +585,6 @@ de{
                 gender{"neuter"}
                 one{"{0} Promille"}
                 other{"{0} Promille"}
-            }
-            permillion{
-                case{
-                    accusative{
-                        one{"{0} Millionstel"}
-                        other{"{0} Millionstel"}
-                    }
-                    dative{
-                        one{"{0} Millionstel"}
-                        other{"{0} Millionsteln"}
-                    }
-                    genitive{
-                        one{"{0} Millionstels"}
-                        other{"{0} Millionstel"}
-                    }
-                }
-                dnam{"Millionstel"}
-                gender{"neuter"}
-                one{"{0} Millionstel"}
-                other{"{0} Millionstel"}
             }
             permyriad{
                 case{
@@ -3829,6 +3849,11 @@ de{
                 dnam{"Millimol/Liter"}
                 one{"{0} mmol/l"}
                 other{"{0} mmol/l"}
+            }
+            part-per-1e9{
+                dnam{"Milliardstel"}
+                one{"{0} Milliardstel"}
+                other{"{0} Milliardstel"}
             }
             percent{
                 one{"{0} %"}

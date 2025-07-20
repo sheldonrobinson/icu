@@ -77,6 +77,7 @@ void UnicodeStringTest::runIndexedTest( int32_t index, UBool exec, const char* &
     TESTCASE_AUTO(TestNullPointers);
     TESTCASE_AUTO(TestUnicodeStringInsertAppendToSelf);
     TESTCASE_AUTO(TestLargeAppend);
+    TESTCASE_AUTO(TestLargeMemory);
     TESTCASE_AUTO(TestU16StringView);
     TESTCASE_AUTO(TestWStringView);
     TESTCASE_AUTO_END;
@@ -2351,6 +2352,18 @@ void UnicodeStringTest::TestUnicodeStringInsertAppendToSelf() {
     assertEquals("", u"abbcdcde", str);
 }
 
+void UnicodeStringTest::TestLargeMemory() {
+#if U_PLATFORM_IS_LINUX_BASED || U_PLATFORM_IS_DARWIN_BASED
+    if(quick) { return; }
+    IcuTestErrorCode status(*this, "TestLargeMemory");
+    constexpr uint32_t len = 2147483643;
+    char16_t *buf = new char16_t[len];
+    if (buf == nullptr) { return; }
+    uprv_memset(buf, 0x4e, len * 2);
+    icu::UnicodeString test(buf, len);
+    delete [] buf;
+#endif
+}
 void UnicodeStringTest::TestLargeAppend() {
     if(quick) return;
 
@@ -2379,15 +2392,17 @@ void UnicodeStringTest::TestLargeAppend() {
     }
     dest.remove();
     total = 0;
+    // Copy kMaxCapacity from common/unistr.cpp
+    const int32_t kMaxCapacity = 0x7ffffff5;
     for (int32_t i = 0; i < 16; i++) {
         dest.append(str);
         total += len;
-        if (total + len <= INT32_MAX) {
+        if (total + len <= kMaxCapacity) {
             assertFalse("dest is not bogus", dest.isBogus());
-        } else if (total <= INT32_MAX) {
+        } else if (total <= kMaxCapacity) {
             // Check that a string of exactly the maximum size works
             UnicodeString str2;
-            int32_t remain = static_cast<int32_t>(INT32_MAX - total);
+            int32_t remain = static_cast<int32_t>(kMaxCapacity - total);
             char16_t *buf2 = str2.getBuffer(remain);
             if (buf2 == nullptr) {
                 // if somehow memory allocation fail, return the test
@@ -2397,12 +2412,17 @@ void UnicodeStringTest::TestLargeAppend() {
             str2.releaseBuffer(remain);
             dest.append(str2);
             total += remain;
-            assertEquals("When a string of exactly the maximum size works", static_cast<int64_t>(INT32_MAX), total);
-            assertEquals("When a string of exactly the maximum size works", INT32_MAX, dest.length());
+            assertEquals("When a string of exactly the maximum size works", kMaxCapacity, total);
+            assertEquals("When a string of exactly the maximum size works", kMaxCapacity, dest.length());
             assertFalse("dest is not bogus", dest.isBogus());
 
-            // Check that a string size+1 goes bogus
+            // Check that a string size+1 does not go bogus (one more byte reserved for NUL)
             str2.truncate(1);
+            dest.append(str2);
+            total++;
+            assertFalse("dest should be not bogus", dest.isBogus());
+            // Check that a string size+2 goes bogus (beyond the byte reserved
+            // for NUL)
             dest.append(str2);
             total++;
             assertTrue("dest should be bogus", dest.isBogus());
@@ -2439,11 +2459,11 @@ void UnicodeStringTest::TestU16StringView() {
 
     UnicodeString aliasFromSV = UnicodeString::readOnlyAlias(sv16);
     assertTrue("aliasFromSV pointer alias", aliasFromSV.getBuffer() == sv16.data());
-    assertEquals("aliasFromSV length", static_cast<int32_t>(sv16.length()), aliasFromSV.length());
+    assertEquals("aliasFromSV length", sv16.length(), aliasFromSV.length());
 
     UnicodeString aliasFromStr = UnicodeString::readOnlyAlias(str16);
     assertTrue("aliasFromStr pointer alias", aliasFromStr.getBuffer() == str16.data());
-    assertEquals("aliasFromStr length", static_cast<int32_t>(str16.length()), aliasFromStr.length());
+    assertEquals("aliasFromStr length", str16.length(), aliasFromStr.length());
 
     UnicodeString aliasFromUStr = UnicodeString::readOnlyAlias(ustr);
     assertTrue("aliasFromUStr pointer alias", aliasFromUStr.getBuffer() == ustr.getBuffer());
@@ -2494,7 +2514,7 @@ void UnicodeStringTest::TestU16StringView() {
     // Convert UnicodeString to string view.
     std::u16string_view sv16FromUniStr(any);
     assertTrue("sv16FromUniStr buffer alias", sv16FromUniStr.data() == any.getBuffer());
-    assertEquals("sv16FromUniStr length", any.length(), static_cast<int32_t>(sv16FromUniStr.length()));
+    assertEquals("sv16FromUniStr length", any.length(), sv16FromUniStr.length());
 
     // Just to show convenience: Convert UnicodeString to string view, then to std string.
     std::u16string str16FromUniStr(any);

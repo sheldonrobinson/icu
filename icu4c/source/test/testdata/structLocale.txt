@@ -1545,6 +1545,10 @@ structLocale:table(nofallback){
             "",
             "",
         }
+        ZWG{
+            "",
+            "",
+        }
         ZWL{
             "",
             "",
@@ -4032,6 +4036,14 @@ structLocale:table(nofallback){
             other{""}
         }
         ZWD{
+            zero{""}
+            one{""}
+            two{""}
+            few{""}
+            many{""}
+            other{""}
+        }
+        ZWG{
             zero{""}
             one{""}
             two{""}
@@ -6723,6 +6735,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -7316,6 +7333,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -7911,6 +7933,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -8504,6 +8531,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -9099,6 +9131,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -9692,6 +9729,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -10287,6 +10329,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -10880,6 +10927,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -11477,6 +11529,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -12072,6 +12129,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -12665,6 +12727,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -13260,6 +13327,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -13853,6 +13925,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -14448,6 +14525,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -15041,6 +15123,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -15636,6 +15723,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -16229,6 +16321,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -16824,6 +16921,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -17417,6 +17519,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -18012,6 +18119,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -18605,6 +18717,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -19200,6 +19317,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -19793,6 +19915,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -20388,6 +20515,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -20982,6 +21114,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -21575,6 +21712,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -22214,6 +22356,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -22807,6 +22954,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -23402,6 +23554,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -23996,6 +24153,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -24589,6 +24751,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -25186,6 +25353,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -25779,6 +25951,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -26374,6 +26551,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -26967,6 +27149,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -27562,6 +27749,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -28155,6 +28347,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -28750,6 +28947,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -29343,6 +29545,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -29938,6 +30145,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -30531,6 +30743,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -31126,6 +31343,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -31719,6 +31941,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -32314,6 +32541,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -32908,6 +33140,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -33501,6 +33738,11 @@ structLocale:table(nofallback){
                         other{""}
                     }
                 }
+            }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
             }
             symbols{
                 approximatelySign{""}
@@ -34097,6 +34339,11 @@ structLocale:table(nofallback){
                     }
                 }
             }
+            rationalFormats{
+                integerAndRationalPattern{""}
+                rationalPattern{""}
+                rationalUsage{""}
+            }
             symbols{
                 approximatelySign{""}
                 decimal{""}
@@ -34491,6 +34738,12 @@ structLocale:table(nofallback){
                 "A4",
                 "A4",
             }
+            DateTimePatterns%relative{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
             DateTimeSkeletons{
                 "",
                 "",
@@ -34758,6 +35011,12 @@ structLocale:table(nofallback){
                 "A4",
             }
             DateTimePatterns%atTime{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimePatterns%relative{
                 "A4",
                 "A4",
                 "A4",
@@ -35877,6 +36136,12 @@ structLocale:table(nofallback){
                 "A4",
                 "A4",
             }
+            DateTimePatterns%relative{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
             DateTimeSkeletons{
                 "",
                 "",
@@ -36260,6 +36525,12 @@ structLocale:table(nofallback){
                 "A4",
             }
             DateTimePatterns%atTime{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimePatterns%relative{
                 "A4",
                 "A4",
                 "A4",
@@ -37384,6 +37655,12 @@ structLocale:table(nofallback){
                 "A4",
                 "A4",
             }
+            DateTimePatterns%relative{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
             DateTimeSkeletons{
                 "",
                 "",
@@ -38104,6 +38381,12 @@ structLocale:table(nofallback){
                 "A4",
                 "A4",
             }
+            DateTimePatterns%relative{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
             DateTimeSkeletons{
                 "",
                 "",
@@ -38423,6 +38706,12 @@ structLocale:table(nofallback){
                 "A4",
             }
             DateTimePatterns%atTime{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimePatterns%relative{
                 "A4",
                 "A4",
                 "A4",
@@ -39063,6 +39352,12 @@ structLocale:table(nofallback){
                 "A4",
                 "A4",
             }
+            DateTimePatterns%relative{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
             DateTimeSkeletons{
                 "",
                 "",
@@ -39455,6 +39750,12 @@ structLocale:table(nofallback){
                 "A4",
                 "A4",
             }
+            DateTimePatterns%relative{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
             DateTimeSkeletons{
                 "",
                 "",
@@ -39809,6 +40110,12 @@ structLocale:table(nofallback){
                 "A4",
                 "A4",
             }
+            DateTimePatterns%relative{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
             DateTimeSkeletons{
                 "",
                 "",
@@ -39888,11 +40195,14 @@ structLocale:table(nofallback){
             eras{
                 abbreviated{
                     "",
+                    "",
                 }
                 wide{
                     "",
+                    "",
                 }
                 narrow{
+                    "",
                     "",
                 }
             }
@@ -40195,6 +40505,339 @@ structLocale:table(nofallback){
                 }
             }
         }
+        iso8601{
+            DateTimePatterns{
+                "",
+                "",
+                "",
+                "",
+                "A2",
+                "A2",
+                "A2",
+                "A2",
+                "",
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimePatterns%atTime{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimePatterns%relative{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimeSkeletons{
+                "",
+                "",
+                "",
+                "",
+                "A2",
+                "A2",
+                "A2",
+                "A2",
+            }
+            availableFormats{
+                Bh{""}
+                Bhm{""}
+                Bhms{""}
+                E{""}
+                EBhm{""}
+                EBhms{""}
+                EHm{""}
+                EHms{""}
+                Ed{""}
+                Ehm{""}
+                Ehms{""}
+                Gy{""}
+                GyMMM{""}
+                GyMMMEd{""}
+                GyMMMd{""}
+                GyMd{""}
+                H{""}
+                Hm{""}
+                Hms{""}
+                Hmsv{""}
+                Hmv{""}
+                M{""}
+                MEd{""}
+                MMM{""}
+                MMMEd{""}
+                MMMMW{
+                    one{""}
+                    other{""}
+                }
+                MMMMd{""}
+                MMMd{""}
+                Md{""}
+                d{""}
+                h{""}
+                hm{""}
+                hms{""}
+                hmsv{""}
+                hmv{""}
+                ms{""}
+                y{""}
+                yM{""}
+                yMEd{""}
+                yMMM{""}
+                yMMMEd{""}
+                yMMMM{""}
+                yMMMd{""}
+                yMd{""}
+                yQQQ{""}
+                yQQQQ{""}
+                yw{
+                    one{""}
+                    other{""}
+                }
+            }
+            intervalFormats{
+                Bh{
+                    B{""}
+                    h{""}
+                }
+                Bhm{
+                    B{""}
+                    h{""}
+                    m{""}
+                }
+                GGGGGyM{
+                    G{""}
+                    M{""}
+                    y{""}
+                }
+                GGGGGyMEd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                GGGGGyMd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                Gy{
+                    G{""}
+                    y{""}
+                }
+                GyM{
+                    G{""}
+                    M{""}
+                    y{""}
+                }
+                GyMEd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                GyMMM{
+                    G{""}
+                    M{""}
+                    y{""}
+                }
+                GyMMMEd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                GyMMMEEEEd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                GyMMMM{
+                    G{""}
+                    M{""}
+                    y{""}
+                }
+                GyMMMMEd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                GyMMMMd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                GyMMMd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                GyMd{
+                    G{""}
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                H{
+                    H{""}
+                }
+                Hm{
+                    H{""}
+                    m{""}
+                }
+                Hmv{
+                    H{""}
+                    m{""}
+                }
+                Hmvvvv{
+                    H{""}
+                    m{""}
+                }
+                Hv{
+                    H{""}
+                }
+                Hvvvv{
+                    H{""}
+                }
+                M{
+                    M{""}
+                }
+                MEd{
+                    M{""}
+                    d{""}
+                }
+                MMM{
+                    M{""}
+                }
+                MMMEd{
+                    M{""}
+                    d{""}
+                }
+                MMMEEEEd{
+                    M{""}
+                    d{""}
+                }
+                MMMM{
+                    M{""}
+                }
+                MMMMEd{
+                    M{""}
+                    d{""}
+                }
+                MMMMd{
+                    M{""}
+                    d{""}
+                }
+                MMMd{
+                    M{""}
+                    d{""}
+                }
+                Md{
+                    M{""}
+                    d{""}
+                }
+                d{
+                    d{""}
+                }
+                fallback{""}
+                h{
+                    B{""}
+                    a{""}
+                    h{""}
+                }
+                hm{
+                    B{""}
+                    a{""}
+                    h{""}
+                    m{""}
+                }
+                hmv{
+                    B{""}
+                    a{""}
+                    h{""}
+                    m{""}
+                }
+                hmvvvv{
+                    B{""}
+                    a{""}
+                    h{""}
+                    m{""}
+                }
+                hv{
+                    B{""}
+                    a{""}
+                    h{""}
+                }
+                hvvvv{
+                    B{""}
+                    a{""}
+                    h{""}
+                }
+                y{
+                    y{""}
+                }
+                yM{
+                    M{""}
+                    y{""}
+                }
+                yMEd{
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                yMMM{
+                    M{""}
+                    y{""}
+                }
+                yMMMEEEEd{
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                yMMMEd{
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                yMMMM{
+                    M{""}
+                    y{""}
+                }
+                yMMMMEEEEd{
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                yMMMMEd{
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                yMMMMd{
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                yMMMd{
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+                yMd{
+                    M{""}
+                    d{""}
+                    y{""}
+                }
+            }
+        }
         persian{
             AmPmMarkers{
                 "",
@@ -40239,6 +40882,12 @@ structLocale:table(nofallback){
                 "A4",
             }
             DateTimePatterns%atTime{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimePatterns%relative{
                 "A4",
                 "A4",
                 "A4",
@@ -40608,6 +41257,12 @@ structLocale:table(nofallback){
                 "A4",
             }
             DateTimePatterns%atTime{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimePatterns%relative{
                 "A4",
                 "A4",
                 "A4",
@@ -41592,6 +42247,12 @@ structLocale:table(nofallback){
                 "A4",
             }
             DateTimePatterns%atTime{
+                "A4",
+                "A4",
+                "A4",
+                "A4",
+            }
+            DateTimePatterns%relative{
                 "A4",
                 "A4",
                 "A4",

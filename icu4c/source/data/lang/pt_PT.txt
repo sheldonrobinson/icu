@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 pt_PT{
     Keys{
         cf{"Formato monetário"}
@@ -211,9 +211,7 @@ pt_PT{
             tertiary{"Ordenar acentos/tipo de letra/largura"}
         }
         collation{
-            big5han{"Ordem do chinês tradicional - Big5"}
             eor{"Regras de ordenação europeias"}
-            gb2312han{"Ordem do chinês simplificado - GB2312"}
             phonebook{"Ordem da lista telefónica"}
             pinyin{"Ordem de pinyin"}
             standard{"Ordenação padrão"}

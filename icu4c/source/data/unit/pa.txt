@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 pa{
     units{
         acceleration{
@@ -243,6 +243,30 @@ pa{
             mole{
                 gender{"masculine"}
             }
+            part-per-1e6{
+                case{
+                    oblique{
+                        one{"{0} ਹਿੱਸਾ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
+                        other{"{0} ਹਿੱਸੇ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
+                    }
+                }
+                dnam{"ਹਿੱਸੇ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
+                gender{"masculine"}
+                one{"{0} ਹਿੱਸਾ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
+                other{"{0} ਹਿੱਸੇ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
+            }
+            part-per-1e9{
+                case{
+                    oblique{
+                        one{"{0} ਹਿੱਸਾ ਪ੍ਰਤੀ ਅਰਬ"}
+                        other{"{0} ਹਿੱਸਾ ਪ੍ਰਤੀ ਅਰਬ"}
+                    }
+                }
+                dnam{"ਹਿੱਸਾ ਪ੍ਰਤੀ ਅਰਬ"}
+                gender{"masculine"}
+                one{"{0} ਹਿੱਸਾ ਪ੍ਰਤੀ ਅਰਬ"}
+                other{"{0} ਹਿੱਸਾ ਪ੍ਰਤੀ ਅਰਬ"}
+            }
             percent{
                 case{
                     oblique{
@@ -264,18 +288,6 @@ pa{
                 gender{"masculine"}
                 one{"{0} ਪਰਮਾਈਲ"}
                 other{"{0} ਪਰਮਾਈਲ"}
-            }
-            permillion{
-                case{
-                    oblique{
-                        one{"{0} ਹਿੱਸਾ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
-                        other{"{0} ਹਿੱਸੇ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
-                    }
-                }
-                dnam{"ਹਿੱਸੇ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
-                gender{"masculine"}
-                one{"{0} ਹਿੱਸਾ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
-                other{"{0} ਹਿੱਸੇ ਪ੍ਰਤੀ ਮਿਲੀਅਨ"}
             }
             permyriad{
                 case{
@@ -2058,14 +2070,17 @@ pa{
                 one{"{0} ਮੋਲ"}
                 other{"{0} ਮੋਲ"}
             }
+            part-per-1e6{
+                dnam{"ਹਿੱਸੇ/ਮਿਲੀਅਨ"}
+            }
+            part-per-1e9{
+                dnam{"ਹਿੱਸਾ/ਅਰਬ"}
+            }
             percent{
                 dnam{"ਪ੍ਰਤੀਸ਼ਤ"}
             }
             permille{
                 dnam{"ਪਰਮਾਈਲ"}
-            }
-            permillion{
-                dnam{"ਹਿੱਸੇ/ਮਿਲੀਅਨ"}
             }
             permyriad{
                 dnam{"ਪ੍ਰਤੀ ਦਸ ਹਜ਼ਾਰ"}

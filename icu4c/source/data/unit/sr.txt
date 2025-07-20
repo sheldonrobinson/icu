@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 sr{
     durationUnits{
         hm{"h.mm"}
@@ -583,6 +583,54 @@ sr{
                 one{"{0} мол"}
                 other{"{0} мола"}
             }
+            part-per-1e6{
+                case{
+                    accusative{
+                        few{"{0} честице на милион"}
+                        one{"{0} честицу на милион"}
+                        other{"{0} честица на милион"}
+                    }
+                    genitive{
+                        few{"{0} честице на милион"}
+                        one{"{0} честице на милион"}
+                        other{"{0} честица на милион"}
+                    }
+                    instrumental{
+                        few{"{0} честице на милион"}
+                        one{"{0} честицом на милион"}
+                        other{"{0} честица на милион"}
+                    }
+                }
+                dnam{"честица на милион"}
+                few{"{0} честице на милион"}
+                gender{"feminine"}
+                one{"{0} честица на милион"}
+                other{"{0} честица на милион"}
+            }
+            part-per-1e9{
+                case{
+                    accusative{
+                        few{"{0} дела на милијарду"}
+                        one{"{0} део на милијарду"}
+                        other{"{0} делова на милијарду"}
+                    }
+                    genitive{
+                        few{"{0} дела на милијарду"}
+                        one{"{0} дела на милијарду"}
+                        other{"{0} делова на милијарду"}
+                    }
+                    instrumental{
+                        few{"{0} дела на милијарду"}
+                        one{"{0} делом на милијарду"}
+                        other{"{0} делова на милијарду"}
+                    }
+                }
+                dnam{"делови на милијарду"}
+                few{"{0} дела на милијарду"}
+                gender{"inanimate"}
+                one{"{0} део на милијарду"}
+                other{"{0} делова на милијарду"}
+            }
             percent{
                 case{
                     accusative{
@@ -628,30 +676,6 @@ sr{
                 gender{"inanimate"}
                 one{"{0} промил"}
                 other{"{0} промила"}
-            }
-            permillion{
-                case{
-                    accusative{
-                        few{"{0} честице на милион"}
-                        one{"{0} честицу на милион"}
-                        other{"{0} честица на милион"}
-                    }
-                    genitive{
-                        few{"{0} честице на милион"}
-                        one{"{0} честице на милион"}
-                        other{"{0} честица на милион"}
-                    }
-                    instrumental{
-                        few{"{0} честице на милион"}
-                        one{"{0} честицом на милион"}
-                        other{"{0} честица на милион"}
-                    }
-                }
-                dnam{"честица на милион"}
-                few{"{0} честице на милион"}
-                gender{"feminine"}
-                one{"{0} честица на милион"}
-                other{"{0} честица на милион"}
             }
             permyriad{
                 gender{"inanimate"}
@@ -3523,6 +3547,9 @@ sr{
                 few{"{0} ставке"}
                 one{"{0} ставка"}
                 other{"{0} ставки"}
+            }
+            part-per-1e9{
+                dnam{"делови/милијарда"}
             }
             percent{
                 dnam{"проценат"}

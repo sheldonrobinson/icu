@@ -1,6 +1,6 @@
 ﻿// © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
-// Generated using tools/cldr/cldr-to-icu/build-icu-data.xml
+// Generated using tools/cldr/cldr-to-icu/
 ar{
     units{
         acceleration{
@@ -298,6 +298,26 @@ ar{
             mole{
                 gender{"masculine"}
             }
+            part-per-1e6{
+                dnam{"جزء في المليون"}
+                few{"{0} أجزاء في المليون"}
+                gender{"masculine"}
+                many{"{0} جزءًا في المليون"}
+                one{"{0} جزء في المليون"}
+                other{"{0} جزء في المليون"}
+                two{"جزآن في المليون"}
+                zero{"{0} جزء في المليون"}
+            }
+            part-per-1e9{
+                dnam{"جزء بالمليار"}
+                few{"{0} أجزاء بالمليار"}
+                gender{"masculine"}
+                many{"{0} جزءًا بالمليار"}
+                one{"{0} جزء بالمليار"}
+                other{"{0} جزء بالمليار"}
+                two{"جزآن بالمليار"}
+                zero{"{0} جزء بالمليار"}
+            }
             percent{
                 few{"{0}٪"}
                 gender{"feminine"}
@@ -315,16 +335,6 @@ ar{
                 other{"{0} في الألف"}
                 two{"{0} في الألف"}
                 zero{"{0} في الألف"}
-            }
-            permillion{
-                dnam{"جزء في المليون"}
-                few{"{0} أجزاء في المليون"}
-                gender{"masculine"}
-                many{"{0} جزءًا في المليون"}
-                one{"{0} جزء في المليون"}
-                other{"{0} جزء في المليون"}
-                two{"جزآن في المليون"}
-                zero{"{0} جزء في المليون"}
             }
             permyriad{
                 gender{"feminine"}
@@ -1371,6 +1381,15 @@ ar{
                 two{"{0} مغ/ديسيل"}
                 zero{"{0} مغ/ديسيل"}
             }
+            part-per-1e9{
+                dnam{"جزء/مليار"}
+                few{"{0} أجزاء/مليار"}
+                many{"{0} جزءًا/مليار"}
+                one{"{0} جزء/مليار"}
+                other{"{0} جزء/مليار"}
+                two{"جزآن/مليار"}
+                zero{"{0} جزء/مليار"}
+            }
             percent{
                 dnam{"٪"}
             }
@@ -2011,6 +2030,24 @@ ar{
                 two{"{0} مول"}
                 zero{"{0} مول"}
             }
+            part-per-1e6{
+                dnam{"جزء/مليون"}
+                few{"{0} جزء/مليون"}
+                many{"{0} جزء/مليون"}
+                one{"{0} جزء/مليون"}
+                other{"{0} جزء/مليون"}
+                two{"{0} جزء/مليون"}
+                zero{"{0} جزء/مليون"}
+            }
+            part-per-1e9{
+                dnam{"جزء/مليار"}
+                few{"{0} أجزاء/مليار"}
+                many{"{0} جزءًا/مليار"}
+                one{"{0} جزء/مليار"}
+                other{"{0} جزء/مليار"}
+                two{"جزآن/مليار"}
+                zero{"{0} جزء/مليار"}
+            }
             percent{
                 dnam{"بالمائة"}
                 few{"{0}٪"}
@@ -2028,15 +2065,6 @@ ar{
                 other{"{0}؉"}
                 two{"{0}؉"}
                 zero{"{0}؉"}
-            }
-            permillion{
-                dnam{"جزء/مليون"}
-                few{"{0} جزء/مليون"}
-                many{"{0} جزء/مليون"}
-                one{"{0} جزء/مليون"}
-                other{"{0} جزء/مليون"}
-                two{"{0} جزء/مليون"}
-                zero{"{0} جزء/مليون"}
             }
         }
         consumption{
