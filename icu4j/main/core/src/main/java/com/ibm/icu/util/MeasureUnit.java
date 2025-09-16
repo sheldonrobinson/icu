@@ -602,16 +602,17 @@ public class MeasureUnit implements Serializable {
      * @draft ICU 77
      */
     public long getConstantDenominator() {
-        if (this.getComplexity() != Complexity.COMPOUND && this.getComplexity() != Complexity.SINGLE) {
+        // TODO(ICU-23219)
+        MeasureUnitImpl measureUnitImpl = getCopyOfMeasureUnitImpl();
+
+        if (measureUnitImpl.getComplexity() != Complexity.COMPOUND
+                && measureUnitImpl.getComplexity() != Complexity.SINGLE) {
             throw new UnsupportedOperationException(
                     "Constant denominator is only supported for COMPOUND & SINGLE units");
         }
 
-        if (this.measureUnitImpl == null) {
-            return 0;
-        }
 
-        return this.measureUnitImpl.getConstantDenominator();
+        return measureUnitImpl.getConstantDenominator();
     }
 
     /**
@@ -716,8 +717,8 @@ public class MeasureUnit implements Serializable {
             implCopy.appendSingleUnit(singleUnit);
         }
 
-        long thisConstantDenominator = this.getConstantDenominator();
-        long otherConstantDenominator = other.getConstantDenominator();
+        long thisConstantDenominator = implCopy.getConstantDenominator();
+        long otherConstantDenominator = otherImplRef.getConstantDenominator();
 
         // TODO: we can also multiply the constant denominators instead of throwing an
         // exception.
@@ -1432,7 +1433,7 @@ public class MeasureUnit implements Serializable {
 
     /**
      * Constant for unit of duration: night
-     * @draft ICU 76
+     * @stable ICU 76
      */
     public static final MeasureUnit NIGHT = MeasureUnit.internalGetInstance("duration", "night");
 
@@ -2160,7 +2161,7 @@ public class MeasureUnit implements Serializable {
 
     /**
      * Constant for unit of speed: light-speed
-     * @draft ICU 76
+     * @stable ICU 76
      */
     public static final MeasureUnit LIGHT_SPEED = MeasureUnit.internalGetInstance("speed", "light-speed");
 

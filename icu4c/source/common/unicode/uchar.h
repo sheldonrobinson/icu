@@ -552,14 +552,12 @@ typedef enum UProperty {
      * @stable ICU 74
      */
     UCHAR_ID_COMPAT_MATH_CONTINUE=74,
-#ifndef U_HIDE_DRAFT_API
     /**
      * Binary property Modifier_Combining_Mark.
      * Used by the AMTRA algorithm in UAX #53.
-     * @draft ICU 76
+     * @stable ICU 76
      */
     UCHAR_MODIFIER_COMBINING_MARK=75,
-#endif  // U_HIDE_DRAFT_API
 #ifndef U_HIDE_DEPRECATED_API
     /**
      * One more than the last constant for binary Unicode properties.
@@ -682,14 +680,12 @@ typedef enum UProperty {
      * @stable ICU 75
      */
     UCHAR_IDENTIFIER_STATUS=0x1019,
-#ifndef U_HIDE_DRAFT_API
     /**
      * Enumerated property Indic_Conjunct_Break.
      * Used in the grapheme cluster break algorithm in UAX #29.
-     * @draft ICU 76
+     * @stable ICU 76
      */
     UCHAR_INDIC_CONJUNCT_BREAK=0x101A,
-#endif  // U_HIDE_DRAFT_API
 #ifndef U_HIDE_DEPRECATED_API
     /**
      * One more than the last constant for enumerated/integer Unicode properties.
@@ -1992,19 +1988,17 @@ enum UBlockCode {
     /** @stable ICU 78 */
     UBLOCK_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_J = 340, /*[323B0]*/
     /** @stable ICU 78 */
-    UBLOCK_CHISOI = 341, /*[16D80]*/
+    UBLOCK_MISCELLANEOUS_SYMBOLS_SUPPLEMENT = 341, /*[1CEC0]*/
     /** @stable ICU 78 */
-    UBLOCK_MISCELLANEOUS_SYMBOLS_SUPPLEMENT = 342, /*[1CEC0]*/
+    UBLOCK_SHARADA_SUPPLEMENT = 342, /*[11B60]*/
     /** @stable ICU 78 */
-    UBLOCK_SHARADA_SUPPLEMENT = 343, /*[11B60]*/
+    UBLOCK_SIDETIC = 343, /*[10940]*/
     /** @stable ICU 78 */
-    UBLOCK_SIDETIC = 344, /*[10940]*/
+    UBLOCK_TAI_YO = 344, /*[1E6C0]*/
     /** @stable ICU 78 */
-    UBLOCK_TAI_YO = 345, /*[1E6C0]*/
+    UBLOCK_TANGUT_COMPONENTS_SUPPLEMENT = 345, /*[18D80]*/
     /** @stable ICU 78 */
-    UBLOCK_TANGUT_COMPONENTS_SUPPLEMENT = 346, /*[18D80]*/
-    /** @stable ICU 78 */
-    UBLOCK_TOLONG_SIKI = 347, /*[11DB0]*/
+    UBLOCK_TOLONG_SIKI = 346, /*[11DB0]*/
 
 #ifndef U_HIDE_DEPRECATED_API
     /**
@@ -2013,7 +2007,7 @@ enum UBlockCode {
      *
      * @deprecated ICU 58 The numeric value may change over time, see ICU ticket #12420.
      */
-    UBLOCK_COUNT = 348,
+    UBLOCK_COUNT = 347,
 #endif  // U_HIDE_DEPRECATED_API
 
     /** @stable ICU 2.0 */
@@ -2766,12 +2760,11 @@ typedef enum UIndicSyllabicCategory {
     U_INSC_REORDERING_KILLER,
 } UIndicSyllabicCategory;
 
-#ifndef U_HIDE_DRAFT_API
 /**
  * Indic Conjunct Break constants.
  *
  * @see UCHAR_INDIC_CONJUNCT_BREAK
- * @draft ICU 76
+ * @stable ICU 76
  */
 typedef enum UIndicConjunctBreak {
     /*
@@ -2780,16 +2773,15 @@ typedef enum UIndicConjunctBreak {
     *     U_INCB_<Unicode Indic_Conjunct_Break value name>
     */
 
-    /** @draft ICU 76 */
+    /** @stable ICU 76 */
     U_INCB_NONE,
-    /** @draft ICU 76 */
+    /** @stable ICU 76 */
     U_INCB_CONSONANT,
-    /** @draft ICU 76 */
+    /** @stable ICU 76 */
     U_INCB_EXTEND,
-    /** @draft ICU 76 */
+    /** @stable ICU 76 */
     U_INCB_LINKER,
 } UIndicConjunctBreak;
-#endif  // U_HIDE_DRAFT_API
 
 /**
  * Vertical Orientation constants.
@@ -2943,7 +2935,7 @@ u_stringHasBinaryProperty(const UChar *s, int32_t length, UProperty which);
  * @return the property as a set
  * @see UProperty
  * @see u_hasBinaryProperty
- * @see Unicode::fromUSet
+ * @see UnicodeSet::fromUSet
  * @stable ICU 63
  */
 U_CAPI const USet * U_EXPORT2

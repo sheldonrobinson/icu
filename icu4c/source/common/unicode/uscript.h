@@ -521,13 +521,13 @@ typedef enum UScriptCode {
       /** @stable ICU 78 */
       USCRIPT_BERIA_ERFE                    = 208, /* Berf */
       /** @stable ICU 78 */
-      USCRIPT_CHISOI                        = 209, /* Chis */
+      USCRIPT_SIDETIC                       = 209, /* Sidt */
       /** @stable ICU 78 */
-      USCRIPT_SIDETIC                       = 210, /* Sidt */
+      USCRIPT_TAI_YO                        = 210, /* Tayo */
       /** @stable ICU 78 */
-      USCRIPT_TAI_YO                        = 211, /* Tayo */
+      USCRIPT_TOLONG_SIKI                   = 211, /* Tols */
       /** @stable ICU 78 */
-      USCRIPT_TOLONG_SIKI                   = 212, /* Tols */
+      USCRIPT_TRADITIONAL_HAN_WITH_LATIN    = 212, /* Hntl */
 
 #ifndef U_HIDE_DEPRECATED_API
     /**

@@ -25,6 +25,9 @@
 #include "cstring.h"
 #include "caltest.h"  // for fieldName
 #include "charstr.h"
+#include "loctest.h" // for LocaleTest::date
+
+#include <array>
 
 #if U_PLATFORM_USES_ONLY_WIN32_API
 #include "windttst.h"
@@ -138,6 +141,7 @@ void DateFormatTest::runIndexedTest( int32_t index, UBool exec, const char* &nam
     TESTCASE_AUTO(TestBogusLocale);
     TESTCASE_AUTO(TestLongLocale);
     TESTCASE_AUTO(TestChineseCalendar23043);
+    TESTCASE_AUTO(TestAmPmLengths23114);
 
     TESTCASE_AUTO_END;
 }
@@ -1864,8 +1868,8 @@ void DateFormatTest::TestNarrowNames()
         const char *CA_DATA[] = {
             "yyyy MM dd HH:mm:ss",
 
-            "h:mm a",     "2015 01 01 10:00:00", "10:00 a.\\u00A0m.",
-            "h:mm a",     "2015 01 01 22:00:00", "10:00 p.\\u00A0m.",
+            "h:mm a",     "2015 01 01 10:00:00", "10:00 a.\\u202Fm.",
+            "h:mm a",     "2015 01 01 22:00:00", "10:00 p.\\u202Fm.",
             "h:mm aaaaa", "2015 01 01 10:00:00", "10:00 a.\\u202Fm.",
             "h:mm aaaaa", "2015 01 01 22:00:00", "10:00 p.\\u202Fm.",
         };
@@ -3203,14 +3207,14 @@ void DateFormatTest::TestTimeZoneDisplayName()
         { "ja", "America/Los_Angeles", "2004-01-15T00:00:00Z", "Z", "-0800", "-8:00" },
         { "ja", "America/Los_Angeles", "2004-01-15T00:00:00Z", "ZZZZ", "GMT-08:00", "-8:00" },
         { "ja", "America/Los_Angeles", "2004-01-15T00:00:00Z", "z", "GMT-8", "America/Los_Angeles" },
-        { "ja", "America/Los_Angeles", "2004-01-15T00:00:00Z", "zzzz", "\\u30a2\\u30e1\\u30ea\\u30ab\\u592a\\u5e73\\u6d0b\\u6a19\\u6e96\\u6642", "America/Los_Angeles" },
+        { "ja", "America/Los_Angeles", "2004-01-15T00:00:00Z", "zzzz", "\\u7c73\\u56fd\\u592a\\u5e73\\u6d0b\\u6a19\\u6e96\\u6642", "America/Los_Angeles" },
         { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "Z", "-0700", "-700" },
         { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "ZZZZ", "GMT-07:00", "-7:00" },
         { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "z", "GMT-7", "America/Los_Angeles" },
-        { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "zzzz", "\\u30a2\\u30e1\\u30ea\\u30ab\\u592a\\u5e73\\u6d0b\\u590f\\u6642\\u9593", "America/Los_Angeles" },
+        { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "zzzz", "\\u7c73\\u56fd\\u592a\\u5e73\\u6d0b\\u590f\\u6642\\u9593", "America/Los_Angeles" },
     // icu ja.txt has exemplar city for this time zone
         { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "v", "\\u30ED\\u30B5\\u30F3\\u30BC\\u30EB\\u30B9\\u6642\\u9593", "America/Los_Angeles" },
-        { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "vvvv", "\\u30A2\\u30E1\\u30EA\\u30AB\\u592A\\u5e73\\u6D0B\\u6642\\u9593", "America/Los_Angeles" },
+        { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "vvvv", "\\u7c73\\u56fd\\u592a\\u5e73\\u6d0b\\u6642\\u9593", "America/Los_Angeles" },
         { "ja", "America/Los_Angeles", "2004-07-15T00:00:00Z", "VVVV", "\\u30ED\\u30B5\\u30F3\\u30BC\\u30EB\\u30B9\\u6642\\u9593", "America/Los_Angeles" },
 
         { "ja", "America/Argentina/Buenos_Aires", "2004-01-15T00:00:00Z", "Z", "-0300", "-3:00" },
@@ -4896,6 +4900,24 @@ void DateFormatTest::TestCreateInstanceForSkeleton() {
     result.remove();
     fmt->format(date(98, 5-1, 25), result, pos);
     assertEquals("format yMd", "5/25/1998", result);
+
+    UnicodeString result2;
+    fmt.adoptInstead(DateFormat::createInstanceForSkeleton(
+            "yMd", "en-u-ca-ethiopic-amete-alem", status));
+    if (!assertSuccess("Create with pattern yMd", status)) {
+        return;
+    }
+    fmt->format(date(98, 5-1, 25), result2, pos);
+    assertEquals("format yMd", "9/17/7490 ERA0", result2);
+
+    fmt.adoptInstead(DateFormat::createInstanceForSkeleton(
+            "uMd", "en-u-ca-ethiopic-amete-alem", status));
+    if (!assertSuccess("Create with pattern uMd", status)) {
+        return;
+    }
+    result.remove();
+    fmt->format(date(98, 5-1, 25), result, pos);
+    assertEquals("format uMd", result2, result);
 }
 
 void DateFormatTest::TestCreateInstanceForSkeletonDefault() {
@@ -5941,6 +5963,78 @@ void DateFormatTest::TestChineseCalendar23043() {
   UnicodeString appendTo;
   sdf.format(d, appendTo, nullptr, status);
   status.expectErrorAndReset(U_ILLEGAL_ARGUMENT_ERROR);
+}
+
+void DateFormatTest::TestAmPmLengths23114() {
+    IcuTestErrorCode status(*this, "TestAmPmLengths23114");
+
+    Locale locale(Locale::forLanguageTag("th", status));
+    status.assertSuccess();
+
+    LocalPointer<SimpleDateFormat> sdf(
+        new SimpleDateFormat(u"h:mm:ss a", locale, status),
+        status
+    );
+    status.assertSuccess();
+    UDate sampleDate = LocaleTest::date(99, 9, 13, 23, 58, 59);
+    UnicodeString formatResult;
+    sdf->format(sampleDate, formatResult);
+
+    assertEquals("SimpleDateFormat abbreviated", u"11:58:59 PM", formatResult);
+
+    sdf.adoptInsteadAndCheckErrorCode(
+        new SimpleDateFormat(u"h:mm:ss aaaa", locale, status),
+        status
+    );
+    status.assertSuccess();
+    formatResult.remove();
+    sdf->format(sampleDate, formatResult);
+
+    assertEquals("SimpleDateFormat wide", u"11:58:59 หลังเที่ยง", formatResult);
+
+    sdf.adoptInsteadAndCheckErrorCode(
+        new SimpleDateFormat(u"h:mm:ss aaaaa", locale, status),
+        status
+    );
+    status.assertSuccess();
+    formatResult.remove();
+    sdf->format(sampleDate, formatResult);
+
+    assertEquals("SimpleDateFormat narrow", u"11:58:59 p", formatResult);
+
+    LocalPointer<DateFormatSymbols> dfs(
+        new DateFormatSymbols(locale, status),
+        status
+    );
+    status.assertSuccess();
+    int32_t countAmPm = 0;
+    const UnicodeString* borrowedAmPm = dfs->getAmPmStrings(countAmPm);
+
+    assertEquals("DateFormatSymbols default", "AM", borrowedAmPm[0]);
+
+    std::array<UnicodeString, 2> amPmStrings = { u"am!", u"pm!" };
+
+    DateFormatSymbols::DtContextType ignoredContext = DateFormatSymbols::FORMAT;
+    borrowedAmPm = dfs->getAmPmStrings(countAmPm, ignoredContext, DateFormatSymbols::ABBREVIATED);
+    assertEquals("DateFormatSymbols abbreviated", u"AM", borrowedAmPm[0]);
+
+    dfs->setAmPmStrings(amPmStrings.data(), 2, ignoredContext, DateFormatSymbols::ABBREVIATED);
+    borrowedAmPm = dfs->getAmPmStrings(countAmPm, ignoredContext, DateFormatSymbols::ABBREVIATED);
+    assertEquals("DateFormatSymbols abbreviated after set", u"am!", borrowedAmPm[0]);
+
+    borrowedAmPm = dfs->getAmPmStrings(countAmPm, ignoredContext, DateFormatSymbols::WIDE);
+    assertEquals("DateFormatSymbols wide", u"ก่อนเที่ยง", borrowedAmPm[0]);
+
+    dfs->setAmPmStrings(amPmStrings.data(), 2, ignoredContext, DateFormatSymbols::WIDE);
+    borrowedAmPm = dfs->getAmPmStrings(countAmPm, ignoredContext, DateFormatSymbols::WIDE);
+    assertEquals("DateFormatSymbols wide after set", u"am!", borrowedAmPm[0]);
+
+    borrowedAmPm = dfs->getAmPmStrings(countAmPm, ignoredContext, DateFormatSymbols::NARROW);
+    assertEquals("DateFormatSymbols narrow", u"a", borrowedAmPm[0]);
+
+    dfs->setAmPmStrings(amPmStrings.data(), 2, ignoredContext, DateFormatSymbols::NARROW);
+    borrowedAmPm = dfs->getAmPmStrings(countAmPm, ignoredContext, DateFormatSymbols::NARROW);
+    assertEquals("DateFormatSymbols narrow after set", u"am!", borrowedAmPm[0]);
 }
 
 #endif /* #if !UCONFIG_NO_FORMATTING */

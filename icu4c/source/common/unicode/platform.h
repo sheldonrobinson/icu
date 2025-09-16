@@ -369,19 +369,6 @@
 #endif
 
 /**
- * \def U_HAVE_PLACEMENT_NEW
- * Determines whether to override placement new and delete for STL.
- * @stable ICU 2.6
- */
-#ifdef U_HAVE_PLACEMENT_NEW
-    /* Use the predefined value. */
-#elif defined(__BORLANDC__)
-#   define U_HAVE_PLACEMENT_NEW 0
-#else
-#   define U_HAVE_PLACEMENT_NEW 1
-#endif
-
-/**
  * \def U_HAVE_DEBUG_LOCATION_NEW 
  * Define this to define the MFC debug version of the operator new.
  *
@@ -499,12 +486,10 @@
 /**
  * \def U_FALLTHROUGH
  * Annotate intentional fall-through between switch labels.
- * http://clang.llvm.org/docs/AttributeReference.html#fallthrough-clang-fallthrough
+ * https://clang.llvm.org/docs/AttributeReference.html#fallthrough
  * @internal
  */
-#ifndef __cplusplus
-    // Not for C.
-#elif defined(U_FALLTHROUGH)
+#if defined(U_FALLTHROUGH)
     // Use the predefined value.
 #elif defined(__clang__)
     // Test for compiler vs. feature separately.

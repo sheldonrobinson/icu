@@ -6,11 +6,11 @@ package com.ibm.icu.segmenter;
 import com.ibm.icu.text.BreakIterator;
 import com.ibm.icu.util.ULocale;
 import java.util.Locale;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * Performs segmentation according to the rules defined for the locale.
+ *
+ * @draft ICU 78
  */
 public class LocalizedSegmenter implements Segmenter {
 
@@ -64,9 +64,25 @@ public class LocalizedSegmenter implements Segmenter {
    * @draft ICU 78
    */
   public enum SegmentationType {
+
+    /**
+     * @draft ICU 78
+     */
     GRAPHEME_CLUSTER,
+
+    /**
+     * @draft ICU 78
+     */
     WORD,
+
+    /**
+     * @draft ICU 78
+     */
     LINE,
+
+    /**
+     * @draft ICU 78
+     */
     SENTENCE,
   }
 

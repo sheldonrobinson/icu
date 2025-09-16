@@ -321,7 +321,7 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
      */
     public static final UnicodeSet ALL_CODE_POINTS = new UnicodeSet(0, 0x10FFFF).freeze();
 
-    private static XSymbolTable XSYMBOL_TABLE = null; // for overriding the the function processing
+    private static XSymbolTable XSYMBOL_TABLE = null; // for overriding the function processing
 
     private static final int LOW = 0x000000; // LOW <= all valid values. ZERO for codepoints
     private static final int HIGH = 0x110000; // HIGH > all valid values. 10000 for code units.
@@ -5154,7 +5154,7 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
      *
      * @return a {@link Stream} of {@link EntryRange}
      *
-     * @draft ICU 76
+     * @stable ICU 76
      */
     public Stream<EntryRange> rangeStream() {
         // Must use false to never make this parallel because the iterator always returns the same EntryRange object.
@@ -5173,7 +5173,7 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
      *
      * @return a {@link Stream} of {@code String}
      *
-     * @draft ICU 76
+     * @stable ICU 76
      */
     public Stream<String> stringStream() {
         return strings().stream();
@@ -5191,7 +5191,7 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
      *
      * @return an {@link IntStream} of Unicode code point values
      *
-     * @draft ICU 76
+     * @stable ICU 76
      */
     public IntStream codePointStream() {
         return StreamSupport.intStream(new CodePointSpliterator(this), false);
@@ -5209,7 +5209,7 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
      *
      * @return a {@link Stream} of {@code String}
      *
-     * @draft ICU 76
+     * @stable ICU 76
      */
     public Stream<String> stream() {
         return StreamSupport.stream(spliterator(), false);
@@ -5230,7 +5230,7 @@ public class UnicodeSet extends UnicodeFilter implements Iterable<String>, Compa
      *
      * @return an {@link Iterable} over all the code points
      *
-     * @draft ICU 76
+     * @stable ICU 76
      */
     public Iterable<Integer> codePoints() {
         return new CodePointIterable(this);

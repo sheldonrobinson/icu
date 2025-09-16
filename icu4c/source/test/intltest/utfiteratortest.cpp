@@ -34,14 +34,14 @@
 // https://en.cppreference.com/w/cpp/string/basic_string_view/operator%22%22sv
 using namespace std::string_view_literals;
 
-using U_HEADER_ONLY_NAMESPACE::UTFIterator;
-using U_HEADER_ONLY_NAMESPACE::utfIterator;
-using U_HEADER_ONLY_NAMESPACE::UTFStringCodePoints;
-using U_HEADER_ONLY_NAMESPACE::utfStringCodePoints;
-using U_HEADER_ONLY_NAMESPACE::UnsafeUTFIterator;
-using U_HEADER_ONLY_NAMESPACE::unsafeUTFIterator;
-using U_HEADER_ONLY_NAMESPACE::UnsafeUTFStringCodePoints;
-using U_HEADER_ONLY_NAMESPACE::unsafeUTFStringCodePoints;
+using icu::header::UTFIterator;
+using icu::header::utfIterator;
+using icu::header::UTFStringCodePoints;
+using icu::header::utfStringCodePoints;
+using icu::header::UnsafeUTFIterator;
+using icu::header::unsafeUTFIterator;
+using icu::header::UnsafeUTFStringCodePoints;
+using icu::header::unsafeUTFStringCodePoints;
 
 namespace {
 
@@ -349,6 +349,7 @@ public:
         TESTCASE_AUTO(testUnsafe32ZigzagReverse);
 
         TESTCASE_AUTO(testOwnership);
+        TESTCASE_AUTO(testCPDefaultConstructors);
 
         // C++20 ranges with all 2021 defect reports.  There is no separate
         // feature test macro value for https://wg21.link/P2210R2, but 2021'10
@@ -368,6 +369,9 @@ public:
         TESTCASE_AUTO(testCommonContiguousRange);
 #endif
 
+        TESTCASE_AUTO(testAllCodePoints);
+        TESTCASE_AUTO(testAllScalarValues);
+
         TESTCASE_AUTO_END;
     }
 
@@ -378,7 +382,7 @@ public:
             case UTF_BEHAVIOR_FFFD: return 0xfffd;
             case UTF_BEHAVIOR_SURROGATE: {
                 auto c = part[0];
-                return U_IS_SURROGATE(c) ? c : 0xfffd;
+                return U_IS_SURROGATE(c) ? static_cast<char32_t>(c) : 0xfffd;
             }
         }
     }
@@ -427,7 +431,7 @@ public:
     };
 
     static constexpr char32_t badChars32[] = {
-        u'a', u'|', 0xd900, u'|', u'ç', u'|', 0x110000, u'|', U'🚴'
+        U'a', U'|', 0xd900, U'|', U'ç', U'|', 0x110000, U'|', U'🚴'
     };
     static constexpr std::u32string_view bad32{badChars32, std::size(badChars32)};
 
@@ -601,8 +605,9 @@ public:
                                         u"𒂍𒁾𒁀𒀀𒂠 𒉌𒁺𒉈𒂗\n"
                                         u"𒂍𒁾𒁀𒀀 𒀀𒈾𒀀𒀭 𒉌𒀝\n"
                                         u"𒁾𒈬 𒉌𒋃 𒃻𒅗𒁺𒈬 𒉌𒅥\n";
+        auto lines3sqq = text | std::ranges::views::lazy_split(u'\n') | std::views::drop(2);
         // Code units from the third line in `text`.
-        auto codeUnits = *(text | std::ranges::views::lazy_split(u'\n') | std::views::drop(2)).begin();
+        auto codeUnits = *lines3sqq.begin();
         using CodeUnitRange = decltype(codeUnits);
         // This range has a sentinel.
         static_assert(!std::ranges::common_range<CodeUnitRange>);
@@ -735,7 +740,7 @@ public:
                                               std::ranges::views::reverse |
                                               std::ranges::views::transform(codePoint),
                                           std::u32string_view(U"𒉭")));
-#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 2022'02
+#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 2022'02 && __cpp_lib_bind_back >= 2022'02
             assertTrue("reversed common bidirectional filtered range: one big pipeline",
                        std::ranges::equal(
                            card
@@ -760,7 +765,7 @@ public:
                                               std::ranges::views::reverse |
                                               std::ranges::views::transform(codePoint),
                                           std::u32string_view(U"𒉭")));
-#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 2022'02
+#if U_CPLUSPLUS_VERSION >= 23 && __cpp_lib_ranges >= 2022'02 && __cpp_lib_bind_back >= 2022'02
             assertTrue("reversed unsafe common bidirectional filtered range: one big pipeline",
                        std::ranges::equal(
                            card
@@ -1127,6 +1132,56 @@ public:
         }
     }
 
+    void testCPDefaultConstructors() {
+        {
+            // validating
+            using CodePoints =
+                UTFStringCodePoints<UChar32, UTF_BEHAVIOR_NEGATIVE, std::u16string_view>;
+            CodePoints cpRange;  // default constructor
+            assertTrue("empty safe range", cpRange.begin() == cpRange.end());
+            {
+                cpRange = utfStringCodePoints<UChar32, UTF_BEHAVIOR_NEGATIVE>(u"abçカ🚴"sv);
+                auto iter = cpRange.begin();
+                ++++iter;
+                assertEquals("safe1[2]", U'ç', iter->codePoint());
+                ++++iter;
+                assertEquals("safe1[4]", U'🚴', iter->codePoint());
+            }
+            {
+                cpRange = utfStringCodePoints<UChar32, UTF_BEHAVIOR_NEGATIVE>(u"Fuß"sv);
+                auto iter = cpRange.begin();
+                assertEquals("safe2[0]", U'F', iter->codePoint());
+                ++++iter;
+                assertEquals("safe2[2]", U'ß', iter->codePoint());
+            }
+        }
+        {
+            // unsafe
+            using CodePoints =
+                UnsafeUTFStringCodePoints<UChar32, std::u16string_view>;
+            CodePoints cpRange;  // default constructor
+            assertTrue("empty unsafe range", cpRange.begin() == cpRange.end());
+            {
+                cpRange = unsafeUTFStringCodePoints<UChar32>(u"abçカ🚴"sv);
+                auto iter = cpRange.begin();
+                ++++iter;
+                assertEquals("unsafe1[2]", U'ç', iter->codePoint());
+                ++++iter;
+                assertEquals("unsafe1[4]", U'🚴', iter->codePoint());
+            }
+            {
+                cpRange = unsafeUTFStringCodePoints<UChar32>(u"Fuß"sv);
+                auto iter = cpRange.begin();
+                assertEquals("unsafe2[0]", U'F', iter->codePoint());
+                ++++iter;
+                assertEquals("unsafe2[2]", U'ß', iter->codePoint());
+            }
+        }
+    }
+
+    void testAllCodePoints();
+    void testAllScalarValues();
+
     ImplTest<char> longGood8;
     ImplTest<char16_t> longGood16;
     ImplTest<char32_t> longGood32;
@@ -1171,11 +1226,11 @@ void UTFIteratorTest::testBidiIter(
         std::is_same_v<
             typename std::iterator_traits<decltype(iter)>::iterator_category,
             std::bidirectional_iterator_tag>);
-    assertEquals("iter[0] * codePoint", u'a', (*iter).codePoint());
-    assertEquals("iter[0] -> codePoint", u'a', iter->codePoint());
+    assertEquals("iter[0] * codePoint", U'a', (*iter).codePoint());
+    assertEquals("iter[0] -> codePoint", U'a', iter->codePoint());
     ++iter;  // pre-increment
     auto units = *iter;
-    CP32 expectedCP = isWellFormed ? u'b' : sub<CP32, behavior>(parts[1]);
+    CP32 expectedCP = isWellFormed ? U'b' : sub<CP32, behavior>(parts[1]);
     assertEquals("iter[1] * codePoint", expectedCP, units.codePoint());
     assertEquals("iter[1] * length", parts[1].length(), units.length());
     if constexpr (mode != UNSAFE) {
@@ -1189,9 +1244,9 @@ void UTFIteratorTest::testBidiIter(
     }
     assertTrue("iter[1] * end()[0]", *units.end() == parts[2][0]);
     ++iter;
-    assertEquals("iter[2] * codePoint", u'ç', (*iter++).codePoint());  // post-increment
+    assertEquals("iter[2] * codePoint", U'ç', (*iter++).codePoint());  // post-increment
     units = *iter++;  // post-increment
-    expectedCP = isWellFormed ? u'カ' : sub<CP32, behavior>(parts[3]);
+    expectedCP = isWellFormed ? U'カ' : sub<CP32, behavior>(parts[3]);
     assertEquals("iter[3] * codePoint", expectedCP, units.codePoint());
     if constexpr (mode != UNSAFE) {
         assertEquals("iter[3] * wellFormed", isWellFormed, units.wellFormed());
@@ -1231,20 +1286,20 @@ void UTFIteratorTest::testBidiIter(
         assertEquals("iter[back 3] -> wellFormed", isWellFormed, iter->wellFormed());
     }
     assertEquals("iter[back 3] * codePoint", expectedCP, (*iter--).codePoint());  // post-decrement
-    assertEquals("iter[back 2] * codePoint", u'ç', (*iter).codePoint());
+    assertEquals("iter[back 2] * codePoint", U'ç', (*iter).codePoint());
     assertEquals("iter[back 2] -> length", parts[2].length(), iter->length());
     if constexpr (mode != UNSAFE) {
         assertTrue("iter[back 2] -> wellFormed", iter->wellFormed());
     }
     units = *--iter;
-    expectedCP = isWellFormed ? u'b' : sub<CP32, behavior>(parts[1]);
+    expectedCP = isWellFormed ? U'b' : sub<CP32, behavior>(parts[1]);
     assertEquals("iter[back 1] * codePoint", expectedCP, units.codePoint());
     if constexpr (mode != UNSAFE) {
         assertEquals("iter[back 1] * wellFormed", isWellFormed, units.wellFormed());
     }
     assertTrue("iter[back 1] * stringView()", units.stringView() == parts[1]);
     --iter;
-    assertEquals("iter[back 0] -> codePoint", u'a', iter->codePoint());
+    assertEquals("iter[back 0] -> codePoint", U'a', iter->codePoint());
     assertTrue("iter[back 0] -> begin() == beginIter", iter->begin() == sv.begin());
     assertTrue("iter == beginIter", iter == range.begin());
 }
@@ -1299,11 +1354,11 @@ void UTFIteratorTest::testSinglePassIter(
             typename std::iterator_traits<std::remove_reference_t<decltype(iter)>>::
                 iterator_category,
             std::input_iterator_tag>);
-    assertEquals("iter[0] * codePoint", u'a', (*iter).codePoint());
-    assertEquals("iter[0] -> codePoint", u'a', iter->codePoint());
+    assertEquals("iter[0] * codePoint", U'a', (*iter).codePoint());
+    assertEquals("iter[0] -> codePoint", U'a', iter->codePoint());
     ++iter;  // pre-increment
     auto units = *iter;
-    CP32 expectedCP = isWellFormed ? u'b' : sub<CP32, behavior>(parts[1]);
+    CP32 expectedCP = isWellFormed ? U'b' : sub<CP32, behavior>(parts[1]);
     assertEquals("iter[1] * codePoint", expectedCP, units.codePoint());
     assertEquals("iter[1] * length", parts[1].length(), units.length());
     if constexpr (mode != UNSAFE) {
@@ -1312,8 +1367,8 @@ void UTFIteratorTest::testSinglePassIter(
     // No units.stringView() when the unit iterator is not a pointer.
     // No begin() for a single-pass unit iterator.
     ++iter;
-    assertEquals("iter[2] * codePoint", u'ç', (*iter++).codePoint());  // post-increment
-    expectedCP = isWellFormed ? u'カ' : sub<CP32, behavior>(parts[3]);
+    assertEquals("iter[2] * codePoint", U'ç', (*iter++).codePoint());  // post-increment
+    expectedCP = isWellFormed ? U'カ' : sub<CP32, behavior>(parts[3]);
     assertEquals("iter[3] -> codePoint", expectedCP, iter->codePoint());
     ++iter;
     // Fetch the current code point twice.
@@ -1373,11 +1428,11 @@ void UTFIteratorTest::testFwdIter(const std::vector<StringView> &parts, LimitIte
         std::is_same_v<
             typename std::iterator_traits<decltype(iter)>::iterator_category,
             std::forward_iterator_tag>);
-    assertEquals("iter[0] * codePoint", u'a', (*iter).codePoint());
-    assertEquals("iter[0] -> codePoint", u'a', iter->codePoint());
+    assertEquals("iter[0] * codePoint", U'a', (*iter).codePoint());
+    assertEquals("iter[0] -> codePoint", U'a', iter->codePoint());
     ++iter;  // pre-increment
     auto units = *iter;
-    assertEquals("iter[1] * codePoint", u'b', units.codePoint());
+    assertEquals("iter[1] * codePoint", U'b', units.codePoint());
     assertEquals("iter[1] * length", parts[1].length(), units.length());
     if constexpr (mode != UNSAFE) {
         assertTrue("iter[1] * wellFormed", units.wellFormed());
@@ -1390,8 +1445,8 @@ void UTFIteratorTest::testFwdIter(const std::vector<StringView> &parts, LimitIte
     }
     assertTrue("iter[1] * end()[0]", *units.end() == parts[2][0]);
     ++iter;
-    assertEquals("iter[2] * codePoint", u'ç', (*iter++).codePoint());  // post-increment
-    assertEquals("iter[3] -> codePoint", u'カ', iter->codePoint());
+    assertEquals("iter[2] * codePoint", U'ç', (*iter++).codePoint());  // post-increment
+    assertEquals("iter[3] -> codePoint", U'カ', iter->codePoint());
     assertFalse("iter[3] * end() != endIter", units.end() == goodLimit);
     ++iter;
     // Fetch the current code point twice.
@@ -1436,7 +1491,7 @@ struct Part {
 // continue sequences across part boundaries in either order.
 constexpr Part testParts[] = {
     // "abçカ🚴"
-    u'a',
+    U'a',
     0x7f,
     0x80,
     Part(BAD8, 0xc0),
@@ -1452,14 +1507,14 @@ constexpr Part testParts[] = {
     Part(BAD8, 0xa0),
     Part(BAD8, 0xed),
     Part(BAD8, 0xbf),
-    u'ç',
+    U'ç',
     Part(BAD8, 0xbf),  // extra trail byte
-    u'カ',
+    U'カ',
     Part(BAD8, 0xee, 0x80),
     Part(BAD8, 0xef, 0xbf),
     Part(BAD8, 0xf0),
     Part(BAD8, 0x8f),
-    u'b',
+    U'b',
     Part(BAD8, 0xf0),
     Part(BAD8, 0xf0, 0x90),
     Part(BAD8, 0xf0, 0x90, 0x80),
@@ -1477,7 +1532,7 @@ constexpr Part testParts[] = {
     0xd7ff,
     Part(BAD16, 0xd800),
     Part(BAD16, 0xdbff),
-    u'カ',
+    U'カ',
     Part(BAD16, 0xdc00),
     Part(BAD16, 0xdfff),
     0xe000,
@@ -1559,7 +1614,7 @@ template<TestMode mode, UTFIllFormedBehavior behavior, IterType type, typename U
 void UTFIteratorTest::checkUnits(
         const Units &units, std::basic_string_view<Unit> part, UChar32 expectedCP) {
     bool expectedWellFormed = true;
-    if (expectedCP == u'?') {
+    if (expectedCP == U'?') {
         expectedCP = sub<UChar32, behavior>(part);
         expectedWellFormed = false;
     }
@@ -1677,3 +1732,42 @@ static_assert(!std::random_access_iterator<UnsafeCodePointIterator<CodeUnitItera
 
 } // namespace
 #endif
+
+void UTFIteratorTest::testAllCodePoints() {
+    int32_t count = 0;
+    UChar32 previous = -1;
+    for (UChar32 c : icu::header::AllCodePoints<UChar32>()) {
+        // Not assertTrue() / assertEquals() because they are slow for this many code points.
+        if (!U_IS_CODE_POINT(c)) {
+            errln("!U_IS_CODE_POINT(U+%04lx)", static_cast<long>(c));
+        }
+        if (c != (previous + 1)) {
+            errln("expected U+%04lx = U+%04lx + 1",
+                  static_cast<long>(c), static_cast<long>(previous));
+        }
+        previous = c;
+        ++count;
+    }
+    assertEquals("count", 0x110000, count);
+}
+
+void UTFIteratorTest::testAllScalarValues() {
+    int32_t count = 0;
+    UChar32 previous = -1;
+    for (UChar32 c : icu::header::AllScalarValues<UChar32>()) {
+        // Not assertTrue() / assertEquals() because they are slow for this many code points.
+        if (!U_IS_SCALAR_VALUE(c)) {
+            errln("!U_IS_SCALAR_VALUE(U+%04lx)", static_cast<long>(c));
+        }
+        if (previous == 0xd7ff) {
+            previous = 0xdfff;
+        }
+        if (c != (previous + 1)) {
+            errln("expected U+%04lx = U+%04lx + 1",
+                  static_cast<long>(c), static_cast<long>(previous));
+        }
+        previous = c;
+        ++count;
+    }
+    assertEquals("count", 0x110000 - 0x800, count);
+}
