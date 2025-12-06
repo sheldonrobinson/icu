@@ -697,8 +697,8 @@ TimeZoneFormat::format(UTimeZoneFormatStyle style, const TimeZone& tz, UDate dat
         UErrorCode status = U_ZERO_ERROR;
         int32_t rawOffset, dstOffset;
         tz.getOffset(date, false, rawOffset, dstOffset, status);
-        int32_t offset = rawOffset + dstOffset;
         if (U_SUCCESS(status)) {
+            int32_t offset = rawOffset + dstOffset;
             switch (style) {
             case UTZFMT_STYLE_GENERIC_LOCATION:
             case UTZFMT_STYLE_GENERIC_LONG:
@@ -1556,11 +1556,6 @@ TimeZoneFormat::formatOffsetLocalizedGMT(int32_t offset, UBool isShort, UnicodeS
     if (offset <= -MAX_OFFSET || offset >= MAX_OFFSET) {
         result.setToBogus();
         status = U_ILLEGAL_ARGUMENT_ERROR;
-        return result;
-    }
-
-    if (offset == 0) {
-        result.setTo(fGMTZeroFormat);
         return result;
     }
 

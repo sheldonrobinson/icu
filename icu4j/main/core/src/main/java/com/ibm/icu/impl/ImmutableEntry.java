@@ -12,9 +12,8 @@ import java.util.Map;
 
 /**
  * @author markdavis
- *
  */
-public class ImmutableEntry<K,V> implements Map.Entry<K,V> {
+public class ImmutableEntry<K, V> implements Map.Entry<K, V> {
     final K k;
     final V v;
 
@@ -23,28 +22,38 @@ public class ImmutableEntry<K,V> implements Map.Entry<K,V> {
         v = value;
     }
 
-    public K getKey()   {return k;}
+    @Override
+    public K getKey() {
+        return k;
+    }
 
-    public V getValue() {return v;}
+    @Override
+    public V getValue() {
+        return v;
+    }
 
+    @Override
     public V setValue(V value) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean equals(Object o) {
         try {
-            Map.Entry e = (Map.Entry)o;
+            Map.Entry e = (Map.Entry) o;
             return UnicodeMap.areEqual(e.getKey(), k) && UnicodeMap.areEqual(e.getValue(), v);
         } catch (ClassCastException e) {
             return false;
         }
     }
 
+    @Override
     public int hashCode() {
-        return ((k==null ? 0 : k.hashCode()) ^ (v==null ? 0 : v.hashCode()));
+        return ((k == null ? 0 : k.hashCode()) ^ (v == null ? 0 : v.hashCode()));
     }
 
+    @Override
     public String toString() {
-        return k+"="+v;
+        return k + "=" + v;
     }
 }

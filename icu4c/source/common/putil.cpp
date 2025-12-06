@@ -915,8 +915,15 @@ static UBool compareBinaryFiles(const char* defaultTZFileName, const char* TZFil
             fseek(tzInfo->defaultTZFilePtr, 0, SEEK_END);
             tzInfo->defaultTZFileSize = ftell(tzInfo->defaultTZFilePtr);
         }
-        fseek(file, 0, SEEK_END);
+        if (fseek(file, 0, SEEK_END) != 0) {
+            fclose(file);
+            return false;
+        }
         sizeFile = ftell(file);
+        if (sizeFile == -1) {
+            fclose(file);
+            return false;
+        }
         sizeFileLeft = sizeFile;
 
         if (sizeFile != tzInfo->defaultTZFileSize) {
@@ -926,16 +933,26 @@ static UBool compareBinaryFiles(const char* defaultTZFileName, const char* TZFil
              * compare each byte to determine equality.
              */
             if (tzInfo->defaultTZBuffer == nullptr) {
-                rewind(tzInfo->defaultTZFilePtr);
+                if (fseek(tzInfo->defaultTZFilePtr, 0, SEEK_SET) != 0) {
+                    fclose(file);
+                    return false;
+                }
                 tzInfo->defaultTZBuffer = static_cast<char*>(uprv_malloc(sizeof(char) * tzInfo->defaultTZFileSize));
                 sizeFileRead = fread(tzInfo->defaultTZBuffer, 1, tzInfo->defaultTZFileSize, tzInfo->defaultTZFilePtr);
             }
-            rewind(file);
+            if (fseek(file, 0, SEEK_SET) != 0) {
+                fclose(file);
+                return false;
+            }
             while(sizeFileLeft > 0) {
                 uprv_memset(bufferFile, 0, MAX_READ_SIZE);
                 sizeFileToRead = sizeFileLeft < MAX_READ_SIZE ? sizeFileLeft : MAX_READ_SIZE;
 
                 sizeFileRead = fread(bufferFile, 1, sizeFileToRead, file);
+                if (sizeFileRead == -1) {
+                    fclose(file);
+                    return false;
+                }
                 if (memcmp(tzInfo->defaultTZBuffer + tzInfo->defaultTZPosition, bufferFile, sizeFileRead) != 0) {
                     result = false;
                     break;
@@ -1430,9 +1447,6 @@ static void U_CALLCONV dataDirectoryInitFn() {
     }
 
     const char *path = nullptr;
-#if defined(ICU_DATA_DIR_PREFIX_ENV_VAR)
-    char datadir_path_buffer[PATH_MAX];
-#endif
 
     /*
     When ICU_NO_USER_DATA_OVERRIDE is defined, users aren't allowed to
@@ -1462,6 +1476,9 @@ static void U_CALLCONV dataDirectoryInitFn() {
      * set their own path.
      */
 #if defined(ICU_DATA_DIR) || defined(U_ICU_DATA_DEFAULT_DIR)
+# if defined(ICU_DATA_DIR_PREFIX_ENV_VAR)
+    char datadir_path_buffer[PATH_MAX];
+# endif
     if(path==nullptr || *path==0) {
 # if defined(ICU_DATA_DIR_PREFIX_ENV_VAR)
         const char *prefix = getenv(ICU_DATA_DIR_PREFIX_ENV_VAR);

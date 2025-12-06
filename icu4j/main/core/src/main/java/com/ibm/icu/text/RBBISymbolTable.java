@@ -1,37 +1,33 @@
 // © 2016 and later: Unicode, Inc. and others.
 // License & terms of use: http://www.unicode.org/copyright.html
 /*
-***************************************************************************
-*   Copyright (C) 2002-2009 International Business Machines Corporation   *
-*   and others. All rights reserved.                                      *
-***************************************************************************
-*/
+ ***************************************************************************
+ *   Copyright (C) 2002-2009 International Business Machines Corporation   *
+ *   and others. All rights reserved.                                      *
+ ***************************************************************************
+ */
 package com.ibm.icu.text;
 
+import com.ibm.icu.lang.UCharacter;
 import java.text.ParsePosition;
 import java.util.HashMap;
 
-import com.ibm.icu.lang.UCharacter;
+class RBBISymbolTable implements SymbolTable {
 
-class RBBISymbolTable implements SymbolTable{
-    
     HashMap<String, RBBISymbolTableEntry> fHashTable;
-    RBBIRuleScanner      fRuleScanner;
+    RBBIRuleScanner fRuleScanner;
 
     // These next two fields are part of the mechanism for passing references to
     //   already-constructed UnicodeSets back to the UnicodeSet constructor
     //   when the pattern includes $variable references.
-    String               ffffString;
-    UnicodeSet           fCachedSetLookup;
-    
-    
-    
-    static class RBBISymbolTableEntry  { 
-        String          key;
-        RBBINode        val;
+    String ffffString;
+    UnicodeSet fCachedSetLookup;
+
+    static class RBBISymbolTableEntry {
+        String key;
+        RBBINode val;
     }
 
-    
     RBBISymbolTable(RBBIRuleScanner rs) {
         fRuleScanner = rs;
         fHashTable = new HashMap<String, RBBISymbolTableEntry>();
@@ -45,6 +41,7 @@ class RBBISymbolTable implements SymbolTable{
     //
     //                                The variable name does NOT include the leading $.
     //
+    @Override
     public char[] lookup(String s) {
         RBBISymbolTableEntry el;
         RBBINode varRefNode;
@@ -95,6 +92,7 @@ class RBBISymbolTable implements SymbolTable{
     //    to sets.  Instead, it takes advantage of the fact that  the UnicodeSet
     //    constructor will always call this function right after calling lookup(),
     //    and we just need to remember what set to return between these two calls.
+    @Override
     public UnicodeMatcher lookupMatcher(int ch) {
         UnicodeSet retVal = null;
         if (ch == 0xffff) {
@@ -110,6 +108,7 @@ class RBBISymbolTable implements SymbolTable{
     //                                   It does not look it up, only scans for it.
     //                                   It is used by the UnicodeSet parser.
     //
+    @Override
     public String parseReference(String text, ParsePosition pos, int limit) {
         int start = pos.getIndex();
         int i = start;
@@ -170,10 +169,10 @@ class RBBISymbolTable implements SymbolTable{
     //
     //  RBBISymbolTable::print    Debugging function, dump out the symbol table contents.
     //
-    ///CLOVER:OFF
+    /// CLOVER:OFF
     void rbbiSymtablePrint() {
-        System.out
-                .print("Variable Definitions\n"
+        System.out.print(
+                "Variable Definitions\n"
                         + "Name               Node Val     String Val\n"
                         + "----------------------------------------------------------------------\n");
 
@@ -196,6 +195,6 @@ class RBBISymbolTable implements SymbolTable{
             System.out.print("\n");
         }
     }
-    ///CLOVER:ON
-    
+    /// CLOVER:ON
+
 }

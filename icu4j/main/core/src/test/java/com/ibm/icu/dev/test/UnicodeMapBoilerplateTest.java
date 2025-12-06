@@ -8,30 +8,26 @@
  */
 package com.ibm.icu.dev.test;
 
+import com.ibm.icu.impl.UnicodeMap;
 import java.util.List;
-
 import org.junit.Test;
 
-import com.ibm.icu.impl.UnicodeMap;
-
-/**
- * Moved from UnicodeMapTest
- */
+/** Moved from UnicodeMapTest */
 public class UnicodeMapBoilerplateTest extends TestBoilerplate<UnicodeMap<String>> {
 
     private static String[] TEST_VALUES = {"A", "B", "C", "D", "E", "F"};
 
-    public void TestUnicodeMapBoilerplate() throws Exception {
-    }
+    public void TestUnicodeMapBoilerplate() throws Exception {}
 
     @Test
     public void test() throws Exception {
         _test();
     }
-    
+
     /* (non-Javadoc)
      * @see com.ibm.icu.dev.test.TestBoilerplate#_hasSameBehavior(java.lang.Object, java.lang.Object)
      */
+    @Override
     protected boolean _hasSameBehavior(UnicodeMap<String> a, UnicodeMap<String> b) {
         // we are pretty confident in the equals method, so won't bother with this right now.
         return true;
@@ -40,6 +36,7 @@ public class UnicodeMapBoilerplateTest extends TestBoilerplate<UnicodeMap<String
     /* (non-Javadoc)
      * @see com.ibm.icu.dev.test.TestBoilerplate#_addTestObject(java.util.List)
      */
+    @Override
     protected boolean _addTestObject(List<UnicodeMap<String>> list) {
         if (list.size() > 30) return false;
         UnicodeMap<String> result = new UnicodeMap<>();
@@ -51,5 +48,4 @@ public class UnicodeMapBoilerplateTest extends TestBoilerplate<UnicodeMap<String
         list.add(result);
         return true;
     }
-
 }

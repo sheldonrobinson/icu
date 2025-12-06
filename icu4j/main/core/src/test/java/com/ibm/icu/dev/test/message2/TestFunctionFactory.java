@@ -3,23 +3,23 @@
 
 package com.ibm.icu.dev.test.message2;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import com.ibm.icu.message2.FormattedPlaceholder;
 import com.ibm.icu.message2.Function;
 import com.ibm.icu.message2.FunctionFactory;
 import com.ibm.icu.message2.MFDataModel.CatchallKey;
 import com.ibm.icu.message2.PlainStringFormattedValue;
 import com.ibm.icu.text.FormattedValue;
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
 
 /**
- * Locale-independent functions for formatting and selection.
- * Implements the functionality required by `:test:function`, `:test:format`, and `:test:select`.  
- * Used only for testing (see test/README.md in the MF2 repository).
+ * Locale-independent functions for formatting and selection. Implements the functionality required
+ * by `:test:function`, `:test:format`, and `:test:select`. Used only for testing (see
+ * test/README.md in the MF2 repository).
  */
 public class TestFunctionFactory implements FunctionFactory {
     private final String kind;
@@ -45,7 +45,7 @@ public class TestFunctionFactory implements FunctionFactory {
 
         @Override
         public String formatToString(Object toFormat, Map<String, Object> variableOptions) {
-            if (!"select".equals(kind) && parsedOptions.failsFormat) {
+            if (!Objects.equals(kind, "select") && parsedOptions.failsFormat) {
                 throw new InvalidParameterException("ALWAYS FAIL");
             }
             return format(toFormat, variableOptions).toString();
@@ -57,13 +57,14 @@ public class TestFunctionFactory implements FunctionFactory {
         }
 
         @Override
-        public List<String> matches(Object value, List<String> keys, Map<String, Object> variableOptions) {
-//            ParsedOptions parsedOptions = ParsedOptions.of(variableOptions);
-            if (kind.equals("format")) {
+        public List<String> matches(
+                Object value, List<String> keys, Map<String, Object> variableOptions) {
+            //            ParsedOptions parsedOptions = ParsedOptions.of(variableOptions);
+            if (Objects.equals(kind, "format")) {
                 // Can't do selection on the `format` only function
                 return null;
             }
-            
+
             if (parsedOptions.failsSelect) {
                 throw new InvalidParameterException("Expected the test to always fail.");
             }
@@ -93,10 +94,10 @@ public class TestFunctionFactory implements FunctionFactory {
                 return -1;
             }
             // * sorts last
-            if ("*".equals(o1)) {
+            if (Objects.equals(o1, "*")) {
                 return 1;
             }
-            if ("*".equals(o2)) {
+            if (Objects.equals(o2, "*")) {
                 return -1;
             }
             // At this point they are both strings
@@ -111,7 +112,8 @@ public class TestFunctionFactory implements FunctionFactory {
         final boolean failsSelect;
         final int decimalPlaces;
 
-        ParsedOptions(boolean reportErrors, boolean failsFormat, boolean failsSelect, int decimalPlaces) {
+        ParsedOptions(
+                boolean reportErrors, boolean failsFormat, boolean failsSelect, int decimalPlaces) {
             this.failsFormat = failsFormat;
             this.failsSelect = failsSelect;
             this.decimalPlaces = decimalPlaces;
@@ -129,7 +131,7 @@ public class TestFunctionFactory implements FunctionFactory {
             }
 
             String option = getStringOption(options, "icu:impl:errorPolicy", null);
-            reportErrors= "STRICT".equals(option);
+            reportErrors = Objects.equals(option, "STRICT");
 
             option = getStringOption(options, "fails", "never");
             switch (option) {
@@ -173,7 +175,8 @@ public class TestFunctionFactory implements FunctionFactory {
         }
     }
 
-    private static String getStringOption(Map<String, Object> options, String key, String defaultVal) {
+    private static String getStringOption(
+            Map<String, Object> options, String key, String defaultVal) {
         if (options == null) {
             return defaultVal;
         }
@@ -209,7 +212,8 @@ public class TestFunctionFactory implements FunctionFactory {
         }
         if (dblToFormat == null) {
             if (parsedOptions.reportErrors) {
-                throw new NullPointerException("unresolved-variable: argument to format can't be null");
+                throw new NullPointerException(
+                        "unresolved-variable: argument to format can't be null");
             }
             result = new PlainStringFormattedValue("{|" + toFormat + "|}");
         } else {
@@ -226,7 +230,8 @@ public class TestFunctionFactory implements FunctionFactory {
                 // 1. If `DecimalPlaces` is 1, then
                 //   1. The character `.` U+002E Full Stop.
                 buffer.append('.');
-                //   1. The single decimal digit character representing the value floor((abs(`Input`) - floor(abs(`Input`))) \* 10)
+                //   1. The single decimal digit character representing the value
+                // floor((abs(`Input`) - floor(abs(`Input`))) \* 10)
                 buffer.append((int) ((dblToFormat - dblToFormat.intValue()) * 10));
             }
             result = new PlainStringFormattedValue(buffer.toString());

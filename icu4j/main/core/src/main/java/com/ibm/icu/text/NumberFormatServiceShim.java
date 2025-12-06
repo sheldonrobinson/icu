@@ -9,10 +9,6 @@
 
 package com.ibm.icu.text;
 
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.Set;
-
 import com.ibm.icu.impl.ICULocaleService;
 import com.ibm.icu.impl.ICULocaleService.LocaleKey;
 import com.ibm.icu.impl.ICULocaleService.LocaleKeyFactory;
@@ -23,9 +19,13 @@ import com.ibm.icu.impl.ICUService.Key;
 import com.ibm.icu.text.NumberFormat.NumberFormatFactory;
 import com.ibm.icu.util.Currency;
 import com.ibm.icu.util.ULocale;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.Set;
 
 class NumberFormatServiceShim extends NumberFormat.NumberFormatShim {
 
+    @Override
     Locale[] getAvailableLocales() {
         if (service.isDefault()) {
             return ICUResourceBundle.getAvailableLocales();
@@ -33,6 +33,7 @@ class NumberFormatServiceShim extends NumberFormat.NumberFormatShim {
         return service.getAvailableLocales();
     }
 
+    @Override
     ULocale[] getAvailableULocales() {
         if (service.isDefault()) {
             return ICUResourceBundle.getAvailableULocales();
@@ -49,12 +50,13 @@ class NumberFormatServiceShim extends NumberFormat.NumberFormatShim {
             this.delegate = delegate;
         }
 
+        @Override
         public Object create(Key key, ICUService srvc) {
             if (!handlesKey(key) || !(key instanceof LocaleKey)) {
                 return null;
             }
-            
-            LocaleKey lkey = (LocaleKey)key;
+
+            LocaleKey lkey = (LocaleKey) key;
             Object result = delegate.createFormat(lkey.canonicalLocale(), lkey.kind());
             if (result == null) {
                 result = srvc.getKey(key, null, this);
@@ -62,42 +64,45 @@ class NumberFormatServiceShim extends NumberFormat.NumberFormatShim {
             return result;
         }
 
+        @Override
         protected Set<String> getSupportedIDs() {
             return delegate.getSupportedLocaleNames();
         }
     }
 
+    @Override
     Object registerFactory(NumberFormatFactory factory) {
         return service.registerFactory(new NFFactory(factory));
     }
 
+    @Override
     boolean unregister(Object registryKey) {
-        return service.unregisterFactory((Factory)registryKey);
+        return service.unregisterFactory((Factory) registryKey);
     }
 
+    @Override
     NumberFormat createInstance(ULocale desiredLocale, int choice) {
 
-    // use service cache
-//          if (service.isDefault()) {
-//              return NumberFormat.createInstance(desiredLocale, choice);
-//          }
+        // use service cache
+        //          if (service.isDefault()) {
+        //              return NumberFormat.createInstance(desiredLocale, choice);
+        //          }
 
         ULocale[] actualLoc = new ULocale[1];
-        NumberFormat fmt = (NumberFormat)service.get(desiredLocale, choice,
-                                                     actualLoc);
+        NumberFormat fmt = (NumberFormat) service.get(desiredLocale, choice, actualLoc);
         if (fmt == null) {
             throw new MissingResourceException("Unable to construct NumberFormat", "", "");
         }
         fmt = fmt.clone();
 
         // If we are creating a currency type formatter, then we may have to set the currency
-        // explicitly, since the actualLoc may be different than the desiredLocale        
-        if ( choice == NumberFormat.CURRENCYSTYLE ||
-             choice == NumberFormat.ISOCURRENCYSTYLE ||
-             choice == NumberFormat.PLURALCURRENCYSTYLE ||
-             choice == NumberFormat.ACCOUNTINGCURRENCYSTYLE ||
-             choice == NumberFormat.CASHCURRENCYSTYLE ||
-             choice == NumberFormat.STANDARDCURRENCYSTYLE) {
+        // explicitly, since the actualLoc may be different than the desiredLocale
+        if (choice == NumberFormat.CURRENCYSTYLE
+                || choice == NumberFormat.ISOCURRENCYSTYLE
+                || choice == NumberFormat.PLURALCURRENCYSTYLE
+                || choice == NumberFormat.ACCOUNTINGCURRENCYSTYLE
+                || choice == NumberFormat.CASHCURRENCYSTYLE
+                || choice == NumberFormat.STANDARDCURRENCYSTYLE) {
             fmt.setCurrency(Currency.getInstance(desiredLocale));
         }
 
@@ -111,14 +116,16 @@ class NumberFormatServiceShim extends NumberFormat.NumberFormatShim {
             super("NumberFormat");
 
             class RBNumberFormatFactory extends ICUResourceBundleFactory {
+                @Override
                 protected Object handleCreate(ULocale loc, int kind, ICUService srvc) {
                     return NumberFormat.createInstance(loc, kind);
                 }
             }
-                
+
             this.registerFactory(new RBNumberFormatFactory());
             markDefault();
         }
     }
+
     private static ICULocaleService service = new NFService();
 }

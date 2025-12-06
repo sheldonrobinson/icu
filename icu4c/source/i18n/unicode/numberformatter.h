@@ -1232,7 +1232,7 @@ class U_I18N_API StringProp : public UMemory {
     StringProp &operator=(StringProp &&src) noexcept;
 
     /** @internal */
-    int16_t length() const {
+    int32_t length() const {
         return fLength;
     }
 
@@ -1250,13 +1250,12 @@ class U_I18N_API StringProp : public UMemory {
 
   private:
     char *fValue;
-    int16_t fLength;
+    int32_t fLength;
     UErrorCode fError;
 
     StringProp() : fValue(nullptr), fLength(0), fError(U_ZERO_ERROR) {
     }
 
-    /** @internal (private) */
     UBool copyErrorTo(UErrorCode &status) const {
         if (U_FAILURE(fError)) {
             status = fError;

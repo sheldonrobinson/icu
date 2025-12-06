@@ -156,6 +156,7 @@ void NumberFormatTest::runIndexedTest( int32_t index, UBool exec, const char* &n
   TESTCASE_AUTO(TestFormatAttributes);
   TESTCASE_AUTO(TestFieldPositionIterator);
   TESTCASE_AUTO(TestDecimal);
+  TESTCASE_AUTO(TestDecimalFormatParse7E);
   TESTCASE_AUTO(TestCurrencyFractionDigits);
   TESTCASE_AUTO(TestExponentParse);
   TESTCASE_AUTO(TestExplicitParents);
@@ -916,7 +917,7 @@ static const char* testCases[][2]= {
     {"en_BE@currency=BEF", "1.150,50\\u00A0BEF" },
     {"es_ES@currency=ESP", "1.150\\u00A0\\u20A7" },
     {"eu_ES@currency=ESP", "\\u20A7\\u00A01.150" },
-    {"gl_ES@currency=ESP", "1.150\\u00A0\\u20A7" },
+    {"gl_ES@currency=ESP", "1\\u202F150\\u00A0\\u20A7" },
     {"it_IT@currency=ITL", "ITL\\u00A01.150" },
     {"pt_PT@currency=PTE", "1,150$50\\u00A0\\u200B"}, // per cldrbug 7670
     {"en_US@currency=JPY", "\\u00A51,150"},
@@ -974,11 +975,6 @@ NumberFormatTest::TestCurrency()
         if(U_FAILURE(status)){
             errln("Could not create currency formatter for locale %s",localeID);
             continue;
-        }
-        if (strcmp(localeID, "gl_ES@currency=ESP") == 0 &&
-                logKnownIssue("CLDR-18901", "Problem with ❰NBTSP❱")) {
-                    delete currencyFmt;
-                    continue;
         }
         currencyFmt->format(1150.50, s);
         if(s!=expected){
@@ -6986,6 +6982,30 @@ void NumberFormatTest::TestDecimal() {
 
 }
 
+void NumberFormatTest::TestDecimalFormatParse7E() {
+    UErrorCode  status = U_ZERO_ERROR;
+    UnicodeString testdata = u"~";
+    icu::Formattable result;
+    icu::DecimalFormat dfmt(testdata, status);
+    if (U_SUCCESS(status)) {
+        dfmt.parse(testdata, result, status);
+    }
+
+    // Test basic behavior
+    status = U_ZERO_ERROR;
+    dfmt = icu::DecimalFormat(u"~0", status);
+    ASSERT_SUCCESS(status);
+    dfmt.parse(u"200", result, status);
+    ASSERT_EQUALS(status, U_INVALID_FORMAT_ERROR);
+    status = U_ZERO_ERROR;
+    dfmt.parse(u"≈200", result, status);
+    ASSERT_SUCCESS(status);
+    if (result.getInt64() != 200) {
+        errln(UnicodeString(u"Got unexpected parse result: ") +
+              DoubleToUnicodeString(result.getInt64()));
+    }
+}
+
 void NumberFormatTest::TestCurrencyFractionDigits() {
     UErrorCode status = U_ZERO_ERROR;
     UnicodeString text1, text2;
@@ -10053,7 +10073,7 @@ void NumberFormatTest::Test13733_StrictAndLenient() {
             parsedStrictValue = ca_strict->getNumber().getInt64();
         }
         assertEquals("Strict parse of " + inputString + " using " + patternString,
-            parsedStrictValue, cas.expectedStrictParse);
+            cas.expectedStrictParse, parsedStrictValue);
 
         ppos.setIndex(0);
         df.setLenient(true);
@@ -10063,7 +10083,7 @@ void NumberFormatTest::Test13733_StrictAndLenient() {
             parsedLenientValue = ca_lenient->getNumber().getInt64();
         }
         assertEquals("Lenient parse of " + inputString + " using " + patternString,
-            parsedLenientValue, cas.expectedLenientParse);
+            cas.expectedLenientParse, parsedLenientValue);
     }
 }
 

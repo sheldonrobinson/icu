@@ -167,6 +167,9 @@ public:
     void testOmissionReplacementWithPluralRules();
     void TestNullDereferenceWRITE23149();
     void TestNullDereferenceREAD23184();
+    void TestUnparseableConflictingSubstitutions();
+    void TestAmbiguousDelimiter();
+    void TestDividedByZero();
 
 protected:
     virtual void doTest(RuleBasedNumberFormat* formatter, const char* const testData[][2], UBool testParsing);
