@@ -13,6 +13,9 @@ on:
     - cron: "23 15 * * 6"
   push:
     branches: ["main"]
+  workflow_dispatch:
+    # To trigger the Env Test workflow manually, follow the instructions in
+    # https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
 
 # Declare default permissions as read only.
 permissions: read-all
@@ -29,7 +32,7 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493 # v4.1.1
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           persist-credentials: false
 
@@ -38,11 +41,8 @@ jobs:
         with:
           results_file: results.sarif
           results_format: sarif
-          # (Optional) fine-grained personal access token. Uncomment the `repo_token` line below if
-          # you want to enable the Branch-Protection check on a *public* repository
-          # To create the PAT, follow the steps in https://github.com/ossf/scorecard-action#authentication-with-fine-grained-pat-optional.
-          # repo_token: ${{ secrets.SCORECARD_TOKEN }}
-
+          # See https://github.com/ossf/scorecard-action#authentication-with-fine-grained-pat-optional
+          repo_token: ${{ secrets.SCORECARD_TOKEN }}
           # - Publish results to OpenSSF REST API for easy access by consumers
           # - Allows the repository to include the Scorecard badge.
           # - See https://github.com/ossf/scorecard-action#publishing-results.
@@ -51,7 +51,7 @@ jobs:
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
       # format to the repository Actions tab.
       - name: "Upload artifact"
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: SARIF file
           path: results.sarif
@@ -59,6 +59,6 @@ jobs:
 
       # Upload the results to GitHub's code scanning dashboard.
       - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@338146ca93283a2901a142d408241096146019b5 # v2.25.15
+        uses: github/codeql-action/upload-sarif@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 # v4.31.9
         with:
           sarif_file: results.sarif
